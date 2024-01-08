@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recebidos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <script defer src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script defer src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script defer src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script defer src="js/script.js"></script>
+</head>
+
+<body>
+    <section id="line-01">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <img src="img/logo.png" width="160px" height="100px">
+                </div>
+                <div class="col-10">
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="line-02">
+        <div style="width: 1300px; display: flex;">
+            <div class="container c1">
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="index.html"><i class="bi bi-person-fill"></i> CLIENTES</a></li>
+                    <li class="list-group-item"><a href="retirados.html"><i class="bi bi-box-arrow-in-up-right"></i>
+                            RETIRADOS</a></li>
+                    <li class="list-group-item"><a href="recebidos.html"><i class="bi bi-cloud-arrow-down-fill"></i>
+                            RECEBIDOS</a></li>
+                    <li class="list-group-item"><a href="estoque.html"><i class="bi bi-box-seam-fill"></i> EM
+                            ESTOQUE</a></li>
+                    <li class="list-group-item bg-light"><a href="balanco.html"><i class="bi bi-coin"></i>
+                            BALANÇO</a></li>
+                </ul>
+            </div>
+            <div class="container c2">
+
+                <div style="margin-bottom: 50px;">
+                    <p class="fs-1 text-center" style="margin-bottom: 30px;">Resumo Mensal:</p>
+                    <div class="dropdown text-center" style="margin-bottom: 30px;">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Selecione o Mês
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><button class="dropdown-item" type="submit">Mes Atual1</button></li>
+                            <li><button class="dropdown-item" type="submit">Mes Anterior1</button></li>
+                            <li><button class="dropdown-item" type="submit">Mes Anterior2</button></li>
+                            <li><button class="dropdown-item" type="submit">Mes Anterior3</button></li>
+                        </ul>
+                    </div>
+                    <div class="text-center" style="margin-bottom: 30px;">
+                        <span class="fs-5">Janeiro: <span><button class="btn btn-warning">Em
+                                    Andamento</button></span></span>
+                    </div>
+                    <div class="text-center" style="margin-bottom: 30px;">
+                        <span class="fs-5">Dezembro: <span><button class="btn btn-success">Mês
+                                    Concluído</button></span></span>
+                    </div>
+                    <div>
+                        <table id="balanceTable" class="table table-striped table-borderless text-center"
+                            style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Valor Diária</th>
+                                    <th>Locações</th>
+                                    <th>Soma Mensal de Diárias</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Betoneira</td>
+                                    <td><span>R$ </span><span>100,00</span></td>
+                                    <td>23</td>
+                                    <td><span>R$ </span><span>2.350,00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Andaime</td>
+                                    <td><span>R$ </span><span>100,00</span></td>
+                                    <td>75</td>
+                                    <td><span>R$ </span><span>7.550,00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Andaime</td>
+                                    <td><span>R$ </span><span>100,00</span></td>
+                                    <td>75</td>
+                                    <td><span>R$ </span><span>7.550,00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Andaime</td>
+                                    <td><span>R$ </span><span>100,00</span></td>
+                                    <td>75</td>
+                                    <td><span>R$ </span><span>7.550,00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Andaime</td>
+                                    <td><span>R$ </span><span>100,00</span></td>
+                                    <td>75</td>
+                                    <td><span>R$ </span><span>7.550,00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Andaime</td>
+                                    <td><span>R$ </span><span>100,00</span></td>
+                                    <td>75</td>
+                                    <td><span>R$ </span><span>7.550,00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Andaime</td>
+                                    <td><span>R$ </span><span>100,00</span></td>
+                                    <td>75</td>
+                                    <td><span>R$ </span><span>7.550,00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Andaime</td>
+                                    <td><span>R$ </span><span>100,00</span></td>
+                                    <td>75</td>
+                                    <td><span>R$ </span><span>7.550,00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Andaime</td>
+                                    <td><span>R$ </span><span>100,00</span></td>
+                                    <td>75</td>
+                                    <td><span>R$ </span><span>7.550,00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Andaime</td>
+                                    <td><span>R$ </span><span>100,00</span></td>
+                                    <td>75</td>
+                                    <td><span>R$ </span><span>7.550,00</span></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th scope="row" class="bg-success">Total</th>
+                                    <th scope="row" class="bg-success"></th>
+                                    <th scope="row" class="bg-success">98</th>
+                                    <th scope="row" class="bg-success"><span>R$ </span><span>36.500,00</span></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <p class="fs-1 text-center" style="margin-bottom: 30px;">Ainda em Andamento:</p>
+                        <div>
+                            <table class="table table-striped table-borderless text-center"
+                                style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Produto</th>
+                                        <th scope="col">Quantidade</th>
+                                        <th scope="col">Cliente</th>
+                                        <th scope="col">Prazo</th>
+                                        <th scope="col">Total Diárias</th>
+                                        <th scope="col">Situação</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Equipamento07</td>
+                                        <td>3</td>
+                                        <td>Marcos F.</td>
+                                        <td>30/01/2024</td>
+                                        <td>R$<span>900,00</span></td>
+                                        <td><button type="button" class="btn btn-warning" style="padding: 2px;">
+                                                Em Andamento</button>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

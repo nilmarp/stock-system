@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <script defer src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script defer src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script defer src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script defer src="js/script.js"></script>
+</head>
+
+<body>
+    <section id="line-01">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <img src="img/logo.png" width="160px" height="100px">
+                </div>
+                <div class="col-10">
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="line-02">
+        <div style="width: 1300px; display: flex;">
+            <div class="container c1">
+                <ul class="list-group">
+                    <li class="list-group-item bg-light"><a href="index.html"><i class="bi bi-person-fill"></i>
+                            CLIENTES</a></li>
+                    <li class="list-group-item"><a href="retirados.html"><i class="bi bi-box-arrow-in-up-right"></i>
+                            RETIRADOS</a></li>
+                    <li class="list-group-item"><a href="recebidos.html"><i class="bi bi-cloud-arrow-down-fill"></i>
+                            RECEBIDOS</a></li>
+                    <li class="list-group-item"><a href="estoque.html"><i class="bi bi-box-seam-fill"></i> EM
+                            ESTOQUE</a></li>
+                    <li class="list-group-item"><a href="balanco.html"><i class="bi bi-coin"></i>
+                            BALANÇO</a></li>
+                </ul>
+            </div>
+            <div class="container c2">
+                <p class="fs-1 text-center">Lista de Clientes</p>
+                <div class="container text-center" style="margin-bottom: 50px;">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#modalWindow"><i class="bi bi-person-plus-fill"></i> NOVO CLIENTE</button></li>
+                </div>
+
+                <div>
+                    <table id="clientTable" class="table table-striped table-borderless text-center" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nome</th>
+                                <th scope="col">CPF</th>
+                                <th scope="col">Cidade</th>
+                                <th scope="col">Telefone</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td scope="row">Joao Fagundes P.</td>
+                                <td>123.456.670-89</td>
+                                <td>Torres</td>
+                                <td>(51) 9 8339-9813</td>
+                                <td><button type="button" class="btn btn-link" data-bs-toggle="modal"
+                                        data-bs-target="#modalClient" style="padding: 0;">Ver mais</button></li>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="row">Joao Fagundes P.</td>
+                                <td>123.456.670-89</td>
+                                <td>Torres</td>
+                                <td>(51) 9 8339-9813</td>
+                                <td><button type="button" class="btn btn-link" data-bs-toggle="modal"
+                                        data-bs-target="#modalClient" style="padding: 0;">Ver mais</button></li>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="row">Joao Fagundes P.</td>
+                                <td>123.456.670-89</td>
+                                <td>Torres</td>
+                                <td>(51) 9 8339-9813</td>
+                                <td><button type="button" class="btn btn-link" data-bs-toggle="modal"
+                                        data-bs-target="#modalClient" style="padding: 0;">Ver mais</button></li>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="modalWindow" class="modal fade" style="margin-top: 20px;">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h3 class="modal-title">NOVO CLIENTE</h3>
+                                <button type="button" class="btnm btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <form>
+                                    <div class="row" style="margin-bottom: 20px;">
+                                        <div class="col">
+                                            <label for="modalName" class="form-label">Nome</label>
+                                            <input type="text" class="form-control" id="modalName" required>
+                                        </div>
+                                        <div class="col">
+                                            <label for="modalLastName" class="form-label">Sobrenome</label>
+                                            <input type="text" class="form-control" id="modalLastName" required>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-bottom: 20px;">
+                                        <div class="col">
+                                            <label for="modalCPF" class="form-label">CPF / CNPJ</label>
+                                            <input type="text" class="form-control" id="modalCPF" required>
+                                        </div>
+                                        <div class="col">
+                                            <label for="modalRef" class="form-label">Referência</label>
+                                            <input type="tel" class="form-control" id="modalRef"
+                                                placeholder="Empresa / Firma / Autonomo" required>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-bottom: 50px;">
+                                        <div class="col">
+                                            <label for="modalTel" class="form-label">Telefone</label>
+                                            <input type="tel" class="form-control" id="modalTel"
+                                                placeholder="(00) 0 0000-0000" required>
+                                        </div>
+                                        <div class="col">
+                                            <label for="modalEmail" class="form-label">E-mail</label>
+                                            <input type="email" class="form-control" id="modalEmail">
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="margin-bottom: 20px;">
+                                        <div class="col">
+                                            <label for="modalCEP" class="form-label">CEP</label>
+                                            <input type="text" class="form-control" id="modalCEP"
+                                                placeholder="00000-000" pattern="[0-9]{8}" required>
+                                        </div>
+                                        <div class="col">
+                                            <label for="modalCity" class="form-label">Cidade</label>
+                                            <input type="text" class="form-control" id="modalCity">
+                                        </div required>
+                                    </div>
+                                    <div class="row" style="margin-bottom: 50px;">
+                                        <div class="col">
+                                            <label for="modalAdress" class="form-label">Endereço</label>
+                                            <input type="tel" class="form-control" id="modalAdress"
+                                                placeholder="R. Das angustias, Bairro" required>
+                                        </div>
+                                        <div class="col-3">
+                                            <label for="modalAdressNumber" class="form-label">Número</label>
+                                            <input type="tel" class="form-control" id="modalAdressNumber" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="container text-center">
+                                        <button type="submit" class="btn btn-primary">CADASTRAR CLIENTE</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div id="modalClient" class="modal fade" style="margin-top: 20px;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <p class="modal-title fs-4">INFORMAÇÕES DO CLIENTE
+                                    <p />
+                                    <button type="button" class="btnm btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div style="margin-bottom: 30px;">
+                                    <div class="row">
+                                        <div class="col fs-5">Joao P. Fagundes</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">Referência</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">057.441.020-19</div>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 30px;">
+                                    <div class="row">
+                                        <div class="col fs-5">Endereço</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">R. das angustias, Bairro, Cidade, 88990-000</div>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 30px;">
+                                    <div class="row">
+                                        <div class="col fs-5">Contato</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"><a href="#">(51) 994397413</a></div>
+                                        <div class="col">teste.cliente@gmail.com</div>
+                                    </div>
+                                </div>
+
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#modalClientEdit"><i class="bi bi-person-plus-fill"></i>
+                                    EDITAR</button>
+                                </li>
+                                <button type="submit" class="btn btn-danger">EXCLUIR CLIENTE</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="modalClientEdit" class="modal fade" style="margin-top: 20px;">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h3 class="modal-title">EDITAR CLIENTE</h3>
+                                <button type="button" class="btnm btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <form>
+                                    <div class="row" style="margin-bottom: 20px;">
+                                        <div class="col">
+                                            <label for="modalName" class="form-label">Nome</label>
+                                            <input type="text" class="form-control" id="modalName" required>
+                                        </div>
+                                        <div class="col">
+                                            <label for="modalLastName" class="form-label">Sobrenome</label>
+                                            <input type="text" class="form-control" id="modalLastName" required>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-bottom: 20px;">
+                                        <div class="col">
+                                            <label for="modalCPF" class="form-label">CPF / CNPJ</label>
+                                            <input type="text" class="form-control" id="modalCPF" required>
+                                        </div>
+                                        <div class="col">
+                                            <label for="modalRef" class="form-label">Referência</label>
+                                            <input type="tel" class="form-control" id="modalRef"
+                                                placeholder="Empresa / Firma / Autonomo" required>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-bottom: 50px;">
+                                        <div class="col">
+                                            <label for="modalTel" class="form-label">Telefone</label>
+                                            <input type="tel" class="form-control" id="modalTel"
+                                                placeholder="(00) 0 0000-0000" required>
+                                        </div>
+                                        <div class="col">
+                                            <label for="modalEmail" class="form-label">E-mail</label>
+                                            <input type="email" class="form-control" id="modalEmail">
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="margin-bottom: 20px;">
+                                        <div class="col">
+                                            <label for="modalCEP" class="form-label">CEP</label>
+                                            <input type="text" class="form-control" id="modalCEP"
+                                                placeholder="00000-000" pattern="[0-9]{8}" required>
+                                        </div>
+                                        <div class="col">
+                                            <label for="modalCity" class="form-label">Cidade</label>
+                                            <input type="text" class="form-control" id="modalCity">
+                                        </div required>
+                                    </div>
+                                    <div class="row" style="margin-bottom: 50px;">
+                                        <div class="col">
+                                            <label for="modalAdress" class="form-label">Endereço</label>
+                                            <input type="tel" class="form-control" id="modalAdress"
+                                                placeholder="R. Das angustias, Bairro" required>
+                                        </div>
+                                        <div class="col-3">
+                                            <label for="modalAdressNumber" class="form-label">Número</label>
+                                            <input type="tel" class="form-control" id="modalAdressNumber" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="container text-center">
+                                        <button type="submit" class="btn btn-primary">SALVAR</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
