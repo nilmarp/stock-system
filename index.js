@@ -2,6 +2,10 @@ const { app, BrowserWindow, Menu } = require('electron');
 
 let mainWindow;
 
+require('dotenv').config()
+
+require('./backend/build/index') // loads api
+
 app.on('ready', () => {
   mainWindow = new BrowserWindow({
     width: 1500,
@@ -12,7 +16,7 @@ app.on('ready', () => {
     }
   });
 
-  mainWindow.loadURL(`file://${__dirname}/index.html`)
+  mainWindow.loadURL(`http://${process.env.HOST}:${process.env.PORT}`)
 
   const template = [
     {
