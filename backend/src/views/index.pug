@@ -34,28 +34,28 @@ html(lang='pt')
         .container.c1
           ul.list-group
             li.list-group-item.bg-light
-              a(href='index.html')
+              a(href='/')
                 i.bi.bi-person-fill
                 |                             CLIENTES
             |                     
             li.list-group-item
-              a(href='retirados.html')
+              a(href='withdrawn')
                 i.bi.bi-box-arrow-in-up-right
                 |                             RETIRADOS
             |                     
             li.list-group-item
-              a(href='recebidos.html')
+              a(href='received')
                 i.bi.bi-cloud-arrow-down-fill
                 |                             RECEBIDOS
             |                     
             li.list-group-item
-              a(href='estoque.html')
+              a(href='stock')
                 i.bi.bi-box-seam-fill
                 |  EM
                 |                             ESTOQUE
             |                     
             li.list-group-item
-              a(href='balanco.html')
+              a(href='balance')
                 i.bi.bi-coin
                 |                             BALAN&Ccedil;O
         |             
@@ -82,7 +82,7 @@ html(lang='pt')
                   th
               |                         
               tbody
-                each client in clients
+                each client in (clients.data || clients)
                     tr
                     td(scope='row')= client.name
                     |                                 

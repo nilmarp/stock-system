@@ -1,0 +1,166 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Estoque
+  link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN' crossorigin='anonymous')
+  link(rel='stylesheet' href='css/style.css')
+  link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css')
+  script(defer='' src='https://code.jquery.com/jquery-3.7.0.js')
+  script(defer='' src='https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js')
+  script(defer='' src='https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js')
+  script(defer='' src='js/script.js')
+section#line-01
+  .container
+    .row
+      .col
+        img(src='img/logo.png' width='160px' height='100px')
+      .col-10
+section#line-02
+  div(style='width: 1300px; display: flex;')
+    .container.c1
+      ul.list-group
+        li.list-group-item
+          a(href='/')
+            i.bi.bi-person-fill
+            |  CLIENTES
+        li.list-group-item
+          a(href='withdrawn')
+            i.bi.bi-box-arrow-in-up-right
+            |                             RETIRADOS
+        li.list-group-item
+          a(href='received')
+            i.bi.bi-cloud-arrow-down-fill
+            |                             RECEBIDOS
+        li.list-group-item.bg-light
+          a(href='stock')
+            i.bi.bi-box-seam-fill
+            |  EM
+            |                             ESTOQUE
+        li.list-group-item
+          a(href='balance')
+            i.bi.bi-coin
+            |                             BALAN&Ccedil;O
+    .container.c2
+      p.fs-1.text-center Produtos em Estoque
+      .container.text-center(style='margin-bottom: 50px;')
+        button.btn.btn-primary(type='button' data-bs-toggle='modal' data-bs-target='#modalStock')
+          i.bi.bi-folder-plus
+          |  NOVO PRODUTO
+      div
+        table#stockTable.table.table-striped.table-borderless.text-center(style='width:100%')
+          thead
+            tr
+              th Produto
+              th C&oacute;digo
+              th Quiantidade
+              th Di&aacute;ria
+              th
+          tbody
+            each product in (products.data || products)
+              tr
+                td= product.description
+                td= product.id
+                td= product.quantity
+                td= product.daily_price
+                td
+                  button.btn.btn-link(type='button' data-bs-toggle='modal' data-bs-target='#modalProd' style='padding: 0;') Ver mais
+
+      #modalStock.modal.fade(style='margin-top: 20px;')
+        .modal-dialog
+          .modal-content
+            .modal-header
+              h3.modal-title NOVO PRODUTO
+              button.btnm.btn-close(type='button' data-bs-dismiss='modal')
+            .modal-body
+              form(method='post', action='/stock')
+                .row(style='margin-bottom: 20px;')
+                  .col-6
+                    label.form-label(for='modalName') Nome
+                    input#modalName.form-control(type='text' required='')
+                  .col-3
+                    label.form-label(for='modalName') Quantidade
+                    input#modalName.form-control(type='number' required='')
+                  .col-3
+                    label.form-label(for='modalName') Di&aacute;ria
+                    input#modalName.form-control(type='text' required='')
+                .container.text-center(style='margin-top: 50px;')
+                  button.btn.btn-primary(type='submit') CADASTRAR PRODUTO
+      #modalProd.modal.fade(style='margin-top: 20px;')
+        .modal-dialog
+          .modal-content
+            .modal-header
+              p.modal-title.fs-4
+                | INFORMA&Ccedil;&Otilde;ES DO PRODUTO
+              p
+                button.btnm.btn-close(type='button' data-bs-dismiss='modal')
+            .modal-body
+              div(style='margin-bottom: 30px;')
+                .row(style='margin-bottom: 20px;')
+                  .col.fs-5 Betoneira
+                  .col.fs-5 #99999
+                  .col
+                  .col
+                  .col
+                .row
+                  .col Quantidade total: 5
+                .row
+                  .col Em estoque: 3
+                .row
+                  .col Alugados: 2
+              button.btn.btn-primary(type='button' data-bs-toggle='modal' data-bs-target='#modalProdEdit') EDITAR
+              button.btn.btn-success(type='submit' data-bs-toggle='modal' data-bs-target='#modalReserve') RESERVAR
+              button.btn.btn-danger(type='submit') EXCLUIR PRODUTO
+      #modalProdEdit.modal.fade(style='margin-top: 20px;')
+        .modal-dialog
+          .modal-content
+            .modal-header
+              p.modal-title.fs-4
+                | EDITAR PRODUTO
+              p
+                button.btnm.btn-close(type='button' data-bs-dismiss='modal')
+            .modal-body
+              form
+                .row(style='margin-bottom: 20px;')
+                  .col-6
+                    label.form-label(for='modalName') Nome
+                    input#modalName.form-control(type='text' placeholder='Betoneira' required='')
+                  .col-3
+                    label.form-label(for='modalName') Quantidade
+                    input#modalName.form-control(type='number' required='')
+                  .col-3
+                    label.form-label(for='modalName') Di&aacute;ria
+                    input#modalName.form-control(type='text' required='')
+                .container.text-center(style='margin-top: 50px;')
+                  button.btn.btn-primary(type='submit') SALVAR
+      #modalReserve.modal.fade(style='margin-top: 20px;')
+        .modal-dialog
+          .modal-content
+            .modal-header
+              p.modal-title.fs-4
+                | RESERVAR PRODUTO
+              p
+                button.btnm.btn-close(type='button' data-bs-dismiss='modal')
+            .modal-body
+              form
+                .row(style='margin-bottom: 20px;')
+                  .col
+                    label.form-label(for='modalName') Selecione o cliente
+                    input.form-control(type='search' required='')
+                  .col-3
+                    label.form-label(for='modalName') Quantidade
+                    input.form-control(type='number' required='')
+                .row
+                  .col(style='margin-bottom: 5px;')
+                    h3.fs-6 Tempo de loca&ccedil;&atilde;o
+                .row(style='margin-bottom: 20px;')
+                  .col
+                    label.form-label(for='modalName') De:
+                    input.form-control(type='date' required='')
+                .row(style='margin-bottom: 20px;')
+                  .col
+                    label.form-label(for='modalName') At&eacute;:
+                    input.form-control(type='date' required='')
+                .container.text-center(style='margin-top: 50px;')
+                  button.btn.btn-success(type='submit') RESERVAR
+script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL' crossorigin='anonymous')

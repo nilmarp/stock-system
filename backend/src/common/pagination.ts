@@ -21,6 +21,9 @@ export interface IPagination<QueryBuilder> {
     paginate(builder: QueryBuilder): Promise<PaginationAwareObject>
 }
 
+const DEFAULT_TAKE = 10 // this should come from a config file
+const DEFAULT_PAGE = 1
+
 export const paginate = (pagination: IPagination<any>) => {
     return {
         _pagination: pagination,
@@ -28,12 +31,12 @@ export const paginate = (pagination: IPagination<any>) => {
         _take: null,
         _page: null,
 
-        take(number) {
+        take(number = DEFAULT_TAKE) {
             this._take = number
             return this
         },
 
-        page(number) {
+        page(number = DEFAULT_PAGE) {
             this._page = number
             return this
         },

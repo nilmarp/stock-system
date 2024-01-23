@@ -1,0 +1,217 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Retirados
+  link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN' crossorigin='anonymous')
+  link(rel='stylesheet' href='css/style.css')
+  link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css')
+  script(defer='' src='https://code.jquery.com/jquery-3.7.0.js')
+  script(defer='' src='https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js')
+  script(defer='' src='https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js')
+  script(defer='' src='js/script.js')
+section#line-01
+  .container
+    .row
+      .col
+        img(src='img/logo.png' width='160px' height='100px')
+      .col-10
+section#line-02
+  div(style='width: 1300px; display: flex;')
+    .container.c1
+      ul.list-group
+        li.list-group-item
+          a(href='/')
+            i.bi.bi-person-fill
+            |  CLIENTES
+        li.list-group-item.bg-light
+          a(href='withdrawn')
+            i.bi.bi-box-arrow-in-up-right
+            |                             RETIRADOS
+        li.list-group-item
+          a(href='received')
+            i.bi.bi-cloud-arrow-down-fill
+            |                             RECEBIDOS
+        li.list-group-item
+          a(href='stock')
+            i.bi.bi-box-seam-fill
+            |  EM
+            |                             ESTOQUE
+        li.list-group-item
+          a(href='balance')
+            i.bi.bi-coin
+            |                             BALAN&Ccedil;O
+    .container.c2
+      div(style='margin-bottom: 50px;')
+        p.fs-1.text-center(style='margin-bottom: 30px;') Em atraso
+        table#rentTableLate.table.table-striped.table-borderless.text-center(style='width:100%')
+          thead
+            tr
+              th(scope='col') Produto
+              th(scope='col') Cliente
+              th(scope='col') Refer&ecirc;ncia
+              th(scope='col') Prazo
+              th(scope='col') Situa&ccedil;&atilde;o
+              th
+          tbody
+            tr
+              td(scope='row') Equipamento07
+              td Marcos F.
+              td Autonomo
+              td 17/01/2024
+              td
+                button.btn.btn-danger(type='button' style='padding: 2px;')
+                  | Em
+                  | Atraso
+              td
+                button.btn.btn-link(type='button' data-bs-toggle='modal' data-bs-target='#modalRent' style='padding: 2px;') Ver mais
+            tr
+              td(scope='row') Equipamento07
+              td Marcos F.
+              td Autonomo
+              td 17/01/2024
+              td
+                button.btn.btn-danger(type='button' style='padding: 2px;')
+                  | Em
+                  | Atraso
+              td
+                button.btn.btn-link(type='button' data-bs-toggle='modal' data-bs-target='#modalRent' style='padding: 2px;') Ver mais
+            tr
+              td(scope='row') Equipamento07
+              td Marcos F.
+              td Autonomo
+              td 17/01/2024
+              td
+                button.btn.btn-danger(type='button' style='padding: 2px;')
+                  | Em
+                  | Atraso
+              td
+                button.btn.btn-link(type='button' data-bs-toggle='modal' data-bs-target='#modalRent' style='padding: 2px;') Ver mais
+      div(style='margin-bottom: 50px;')
+        p.fs-1.text-center(style='margin-bottom: 30px;') Vence em breve
+        table#rentTableSoon.table.table-striped.table-borderless.text-center(style='width:100%')
+          thead
+            tr
+              th(scope='col') Produto
+              th(scope='col') Cliente
+              th(scope='col') Refer&ecirc;ncia
+              th(scope='col') Prazo
+              th(scope='col') Situa&ccedil;&atilde;o
+              th
+          tbody
+            tr
+              td(scope='row') Equipamento07
+              td Marcos F.
+              td Autonomo
+              td 17/01/2024
+              td
+                button.btn.btn-warning(type='button' style='padding: 2px;')
+                  | Vence em Breve
+              td
+                button.btn.btn-link(type='button' data-bs-toggle='modal' data-bs-target='#modalRent' style='padding: 2px;') Ver mais
+            tr
+              td(scope='row') Equipamento07
+              td Marcos F.
+              td Autonomo
+              td 17/01/2024
+              td
+                button.btn.btn-warning(type='button' style='padding: 2px;')
+                  | Vence em Breve
+              td
+                button.btn.btn-link(type='button' data-bs-toggle='modal' data-bs-target='#modalRent' style='padding: 2px;') Ver mais
+            tr
+              td(scope='row') Equipamento07
+              td Marcos F.
+              td Autonomo
+              td 17/01/2024
+              td
+                button.btn.btn-warning(type='button' style='padding: 2px;')
+                  | Vence em Breve
+              td
+                button.btn.btn-link(type='button' data-bs-toggle='modal' data-bs-target='#modalRent' style='padding: 2px;') Ver mais
+      div(style='margin-bottom: 50px;')
+        p.fs-1.text-center(style='margin-bottom: 30px;') Produtos retirados
+        table#rentTable.table.table-striped.table-borderless.text-center(style='width:100%')
+          thead
+            tr
+              th(scope='col') Produto
+              th(scope='col') Cliente
+              th(scope='col') Refer&ecirc;ncia
+              th(scope='col') Prazo
+              th(scope='col') Situa&ccedil;&atilde;o
+              th
+          tbody
+            tr
+              td(scope='row') Equipamento06
+              td Marcos F.
+              td Autonomo
+              td 17/01/2024
+              td
+                button.btn.btn-success(type='button' style='padding: 2px;')
+                  | No
+                  | Prazo
+              td
+                button.btn.btn-link(type='button' data-bs-toggle='modal' data-bs-target='#modalRent' style='padding: 2px;') Ver mais
+            tr
+              td(scope='row') Equipamento06
+              td Marcos F.
+              td Autonomo
+              td 17/01/2024
+              td
+                button.btn.btn-success(type='button' style='padding: 2px;')
+                  | No
+                  | Prazo
+              td
+                button.btn.btn-link(type='button' data-bs-toggle='modal' data-bs-target='#modalRent' style='padding: 2px;') Ver mais
+            tr
+              td(scope='row') Equipamento06
+              td Marcos F.
+              td Autonomo
+              td 17/01/2024
+              td
+                button.btn.btn-success(type='button' style='padding: 2px;')
+                  | No
+                  | Prazo
+              td
+                button.btn.btn-link(type='button' data-bs-toggle='modal' data-bs-target='#modalRent' style='padding: 2px;') Ver mais
+      #modalRent.modal.fade(style='margin-top: 20px;')
+        .modal-dialog
+          .modal-content
+            .modal-header
+              p.modal-title.fs-4
+                | INFORMA&Ccedil;&Otilde;ES DA LOCA&Ccedil;&Atilde;O
+              p
+                button.btnm.btn-close(type='button' data-bs-dismiss='modal')
+            .modal-body
+              div(style='margin-bottom: 30px;')
+                .row(style='margin-bottom: px;')
+                  .col.fs-5
+                    span#prod-rent-td Betoneira
+                    span#prod-rent-cod #99999
+                  .col
+                  #situation-rent-td.col-3
+                    button.btn.btn-success(type='button' style='padding: 2px;')
+                      | No
+                      | Prazo
+                .row(style='margin-bottom: 20px;')
+                  .col
+                    | Quantidade alugada: 
+                    span#rent-amount 2
+                .row
+                  .col De:
+                .row(style='margin-bottom: 20px;')
+                  #rent-date-i.col 10/01/2024
+                .row
+                  .col At&eacute;:
+                .row(style='margin-bottom: 20px;')
+                  #rent-date-f.col 15/02/2024
+                .row
+                  .col
+                    | Total Di&aacute;rias: 
+                    span
+                      button.btn.btn-success.bg-success(type='button' style='padding: 2px;')
+                        | R$
+                        span#rent-total-profit 900
+              button.btn.btn-primary(type='submit') RECEBER
+              button.btn.btn-danger(type='submit') CANCELAR LOCA&Ccedil;&Atilde;O
+script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL' crossorigin='anonymous')

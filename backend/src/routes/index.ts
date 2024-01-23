@@ -10,7 +10,13 @@ router.get('/', (req: Request, res: Response) => {
 })
 
 import clientRouter from './clients'
+import stockRouter from './stock'
+import withdrawnRouter from './withdrawn'
+import receivedRouter from './received'
 
 router.use('/client', clientRouter)
+router.use('/stock', stockRouter)
+router.use('/withdrawn', withdrawnRouter)
+router.use('/received', receivedRouter)
 
 export default router

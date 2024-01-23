@@ -1,10 +1,16 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
 import { CreateClientTable1705343917387 } from './migrations/1705343917387-CreateClientTable'
+import { CreateProductTable1705608953718 } from "./migrations/1705608953718-CreateProductTable"
 import path from 'path'
 
 import dotenv from 'dotenv'
 import { Client } from "../entity/Client"
+import { Product } from "../entity/Product"
+import { CreateRentalsTable1705953611076 } from "./migrations/1705953611076-CreateRentalsTable"
+import { Rental } from "../entity/Rental"
+import { CreateRentedProducts1706045800274 } from "./migrations/1706045800274-CreateRentedProducts"
+import { RentedProduct } from "../entity/RentedProduct"
 
 dotenv.config()
 
@@ -15,7 +21,7 @@ export const AppDataSource = new DataSource({
     database: DATABASE_FILE_PATH,
     synchronize: true,
     logging: false,
-    entities: [Client],
-    migrations: [CreateClientTable1705343917387],
+    entities: [Client, Product, Rental, RentedProduct],
+    migrations: [CreateClientTable1705343917387, CreateProductTable1705608953718, CreateRentalsTable1705953611076, CreateRentedProducts1706045800274],
     subscribers: [],
 })

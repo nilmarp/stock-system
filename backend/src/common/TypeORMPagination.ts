@@ -1,7 +1,7 @@
-import { SelectQueryBuilder } from "typeorm";
+import { BaseEntity, SelectQueryBuilder } from "typeorm";
 import { IPagination, PaginationOptions, PaginationAwareObject } from "./pagination";
 
-export class TypeORMPagination implements IPagination<SelectQueryBuilder<any>> {
+export class TypeORMPagination implements IPagination<SelectQueryBuilder<BaseEntity>> {
     options: PaginationOptions
 
     constructor(options?: PaginationOptions) {
@@ -13,10 +13,14 @@ export class TypeORMPagination implements IPagination<SelectQueryBuilder<any>> {
     }
 
     async paginate(builder: SelectQueryBuilder<any>): Promise<PaginationAwareObject> {
-        const { take, page } = this.options
+        let { take, page } = this.options
 
         const total = await builder.getCount()
         const pages = Math.ceil(total / take)
+
+        if (page > pages)
+            page = pages
+            
         const skip = (page - 1) * take
 
         const data = await builder

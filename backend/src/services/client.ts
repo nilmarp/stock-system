@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
-import { ClientRepository } from '../repositories/client';
+import { IRepository } from '../repositories/repository'
 
 export class ClientService {
-    private repository: ClientRepository
+    private repository: IRepository
 
-    constructor(repository: ClientRepository) {
+    constructor(repository: IRepository) {
         this.repository = repository
     }
 

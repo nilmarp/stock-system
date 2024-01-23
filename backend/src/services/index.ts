@@ -1,3 +1,4 @@
+import { PaginationAwareObject } from '../common/pagination'
 import { ClientRepository } from '../repositories/client'
 import { Request, Response } from 'express'
 
@@ -9,7 +10,9 @@ export class IndexService {
     }
     
     public async index(req: Request, res: Response) {
-        const clients = await this.clientRepository.findAll()
+        const { page } = req.query
+
+        const clients: PaginationAwareObject = await this.clientRepository.paginate(page)
 
         res.render('index', {
             clients
