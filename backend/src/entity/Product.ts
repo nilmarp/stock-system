@@ -1,4 +1,6 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm"
+import { Rental } from "./Rental"
+import { RentedProduct } from "./RentedProduct"
 
 @Entity('products')
 export class Product extends BaseEntity {
@@ -13,4 +15,12 @@ export class Product extends BaseEntity {
 
     @Column('decimal', { precision: 6, scale: 2 })
     daily_price: number
+
+    @OneToMany(() => RentedProduct, rental => rental.product)
+    @JoinTable({
+        name: 'rented_products',
+        joinColumn: { name: 'product_id '},
+        inverseJoinColumn: { name: 'rental_id' }
+    })
+    rentals: RentedProduct[]
 }

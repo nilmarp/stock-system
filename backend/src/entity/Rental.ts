@@ -1,4 +1,4 @@
-import { BaseEntity, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm"
 import { Client } from "./Client"
 import { RentedProduct } from "./RentedProduct"
 
@@ -10,7 +10,20 @@ export class Rental extends BaseEntity {
     @ManyToOne(() => Client, (client) => client.rentals)
     client: Client
 
-    @ManyToMany(() => RentedProduct )
-    @JoinTable()
+    @OneToMany(() => RentedProduct, product => product.rental)
+    @JoinTable({
+        name: 'rented_products',
+        joinColumn: { name: 'rental_id '},
+        inverseJoinColumn: { name: 'product_id' }
+    })
     products: RentedProduct[]
+
+    @Column({ type: 'date' })
+    start_date: Date
+
+    @Column({ type: 'date' })
+    end_date: Date
+
+    @Column('decimal', { precision: 6, scale: 2 })
+    total_daily_price: number
 }

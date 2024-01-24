@@ -8,6 +8,8 @@ export interface PaginationAwareObject {
     page: number
     total: number
     pages: number
+    nextPage: number
+    previousPage: number
     hasNextPage: boolean
     hasPreviousPage: boolean
     data: Array<object|any>|any

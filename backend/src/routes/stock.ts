@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction, Router } from 'express'
 import { StockService } from '../services/stock'
-import { ProductRepository } from '../repositories/stock'
+import { ProductRepository } from '../repositories/product'
 
 const router: Router = express.Router()
 

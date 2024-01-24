@@ -31,6 +31,11 @@ export class CreateRentalsTable1705953611076 implements MigrationInterface {
                     name: 'end_date',
                     type: 'date',
                     isNullable: false
+                },
+                {
+                    name: 'completed',
+                    type: 'boolean',
+                    default: false
                 }
             ],
             foreignKeys: [

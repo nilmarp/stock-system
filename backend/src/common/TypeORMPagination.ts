@@ -21,6 +21,9 @@ export class TypeORMPagination implements IPagination<SelectQueryBuilder<BaseEnt
         if (page > pages)
             page = pages
             
+        const nextPage = page < pages ? page + 1 : page
+        const previousPage = page > 1 ? page - 1 : page
+
         const skip = (page - 1) * take
 
         const data = await builder
@@ -36,6 +39,8 @@ export class TypeORMPagination implements IPagination<SelectQueryBuilder<BaseEnt
             page,
             total,
             pages,
+            nextPage,
+            previousPage,
             hasNextPage,
             hasPreviousPage,
             data
