@@ -12,7 +12,7 @@ export class ClientService {
         const client = await this.repository.create(req.body)
 
         if (!client) {
-            // aqui criaria alguma flash message mas deixa pra depois
+            // TODO: error handling
         }
         
         res.redirect('back')

@@ -10,12 +10,6 @@ export class StockService {
     }
 
     public async index(req: Request, res: Response) {
-        /*await this.repository.create({
-            description: 'Martelo',
-            quantity: 24,
-            daily_price: 30.99
-        })*/
-
         const { page } = req.query
 
         const products: PaginationAwareObject = await this.repository.paginate(page)

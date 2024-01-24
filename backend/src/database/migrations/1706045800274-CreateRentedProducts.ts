@@ -7,6 +7,11 @@ export class CreateRentedProducts1706045800274 implements MigrationInterface {
             name: 'rented_products',
             columns: [
                 {
+                    name: 'id',
+                    type: 'int',
+                    generationStrategy: 'increment'
+                },
+                {
                     name: 'rental_id',
                     type: 'int',
                     isPrimary: true

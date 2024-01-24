@@ -8,6 +8,7 @@ export class Rental extends BaseEntity {
     id: number
 
     @ManyToOne(() => Client, (client) => client.rentals)
+    @JoinTable({ name: 'clients' })
     client: Client
 
     @OneToMany(() => RentedProduct, product => product.rental)

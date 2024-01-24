@@ -4,13 +4,8 @@ import { Product } from "./Product"
 
 @Entity('rented_products')
 export class RentedProduct extends BaseEntity {
-
     @PrimaryGeneratedColumn()
     id: number
-    
-    @Column()
-    product_id: number
-
 
     @Column()
     product_quantity: number
@@ -30,9 +25,7 @@ export class RentedProduct extends BaseEntity {
         foreignKeyConstraintName: 'client_id'
     })
     product: Product
-        
+
     @Column('decimal', { precision: 6, scale: 2 })
     daily_price: number
-
 }
-

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, JoinTable } from "typeorm"
 import { Rental } from "./Rental"
 
 @Entity('clients')
@@ -37,5 +37,6 @@ export class Client extends BaseEntity {
     reference: string
 
     @OneToMany(() => Rental, (rental) => rental.client)
+    @JoinTable({ name: 'rentals' })
     rentals: Rental[]
 }
