@@ -12,7 +12,7 @@ export class StockService {
     public async index(req: Request, res: Response) {
         const { page } = req.query
 
-        const products: PaginationAwareObject = await this.repository.paginate(page)
+        const products: PaginationAwareObject = await this.repository.paginate({ page })
 
         return res.render('stock', {
             products

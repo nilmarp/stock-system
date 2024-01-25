@@ -4,6 +4,7 @@ import { BaseRepository } from './repository'
 import { Product } from '../entity/Product'
 import { RentedProduct } from '../entity/RentedProduct'
 import { Client } from '../entity/Client'
+import { DateHelper } from '../common/DateHelper'
 
 interface ProductData {
     id: number,
@@ -20,12 +21,36 @@ interface RentalCreationData {
 export class RentalRepository extends BaseRepository {
     _entity = Rental
 
+    private readonly DAYS_UNTIL_ABOUT_TO_EXPIRE = 2
+
     private productsUnavailable(products: Product[]): boolean {
         for (const product of products)
             if (product.quantity <= 0)
                 return true
 
         return false
+    }
+
+    public async findRentalsInArrears(page?: number, take?: number) {
+        const builder = await this._entity.createQueryBuilder()
+            .where('end_date < :date', { date: new Date })
+
+        return await super.paginate({ page, take }, builder)
+    }
+
+    public async findRentalsOnTime(page?: number, take?: number) {
+        const builder = await this._entity.createQueryBuilder()
+            .where('end_date > :date', { date: new DateHelper(new Date).addDays(this.DAYS_UNTIL_ABOUT_TO_EXPIRE).get() })
+
+        return await super.paginate({ page, take }, builder)
+    }
+
+    public async findRentalsAboutToExpire(page?: number, take?: number) {
+        const builder = await this._entity.createQueryBuilder()
+            .where('end_date > :inicial_date', { inicial_date: new Date })
+            .andWhere('end_date < :final_date', { final_date: new DateHelper(new Date).addDays(this.DAYS_UNTIL_ABOUT_TO_EXPIRE).get() })
+
+        return await super.paginate({ page, take }, builder)
     }
 
     public async create(data: RentalCreationData): Promise<Rental> {

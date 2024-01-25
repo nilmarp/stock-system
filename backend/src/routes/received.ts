@@ -1,8 +1,7 @@
 import express, { Request, Response, Router } from 'express'
 import { RentalRepository } from '../repositories/rental'
 import { Rental } from '../entity/Rental'
-import { Client } from '../entity/Client'
-
+import { DateHelper } from '../common/DateHelper'
 const router: Router = express.Router()
 
 router.get('/', async (req: Request, res: Response) => {
@@ -17,8 +16,10 @@ router.get('/', async (req: Request, res: Response) => {
             }
         ],
         start_date: new Date,
-        end_date: new Date
+        end_date: new DateHelper(new Date).addDays(1).get()
     })
+
+    console.log(await repository.findRentalsOnTime())
 
     return res.render('received')
 })

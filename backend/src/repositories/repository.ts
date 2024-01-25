@@ -4,6 +4,11 @@ import { TypeORMPagination } from "../common/TypeORMPagination";
 
 const pagination: IPagination<SelectQueryBuilder<any>> = new TypeORMPagination;
 
+export interface PaginationOptions {
+    page?: number,
+    take?: number
+}
+
 export interface IRepository {
     _entity: any
 
@@ -13,7 +18,7 @@ export interface IRepository {
 
     findBy(where)
 
-    paginate(page?: number, take?: number)
+    paginate(options: PaginationOptions, builder?: any)
 }
 
 export abstract class BaseRepository implements IRepository {
@@ -31,11 +36,11 @@ export abstract class BaseRepository implements IRepository {
         return entity
     }
 
-    public async paginate(page?: number, take?: number) {
+    public async paginate(options: PaginationOptions, builder?: SelectQueryBuilder<BaseEntity>) {
         return await paginate(pagination)
-            .builder(this._entity.createQueryBuilder())
-            .take(take)
-            .page(page)
+            .builder(builder ?? this._entity.createQueryBuilder())
+            .take(options?.take)
+            .page(options?.page)
             .get()
     }
 
