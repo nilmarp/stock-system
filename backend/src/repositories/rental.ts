@@ -55,7 +55,7 @@ export class RentalRepository extends BaseRepository {
         for (const rentedProduct of rentedProducts) {
             const product = rentedProduct.product
 
-            if (rentedProduct.product_quantity - product.quantity < 0)
+            if (product.quantity - rentedProduct.product_quantity < 0)
                 return true
         }
 
@@ -73,7 +73,7 @@ export class RentalRepository extends BaseRepository {
 
         return data.map((p, index) => {
             return {
-                product: Object.assign(new Product, { id: p.id }),
+                product: products[index],
                 product_quantity: p.quantity,
                 daily_price: products[index].daily_price * p.quantity
             }
