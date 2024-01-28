@@ -91,6 +91,16 @@ export class RentalRepository extends BaseRepository {
         await RentedProduct.save(rental.products)
     }
 
+    private async decreaseProductsQuantity(rentedProducts: RentedProductData[]) {
+        for (const rentedProduct of rentedProducts) {
+            const product = rentedProduct.product
+
+            product.quantity -= rentedProduct.product_quantity
+
+            await product.save()
+        }
+    }
+
     public async create(data: RentalCreationData): Promise<Rental> {
         const rental = Rental.create(data)
 
@@ -108,6 +118,8 @@ export class RentalRepository extends BaseRepository {
         await rental.save()
         
         await this.createRentedProductsEntities(rental, rentedProductsWithDailyPrice as RentedProduct[])
+
+        await this.decreaseProductsQuantity(rentedProductsWithDailyPrice)
 
         return rental
     }

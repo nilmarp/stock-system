@@ -19,7 +19,7 @@ router.get('/', async (req: Request, res: Response) => {
         end_date: new DateHelper(new Date).addDays(1).get()
     })
 
-    console.log(await repository.findRentalsOnTime())
+    //console.log(await repository.findRentalsOnTime())
 
     return res.render('received')
 })
