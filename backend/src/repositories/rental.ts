@@ -11,6 +11,12 @@ interface ProductData {
     quantity    
 }
 
+interface RentedProductData {
+    product: Product,
+    product_quantity: number,
+    daily_price: number
+}
+
 interface RentalCreationData {
     client_id: number,
     products: ProductData[],
@@ -22,14 +28,6 @@ export class RentalRepository extends BaseRepository {
     _entity = Rental
 
     private readonly DAYS_UNTIL_ABOUT_TO_EXPIRE = 2
-
-    private productsUnavailable(products: Product[]): boolean {
-        for (const product of products)
-            if (product.quantity <= 0)
-                return true
-
-        return false
-    }
 
     public async findRentalsInArrears(page?: number, take?: number) {
         const builder = await this._entity.createQueryBuilder()
@@ -47,42 +45,69 @@ export class RentalRepository extends BaseRepository {
 
     public async findRentalsAboutToExpire(page?: number, take?: number) {
         const builder = await this._entity.createQueryBuilder()
-            .where('end_date > :inicial_date', { inicial_date: new Date })
+            .where('end_date > :initial_date', { initial_date: new Date })
             .andWhere('end_date < :final_date', { final_date: new DateHelper(new Date).addDays(this.DAYS_UNTIL_ABOUT_TO_EXPIRE).get() })
 
         return await super.paginate({ page, take }, builder)
     }
 
-    public async create(data: RentalCreationData): Promise<Rental> {
-        const rental = Rental.create(data)
+    private productsUnavailable(rentedProducts: RentedProductData[]): boolean {
+        for (const rentedProduct of rentedProducts) {
+            const product = rentedProduct.product
 
-        rental.client = await Client.findOneBy({ id: data.client_id })
-    
-        const products = await Product.findBy({
-            id: In(data.products.map(p => p.id))
-        })
-
-        if (this.productsUnavailable(products)) {
-            // TODO: error handling
-            return
+            if (rentedProduct.product_quantity - product.quantity < 0)
+                return true
         }
 
-        const rentedProductsWithDailyPrice = data.products.map((p, index) => {
+        return false
+    }
+
+    private async getProducts(data: ProductData[]) : Promise<Product[]> {
+        return await Product.findBy({
+            id: In(data.map(p => p.id))
+        })
+    }
+
+    private async getRentedProductsWithDailyPrice(data: ProductData[]) : Promise<RentedProductData[]> {
+        const products = await this.getProducts(data)
+
+        return data.map((p, index) => {
             return {
                 product: Object.assign(new Product, { id: p.id }),
                 product_quantity: p.quantity,
                 daily_price: products[index].daily_price * p.quantity
             }
         })
+    }
 
-        rental.total_daily_price = rentedProductsWithDailyPrice.map(p => p.daily_price).reduce((a, b) => a + b, 0)
+    private getTotalDailyPrice(rentedProducts: RentedProductData[]) {
+        return rentedProducts.map(p => p.daily_price).reduce((a, b) => a + b, 0)
+    }
+
+    private async createRentedProductsEntities(rental: Rental, rentedProducts: RentedProduct[]) {
+        rental.products = RentedProduct.create(rentedProducts as RentedProduct[])
+        rental.products.forEach(product => product.rental = rental)
+
+        await RentedProduct.save(rental.products)
+    }
+
+    public async create(data: RentalCreationData): Promise<Rental> {
+        const rental = Rental.create(data)
+
+        rental.client = await Client.findOneBy({ id: data.client_id })
+
+        const rentedProductsWithDailyPrice : RentedProductData[] = await this.getRentedProductsWithDailyPrice(data.products)
+
+        if (this.productsUnavailable(rentedProductsWithDailyPrice)) {
+            // TODO: error handling
+            return
+        }
+
+        rental.total_daily_price = this.getTotalDailyPrice(rentedProductsWithDailyPrice)
 
         await rental.save()
-
-        rental.products = RentedProduct.create(rentedProductsWithDailyPrice as RentedProduct[])
-        rental.products.forEach(product => product.rental = rental)
-    
-        await RentedProduct.save(rental.products)
+        
+        await this.createRentedProductsEntities(rental, rentedProductsWithDailyPrice as RentedProduct[])
 
         return rental
     }
