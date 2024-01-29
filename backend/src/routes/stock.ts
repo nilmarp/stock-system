@@ -4,16 +4,6 @@ import { ProductRepository } from '../repositories/product'
 
 const router: Router = express.Router()
 
-/*
-import { ClientValidator } from '../validators/ClientValidator'
-
-router.use((req: Request, res: Response, next: NextFunction) => {
-    const validator = new ClientValidator
-
-    validator.validate(req, res, next)
-})
-*/
-
 router.get('/', async (req: Request, res: Response) => {
     const service: StockService = new StockService(new ProductRepository)
     

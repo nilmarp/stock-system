@@ -1,4 +1,5 @@
 import { BaseEntity, SelectQueryBuilder } from "typeorm";
+import { AppDataSource } from "../database/data-source";
 import { IPagination, paginate } from "../common/pagination";
 import { TypeORMPagination } from "../common/TypeORMPagination";
 
@@ -12,11 +13,17 @@ export interface PaginationOptions {
 export interface IRepository {
     _entity: any
 
-    create(data: any)
+    create(data: {})
 
     findAll()
 
     findBy(where)
+
+    findOneBy(where)
+
+    update(entity: number, data: {})
+
+    delete(id: number)
 
     paginate(options: PaginationOptions, builder?: any)
 }
@@ -27,9 +34,8 @@ export abstract class BaseRepository implements IRepository {
     public async create(data: {}): Promise<BaseEntity> {
         const entity = new this._entity;
 
-        for (const key in data) {
+        for (const key in data)
             entity[key] = data[key]
-        }
 
         await entity.save()
 
@@ -50,5 +56,25 @@ export abstract class BaseRepository implements IRepository {
 
     public async findBy(where) {
         return await this._entity.findBy(where)
+    }
+
+    public async findOneBy(where) {
+        return await this._entity.findOneBy(where)
+    }
+
+    public async update(entity: BaseEntity | number, data: {}) {
+        if (typeof entity === 'number')
+            entity = await this.findOneBy({ id: entity })
+
+        for (const key in data)
+            entity[key] = data[key]
+
+        await entity.save()
+    }
+
+    public async delete(id: number) {
+        await AppDataSource
+            .getRepository(this._entity)
+            .delete(id)
     }
 }

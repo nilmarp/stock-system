@@ -108,18 +108,16 @@ export class RentalRepository extends BaseRepository {
 
         const rentedProductsWithDailyPrice : RentedProductData[] = await this.getRentedProductsWithDailyPrice(data.products)
 
-        if (this.productsUnavailable(rentedProductsWithDailyPrice)) {
-            // TODO: error handling
-            return
-        }
+        if (this.productsUnavailable(rentedProductsWithDailyPrice))
+            throw new Error('Products don\'t have enough quantity for this rental.')
 
         rental.total_daily_price = this.getTotalDailyPrice(rentedProductsWithDailyPrice)
 
         await rental.save()
-        
-        await this.createRentedProductsEntities(rental, rentedProductsWithDailyPrice as RentedProduct[])
 
         await this.decreaseProductsQuantity(rentedProductsWithDailyPrice)
+        
+        await this.createRentedProductsEntities(rental, rentedProductsWithDailyPrice as RentedProduct[])
 
         return rental
     }

@@ -13,13 +13,17 @@ router.get('/', async (req: Request, res: Response) => {
             {
                 id: 1,
                 quantity: 2
+            },
+            {
+                id: 2,
+                quantity: 1
             }
         ],
         start_date: new Date,
-        end_date: new DateHelper(new Date).addDays(1).get()
+        end_date: new DateHelper(new Date).addDays(20).get()
     })
 
-    //console.log(await repository.findRentalsOnTime())
+    console.log(rental)
 
     return res.render('received')
 })
