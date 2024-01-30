@@ -27,4 +27,7 @@ export class Rental extends BaseEntity {
 
     @Column('decimal', { precision: 6, scale: 2 })
     total_daily_price: number
+
+    @Column({ default: false })
+    completed: boolean
 }

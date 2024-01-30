@@ -1,4 +1,4 @@
-import { In } from 'typeorm'
+import { In, MoreThan } from 'typeorm'
 import { Rental } from '../entity/Rental'
 import { BaseRepository } from './repository'
 import { Product } from '../entity/Product'
@@ -29,25 +29,36 @@ export class RentalRepository extends BaseRepository {
 
     private readonly DAYS_UNTIL_ABOUT_TO_EXPIRE = 2
 
+    private async createRentalSearchQuery()
+    {
+        return await this._entity.createQueryBuilder('rentals')
+            .leftJoinAndSelect('rentals.products', 'products')
+            .leftJoinAndSelect('rentals.client', 'client')
+            .leftJoinAndSelect('products.product', 'product')
+    }
+
     public async findRentalsInArrears(page?: number, take?: number) {
-        const builder = await this._entity.createQueryBuilder()
+        const builder = (await this.createRentalSearchQuery())
             .where('end_date < :date', { date: new Date })
+            .andWhere('completed = false')
 
         return await super.paginate({ page, take }, builder)
     }
 
     public async findRentalsOnTime(page?: number, take?: number) {
-        const builder = await this._entity.createQueryBuilder()
+        const builder = (await this.createRentalSearchQuery())
             .where('end_date > :date', { date: new DateHelper(new Date).addDays(this.DAYS_UNTIL_ABOUT_TO_EXPIRE).get() })
-
+            .andWhere('completed = false')
+            
         return await super.paginate({ page, take }, builder)
     }
 
     public async findRentalsAboutToExpire(page?: number, take?: number) {
-        const builder = await this._entity.createQueryBuilder()
+        const builder = (await this.createRentalSearchQuery())
             .where('end_date > :initial_date', { initial_date: new Date })
             .andWhere('end_date < :final_date', { final_date: new DateHelper(new Date).addDays(this.DAYS_UNTIL_ABOUT_TO_EXPIRE).get() })
-
+            .andWhere('completed = false')
+            
         return await super.paginate({ page, take }, builder)
     }
 

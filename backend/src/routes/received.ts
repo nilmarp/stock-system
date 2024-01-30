@@ -1,13 +1,11 @@
 import express, { Request, Response, Router } from 'express'
 import { RentalRepository } from '../repositories/rental'
-import { Rental } from '../entity/Rental'
-import { DateHelper } from '../common/DateHelper'
 const router: Router = express.Router()
 
 router.get('/', async (req: Request, res: Response) => {
     const repository = new RentalRepository
 
-    const rental: Rental = await repository.create({
+    /*const rental: Rental = await repository.create({
         client_id: 1,
         products: [
             {
@@ -24,7 +22,7 @@ router.get('/', async (req: Request, res: Response) => {
     })
 
     console.log(rental)
-
+    */
     return res.render('received')
 })
 

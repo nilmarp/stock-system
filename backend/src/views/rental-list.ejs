@@ -1,0 +1,100 @@
+<% const titles = {'on-time': 'Dentro do prazo', 'about-to-expire': 'Prestes a vencer', 'in-arrears': 'Em atraso'} %>
+<% const buttons = {'on-time': 'success', 'about-to-expire': 'warning', 'in-arrears': 'danger'} %>
+
+<% const title = titles[type] %>
+<% const button = buttons[type] %>
+
+<div style="margin-bottom: 50px;">
+    <p class="fs-1 text-center" style="margin-bottom: 30px;"><%= title %></p>
+    <table id="rentTableLate" class="table table-striped table-borderless text-center"
+        style="width:100%">
+        <thead>
+            <tr>
+                <th scope="col"><i class="bi bi-caret-down-fill"></i>
+                    Produto</th>
+                <th scope="col"><i class="bi bi-caret-down-fill"></i>
+                    Cliente</th>
+                <th scope="col"><i class="bi bi-caret-down-fill"></i>
+                    Referência</th>
+                <th scope="col"><i class="bi bi-caret-down-fill"></i>
+                    Prazo</th>
+                <th scope="col"><i class="bi bi-caret-down-fill"></i>
+                    Situação</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (const rental of (rentals.data || rentals)) { %>
+                <tr>
+                    <td scope="row">Equipamento07</td>
+                    <td><%= rental.client?.name %></td>
+                    <td><%= rental.client?.reference %></td>
+                    <td><%= rental.end_date %></td>
+                    <td><button type="button" class="btn btn-<%= button %>" style="padding: 2px;"><%= title %></button>
+                    </td>
+                    <td><button type="button" class="btn btn-link" data-bs-toggle="modal"
+                            data-bs-target="#modalRent-<% rental.id %>" style="padding: 2px;">Ver mais</button></li>
+                    </td>
+                </tr>
+            <% } %>
+
+        </tbody>
+    </table>
+</div>
+
+
+<!-- ver mais modal -->
+<% for (const rental of (rentals.data || rentals)) { %>
+    <div id="modalRent-<% rental.id %>" class="modal fade" style="margin-top: 20px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title fs-4">INFORMAÇÕES DA LOCAÇÃO
+                        <p />
+                        <button type="button" class="btnm btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div style="margin-bottom: 30px;">
+                        <% for (const rented of rental.products) { %>
+                            <div class="row" style="margin-bottom: px;">
+                                <div class="col fs-5"><span id="prod-rent-td"><%= rented.product.description %></span><span
+                                        id="prod-rent-cod"> <%= rented.product.id %></span></div>
+                                <div class="col"></div>
+                                <div id="situation-rent-td" class="col-3">
+                                    <button type="button" class="btn btn-success" style="padding: 2px;">No
+                                        Prazo</button>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom: 20px;">
+                                <div class="col">Quantidade alugada: <span id="rent-amount"><%= rented.product_quantity %></span></div>
+                            </div>
+                        <% } %>
+                        <div class="row">
+                            <div class="col">De:</div>
+                        </div>
+                        <div class="row" style="margin-bottom: 20px;">
+                            <div id="rent-date-i" class="col"><%= rental.start_date %></div>
+                        </div>
+                        <div class="row">
+                            <div class="col">Até:</div>
+                        </div>
+                        <div class="row" style="margin-bottom: 20px;">
+                            <div id="rent-date-f" class="col"><%= rental.end_date %></div>
+                        </div>
+                        <div class="row">
+                            <div class="col">Total Diárias: <span> <button type="button"
+                                        class="btn btn-success bg-success" style="padding: 2px;">R$<span
+                                            id="rent-total-profit"><%= rental.total_daily_price %></span></button>
+                                </span></div>
+                        </div>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary">RECEBER</button>
+                    <button type="submit" class="btn btn-danger">CANCELAR LOCAÇÃO</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %>

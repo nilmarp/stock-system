@@ -14,7 +14,7 @@ const VIEWS_FOLDER: string = path.join(__dirname, '../../backend/src/views')
 
 app.use(express.static(PUBLIC_FOLDER));
 app.set('views', VIEWS_FOLDER)
-app.set('view engine', 'pug')
+app.set('view engine', 'ejs')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(router)
