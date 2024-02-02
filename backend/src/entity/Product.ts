@@ -11,6 +11,9 @@ export class Product extends BaseEntity {
     description: string
 
     @Column()
+    quantity_owned: number
+
+    @Column()
     quantity: number
 
     @Column('decimal', { precision: 6, scale: 2 })

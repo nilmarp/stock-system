@@ -16,7 +16,8 @@ app.use(express.static(PUBLIC_FOLDER));
 app.set('views', VIEWS_FOLDER)
 app.set('view engine', 'ejs')
 
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
+
 app.use(router)
 
 AppDataSource.initialize().then(async () => {

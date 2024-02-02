@@ -1,29 +1,18 @@
 import { Request, Response } from 'express'
-import { IRepository } from '../repositories/repository'
 import { PaginationAwareObject } from '../common/pagination'
+import { ProductRepository } from '../repositories/product'
 
 export class StockService {
-    private repository: IRepository
+    private repository: ProductRepository
 
-    constructor(repository: IRepository) {
+    constructor(repository: ProductRepository) {
         this.repository = repository
     }
 
     public async index(req: Request, res: Response) {
-        /*
-        const product1 = (await this.repository.findBy({ id: 1 }))[0]
-        const product2 = (await this.repository.findBy({ id: 2 }))[0]
-
-        product1.quantity = 20
-        product2.quantity = 5
-
-        await product1.save()
-        await product2.save()
-*/
-
         const { page } = req.query
 
-        const products: PaginationAwareObject = await this.repository.paginate({ page })
+        const products: PaginationAwareObject = await (await this.repository.findOrderedById()).paginate({ page })
 
         return res.render('stock', {
             products
@@ -37,7 +26,18 @@ export class StockService {
             // flash message
         }
 
-        return product
+        return res.redirect('back')
+    }
+
+    public async update(req: Request, res: Response) {
+        try {
+            await this.repository.update(Number(req.params.id), req.body)
+        } catch (e) {
+            console.log(e.message)
+            // TODO: Error handling
+        }
+
+        res.redirect('back')
     }
 
 }

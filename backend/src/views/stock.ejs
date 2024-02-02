@@ -38,32 +38,8 @@
                             class="bi bi-folder-plus"></i> NOVO PRODUTO</button></li>
                 </div>
 
-                <div>
-                    <table id="stockTable" class="table table-striped table-borderless text-center" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Produto</th>
-                                <th>Código</th>
-                                <th>Quiantidade</th>
-                                <th>Diária</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% for (const product of (products.data || products)) { %>
-                                <tr>
-                                    <td><%= product.description %></td>
-                                    <td><%= product.id %></td>
-                                    <td><%= product.quantity %></td>
-                                    <td><%= product.daily_price %></td>
-                                    <td><button type="button" class="btn btn-link" data-bs-toggle="modal"
-                                            data-bs-target="#modalProd" style="padding: 0;">Ver mais</button></li>
-                                    </td>
-                                </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
-                </div>
+                <%- include('product-list.ejs') %>
+                
                 <div id="modalStock" class="modal fade" style="margin-top: 20px;">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -74,19 +50,19 @@
                             </div>
 
                             <div class="modal-body">
-                                <form>
+                                <form method="post" action="/stock">
                                     <div class="row" style="margin-bottom: 20px;">
                                         <div class="col-6">
                                             <label for="modalName" class="form-label">Nome</label>
-                                            <input type="text" class="form-control" id="modalName" required>
+                                            <input type="text" class="form-control" name="description" id="modalName" required>
                                         </div>
                                         <div class="col-3">
                                             <label for="modalName" class="form-label">Quantidade</label>
-                                            <input type="number" class="form-control" id="modalName" required>
+                                            <input type="number" class="form-control" name="quantity_owned" id="modalName" required>
                                         </div>
                                         <div class="col-3">
                                             <label for="modalName" class="form-label">Diária</label>
-                                            <input type="text" class="form-control" id="modalName" required>
+                                            <input type="text" class="form-control" name="daily_price" id="modalName" required>
                                         </div>
                                     </div>
 
@@ -100,78 +76,6 @@
                     </div>
                 </div>
 
-                <div id="modalProd" class="modal fade" style="margin-top: 20px;">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <p class="modal-title fs-4">INFORMAÇÕES DO PRODUTO
-                                    <p />
-                                    <button type="button" class="btnm btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div style="margin-bottom: 30px;">
-                                    <div class="row" style="margin-bottom: 20px;">
-                                        <div class="col fs-5">Betoneira</div>
-                                        <div class="col fs-5">#99999</div>
-                                        <div class="col"></div>
-                                        <div class="col"></div>
-                                        <div class="col"></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">Quantidade total: 5</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">Em estoque: 3</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">Alugados: 2</div>
-                                    </div>
-                                </div>
-
-
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#modalProdEdit">EDITAR</button>
-                                <button type="submit" class="btn btn-danger">EXCLUIR PRODUTO</button>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="modalProdEdit" class="modal fade" style="margin-top: 20px;">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <p class="modal-title fs-4">EDITAR PRODUTO
-                                    <p />
-                                    <button type="button" class="btnm btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form>
-                                    <div class="row" style="margin-bottom: 20px;">
-                                        <div class="col-6">
-                                            <label for="modalName" class="form-label">Nome</label>
-                                            <input type="text" class="form-control" id="modalName"
-                                                placeholder="Betoneira" required>
-                                        </div>
-                                        <div class="col-3">
-                                            <label for="modalName" class="form-label">Quantidade</label>
-                                            <input type="number" class="form-control" id="modalName" required>
-                                        </div>
-                                        <div class="col-3">
-                                            <label for="modalName" class="form-label">Diária</label>
-                                            <input type="text" class="form-control" id="modalName" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="container text-center" style="margin-top: 50px;">
-                                        <button type="submit" class="btn btn-primary">SALVAR</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>

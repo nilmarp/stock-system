@@ -29,14 +29,6 @@ export class RentalRepository extends BaseRepository {
 
     private readonly DAYS_UNTIL_ABOUT_TO_EXPIRE = 2
 
-    private async createRentalSearchQuery()
-    {
-        return await this._entity.createQueryBuilder('rentals')
-            .leftJoinAndSelect('rentals.products', 'products')
-            .leftJoinAndSelect('rentals.client', 'client')
-            .leftJoinAndSelect('products.product', 'product')
-    }
-
     public async findRentalsInArrears(page?: number, take?: number) {
         const builder = (await this.createRentalSearchQuery())
             .where('end_date < :date', { date: new Date })
@@ -60,6 +52,13 @@ export class RentalRepository extends BaseRepository {
             .andWhere('completed = false')
             
         return await super.paginate({ page, take }, builder)
+    }
+
+    private async createRentalSearchQuery() {
+        return await this._entity.createQueryBuilder('rentals')
+            .leftJoinAndSelect('rentals.products', 'products')
+            .leftJoinAndSelect('rentals.client', 'client')
+            .leftJoinAndSelect('products.product', 'product')
     }
 
     private productsUnavailable(rentedProducts: RentedProductData[]): boolean {

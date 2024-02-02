@@ -18,4 +18,10 @@ router.post('/', async (req: Request, res: Response) => {
     service.store(req, res)
 })
 
+router.post('/:id/edit', async (req: Request, res: Response) => {
+    const service: ClientService = new ClientService(new ClientRepository)
+    
+    service.update(req, res)
+})
+
 export default router

@@ -20,9 +20,9 @@ export class RentedProduct extends BaseEntity {
 
     @ManyToOne(() => Product, product => product.rentals)
     @JoinColumn({
-        name: 'clients',
+        name: 'products',
         referencedColumnName: 'id',
-        foreignKeyConstraintName: 'client_id'
+        foreignKeyConstraintName: 'product_id'
     })
     product: Product
 

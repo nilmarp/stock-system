@@ -11,9 +11,9 @@
         <thead>
             <tr>
                 <th scope="col"><i class="bi bi-caret-down-fill"></i>
-                    Produto</th>
-                <th scope="col"><i class="bi bi-caret-down-fill"></i>
                     Cliente</th>
+                <th scope="col"><i class="bi bi-caret-down-fill"></i>
+                    Itens</th>
                 <th scope="col"><i class="bi bi-caret-down-fill"></i>
                     Referência</th>
                 <th scope="col"><i class="bi bi-caret-down-fill"></i>
@@ -26,8 +26,8 @@
         <tbody>
             <% for (const rental of (rentals.data || rentals)) { %>
                 <tr>
-                    <td scope="row">Equipamento07</td>
                     <td><%= rental.client?.name %></td>
+                    <td><%= rental.products.length %></td>
                     <td><%= rental.client?.reference %></td>
                     <td><%= rental.end_date %></td>
                     <td><button type="button" class="btn btn-<%= button %>" style="padding: 2px;"><%= title %></button>
@@ -58,7 +58,7 @@
                         <% for (const rented of rental.products) { %>
                             <div class="row" style="margin-bottom: px;">
                                 <div class="col fs-5"><span id="prod-rent-td"><%= rented.product.description %></span><span
-                                        id="prod-rent-cod"> <%= rented.product.id %></span></div>
+                                        id="prod-rent-cod"> #<%= rented.product.id %></span></div>
                                 <div class="col"></div>
                                 <div id="situation-rent-td" class="col-3">
                                     <button type="button" class="btn btn-success" style="padding: 2px;">No
@@ -84,14 +84,18 @@
                         <div class="row">
                             <div class="col">Total Diárias: <span> <button type="button"
                                         class="btn btn-success bg-success" style="padding: 2px;">R$<span
-                                            id="rent-total-profit"><%= rental.total_daily_price %></span></button>
+                                            id="rent-total-profit"><%= rental.total_daily_price.toLocaleString('pt-br',{ style: 'currency', currency: 'BRL' }) %></span></button>
                                 </span></div>
                         </div>
                     </div>
 
+                    <form action="post" action="/withdrawn/<%= rental.id %>/receive">
+                        <button type="submit" class="btn btn-primary">RECEBER</button>
+                    </form>
 
-                    <button type="submit" class="btn btn-primary">RECEBER</button>
-                    <button type="submit" class="btn btn-danger">CANCELAR LOCAÇÃO</button>
+                    <form action="post" action="/withdrawn/<%= rental.id %>/cancel">
+                        <button type="submit" class="btn btn-danger">CANCELAR LOCAÇÃO</button>
+                    </form>
 
                 </div>
             </div>

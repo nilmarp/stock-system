@@ -1,0 +1,111 @@
+<div>
+    <table id="stockTable" class="table table-striped table-borderless text-center" style="width:100%">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Código</th>
+                <th>Quantidade</th>
+                <th>Diária</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (const product of (products.data || products)) { %>
+                <tr>
+                    <td><%= product.description %></td>
+                    <td>#<%= product.id %></td>
+                    <td><%= product.quantity_owned %></td>
+                    <td><%= product.daily_price.toLocaleString('pt-br',{ style: 'currency', currency: 'BRL' }) %></td>
+                    <td><button type="button" class="btn btn-link" data-bs-toggle="modal"
+                            data-bs-target="#modalProd-<%= product.id %>" style="padding: 0;">Ver mais</button></li>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+<% for (const product of (products.data || products)) { %>
+    <div id="modalProd-<%= product.id %>" class="modal fade" style="margin-top: 20px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title fs-4">INFORMAÇÕES DO PRODUTO
+                        <p />
+                        <button type="button" class="btnm btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div style="margin-bottom: 30px;">
+                        <div class="row" style="margin-bottom: 20px;">
+                            <div class="col fs-5"><%= product.description %></div>
+                            <div class="col fs-5">#<%= product.id %></div>
+                            <div class="col"></div>
+                            <div class="col"></div>
+                            <div class="col"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col">Quantidade total: <%= product.quantity_owned %></div>
+                        </div>
+                        <div class="row">
+                            <div class="col">Em estoque: <%= product.quantity %></div>
+                        </div>
+                        <div class="row">
+                            <div class="col">Alugados: <%= product.quantity_owned - product.quantity %></div>
+                        </div>
+                    </div>
+
+
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#modalProdEdit-<%= product.id %>">EDITAR</button>
+                    <button type="submit" class="btn btn-danger">EXCLUIR PRODUTO</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalProdEdit-<%= product.id %>" class="modal fade" style="margin-top: 20px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title fs-4">EDITAR PRODUTO
+                        <p />
+                        <button type="button" class="btnm btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="editProductForm" method="post" action="/stock/<%= product.id %>/edit">
+                        <div class="row" style="margin-bottom: 20px;">
+                            <div class="col-6">
+                                <label for="modalName" class="form-label">Nome</label>
+                                <input type="text" class="form-control" id="modalName" name="description" value="<%= product.description %>" required>
+                            </div>
+                            <div class="col-3">
+                                <label for="modalName" class="form-label">Quantidade</label>
+                                <input type="number" class="form-control" id="modalName" name="quantity_owned" value="<%= product.quantity_owned %>" required>
+                            </div>
+                            <div class="col-3">
+                                <label for="modalName" class="form-label">Diária</label>
+                                <span>R$ <input type="text" class="form-control" id="modalName" name="daily_price" value="<%= product.daily_price %>" required></span>
+                            </div>
+                        </div>
+
+                        <div class="container text-center" style="margin-top: 50px;">
+                            <button type="submit" class="btn btn-primary">SALVAR</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %>
+
+<script>
+    const forms = document.getElementsByClassName('editProductForm')
+
+    for (const form of forms) {
+        form.addEventListener('submit', e => {
+            form.elements['daily_price'].value = form.elements['daily_price'].value.replace(/,/g, '.')
+        })
+    }
+
+</script>

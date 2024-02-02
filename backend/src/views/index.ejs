@@ -38,32 +38,7 @@
                         data-bs-target="#modalWindow"><i class="bi bi-person-plus-fill"></i> NOVO CLIENTE</button></li>
                 </div>
 
-                <div>
-                    <table id="clientTable" class="table table-striped table-borderless text-center" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th scope="col">Nome</th>
-                                <th scope="col">CPF</th>
-                                <th scope="col">Cidade</th>
-                                <th scope="col">Telefone</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% for (const client of (clients.data || clients)) { %>
-                                <tr>
-                                    <td scope="row"><%= client.name %></td>
-                                    <td><%= client.identification_number %></td>
-                                    <td><%= client.city %></td>
-                                    <td><%= client.phone %></td>
-                                    <td><button type="button" class="btn btn-link" data-bs-toggle="modal"
-                                            data-bs-target="#modalClient" style="padding: 0;">Ver mais</button></li>
-                                    </td>
-                                </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
-                </div>
+                <%- include('client-list.ejs') %>
 
                 <div id="modalWindow" class="modal fade" style="margin-top: 20px;">
                     <div class="modal-dialog modal-lg">
@@ -75,37 +50,37 @@
                             </div>
 
                             <div class="modal-body">
-                                <form>
+                                <form method="post" action="/client">
                                     <div class="row" style="margin-bottom: 20px;">
                                         <div class="col">
                                             <label for="modalName" class="form-label">Nome</label>
-                                            <input type="text" class="form-control" id="modalName" required>
+                                            <input type="text" class="form-control" id="modalName" name="name" required>
                                         </div>
                                         <div class="col">
                                             <label for="modalLastName" class="form-label">Sobrenome</label>
-                                            <input type="text" class="form-control" id="modalLastName" required>
+                                            <input type="text" class="form-control" id="modalLastName" name="surname" required>
                                         </div>
                                     </div>
                                     <div class="row" style="margin-bottom: 20px;">
                                         <div class="col">
                                             <label for="modalCPF" class="form-label">CPF / CNPJ</label>
-                                            <input type="text" class="form-control" id="modalCPF" required>
+                                            <input type="text" class="form-control" id="modalCPF" name="identification_number" required>
                                         </div>
                                         <div class="col">
                                             <label for="modalRef" class="form-label">Referência</label>
                                             <input type="tel" class="form-control" id="modalRef"
-                                                placeholder="Empresa / Firma / Autonomo" required>
+                                                placeholder="Empresa / Firma / Autonomo" name="reference" required>
                                         </div>
                                     </div>
                                     <div class="row" style="margin-bottom: 50px;">
                                         <div class="col">
                                             <label for="modalTel" class="form-label">Telefone</label>
                                             <input type="tel" class="form-control" id="modalTel"
-                                                placeholder="(00) 0 0000-0000" required>
+                                                placeholder="(00) 0 0000-0000" name="phone" required>
                                         </div>
                                         <div class="col">
                                             <label for="modalEmail" class="form-label">E-mail</label>
-                                            <input type="email" class="form-control" id="modalEmail">
+                                            <input type="email" class="form-control" id="modalEmail" name="email" required>
                                         </div>
                                     </div>
 
@@ -113,151 +88,27 @@
                                         <div class="col">
                                             <label for="modalCEP" class="form-label">CEP</label>
                                             <input type="text" class="form-control" id="modalCEP"
-                                                placeholder="00000-000" pattern="[0-9]{8}" required>
+                                                placeholder="00000-000" pattern="[0-9]{8}" name="cep" required>
                                         </div>
                                         <div class="col">
                                             <label for="modalCity" class="form-label">Cidade</label>
-                                            <input type="text" class="form-control" id="modalCity">
-                                        </div required>
+                                            <input type="text" class="form-control" id="modalCity" name="city" required>
+                                        </div>
                                     </div>
                                     <div class="row" style="margin-bottom: 50px;">
                                         <div class="col">
                                             <label for="modalAdress" class="form-label">Endereço</label>
                                             <input type="tel" class="form-control" id="modalAdress"
-                                                placeholder="R. Das angustias, Bairro" required>
+                                                placeholder="R. Das angustias, Bairro" name="address" required>
                                         </div>
                                         <div class="col-3">
                                             <label for="modalAdressNumber" class="form-label">Número</label>
-                                            <input type="tel" class="form-control" id="modalAdressNumber" required>
+                                            <input type="tel" class="form-control" id="modalAdressNumber" name="building_number" required>
                                         </div>
                                     </div>
 
                                     <div class="container text-center">
                                         <button type="submit" class="btn btn-primary">CADASTRAR CLIENTE</button>
-                                    </div>
-                                </form>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div id="modalClient" class="modal fade" style="margin-top: 20px;">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <p class="modal-title fs-4">INFORMAÇÕES DO CLIENTE
-                                    <p />
-                                    <button type="button" class="btnm btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div style="margin-bottom: 30px;">
-                                    <div class="row">
-                                        <div class="col fs-5">Joao P. Fagundes</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">Referência</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">057.441.020-19</div>
-                                    </div>
-                                </div>
-                                <div style="margin-bottom: 30px;">
-                                    <div class="row">
-                                        <div class="col fs-5">Endereço</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">R. das angustias, Bairro, Cidade, 88990-000</div>
-                                    </div>
-                                </div>
-                                <div style="margin-bottom: 30px;">
-                                    <div class="row">
-                                        <div class="col fs-5">Contato</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col"><a href="#">(51) 994397413</a></div>
-                                        <div class="col">teste.cliente@gmail.com</div>
-                                    </div>
-                                </div>
-
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#modalClientEdit"><i class="bi bi-person-plus-fill"></i>
-                                    EDITAR</button>
-                                </li>
-                                <button type="submit" class="btn btn-danger">EXCLUIR CLIENTE</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="modalClientEdit" class="modal fade" style="margin-top: 20px;">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-
-                            <div class="modal-header">
-                                <h3 class="modal-title">EDITAR CLIENTE</h3>
-                                <button type="button" class="btnm btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-
-                            <div class="modal-body">
-                                <form>
-                                    <div class="row" style="margin-bottom: 20px;">
-                                        <div class="col">
-                                            <label for="modalName" class="form-label">Nome</label>
-                                            <input type="text" class="form-control" id="modalName" required>
-                                        </div>
-                                        <div class="col">
-                                            <label for="modalLastName" class="form-label">Sobrenome</label>
-                                            <input type="text" class="form-control" id="modalLastName" required>
-                                        </div>
-                                    </div>
-                                    <div class="row" style="margin-bottom: 20px;">
-                                        <div class="col">
-                                            <label for="modalCPF" class="form-label">CPF / CNPJ</label>
-                                            <input type="text" class="form-control" id="modalCPF" required>
-                                        </div>
-                                        <div class="col">
-                                            <label for="modalRef" class="form-label">Referência</label>
-                                            <input type="tel" class="form-control" id="modalRef"
-                                                placeholder="Empresa / Firma / Autonomo" required>
-                                        </div>
-                                    </div>
-                                    <div class="row" style="margin-bottom: 50px;">
-                                        <div class="col">
-                                            <label for="modalTel" class="form-label">Telefone</label>
-                                            <input type="tel" class="form-control" id="modalTel"
-                                                placeholder="(00) 0 0000-0000" required>
-                                        </div>
-                                        <div class="col">
-                                            <label for="modalEmail" class="form-label">E-mail</label>
-                                            <input type="email" class="form-control" id="modalEmail">
-                                        </div>
-                                    </div>
-
-                                    <div class="row" style="margin-bottom: 20px;">
-                                        <div class="col">
-                                            <label for="modalCEP" class="form-label">CEP</label>
-                                            <input type="text" class="form-control" id="modalCEP"
-                                                placeholder="00000-000" pattern="[0-9]{8}" required>
-                                        </div>
-                                        <div class="col">
-                                            <label for="modalCity" class="form-label">Cidade</label>
-                                            <input type="text" class="form-control" id="modalCity">
-                                        </div required>
-                                    </div>
-                                    <div class="row" style="margin-bottom: 50px;">
-                                        <div class="col">
-                                            <label for="modalAdress" class="form-label">Endereço</label>
-                                            <input type="tel" class="form-control" id="modalAdress"
-                                                placeholder="R. Das angustias, Bairro" required>
-                                        </div>
-                                        <div class="col-3">
-                                            <label for="modalAdressNumber" class="form-label">Número</label>
-                                            <input type="tel" class="form-control" id="modalAdressNumber" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="container text-center">
-                                        <button type="submit" class="btn btn-primary">SALVAR</button>
                                     </div>
                                 </form>
                             </div>

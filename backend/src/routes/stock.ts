@@ -10,12 +10,16 @@ router.get('/', async (req: Request, res: Response) => {
     service.index(req, res)
 })
 
-router.post('/', async (req: Request, res: Response, next: NextFunction) => {
-    // validator
-}, async (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response) => {
     const service: StockService = new StockService(new ProductRepository)
 
     service.store(req, res)
+})
+
+router.post('/:id/edit', async (req: Request, res: Response) => {
+    const service: StockService = new StockService(new ProductRepository)
+
+    service.update(req, res)
 })
 
 export default router

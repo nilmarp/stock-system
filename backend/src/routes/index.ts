@@ -9,6 +9,7 @@ router.get('/', (req: Request, res: Response) => {
     service.index(req, res)
 })
 
+
 import clientRouter from './clients'
 import stockRouter from './stock'
 import withdrawnRouter from './withdrawn'

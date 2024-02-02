@@ -1,10 +1,11 @@
 import { Request, Response } from 'express'
 import { IRepository } from '../repositories/repository'
+import { ClientRepository } from '../repositories/client'
 
 export class ClientService {
-    private repository: IRepository
+    private repository: ClientRepository
 
-    constructor(repository: IRepository) {
+    constructor(repository: ClientRepository) {
         this.repository = repository
     }
 
@@ -15,6 +16,17 @@ export class ClientService {
             // TODO: error handling
         }
         
+        res.redirect('back')
+    }
+
+    public async update(req: Request, res: Response) {
+        try {
+            await this.repository.update(req.params.id, req.body)
+        } catch (e) {
+            // TODO: error handling
+            console.log(e.message)
+        }
+
         res.redirect('back')
     }
 }

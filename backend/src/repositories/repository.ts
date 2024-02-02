@@ -30,6 +30,7 @@ export interface IRepository {
 
 export abstract class BaseRepository implements IRepository {
     abstract _entity: typeof BaseEntity
+    protected builder: SelectQueryBuilder<BaseEntity> = null
 
     public async create(data: {}): Promise<BaseEntity> {
         const entity = new this._entity;
@@ -44,10 +45,18 @@ export abstract class BaseRepository implements IRepository {
 
     public async paginate(options: PaginationOptions, builder?: SelectQueryBuilder<BaseEntity>) {
         return await paginate(pagination)
-            .builder(builder ?? this._entity.createQueryBuilder())
+            .builder(this.getBuilder())
             .take(options?.take)
             .page(options?.page)
             .get()
+    }
+
+    protected getBuilder() {
+        return this.builder ?? this._entity.createQueryBuilder()
+    }
+
+    protected setBuilder(builder: SelectQueryBuilder<BaseEntity>) {
+        this.builder = builder
     }
 
     public async findAll() {
@@ -63,11 +72,15 @@ export abstract class BaseRepository implements IRepository {
     }
 
     public async update(entity: BaseEntity | number, data: {}) {
-        if (typeof entity === 'number')
+        if (typeof entity === 'number' || typeof entity === 'string')
             entity = await this.findOneBy({ id: entity })
 
-        for (const key in data)
+        if (!entity)
+            throw Error(`Could not find entity`)
+
+        for (const key in data) {
             entity[key] = data[key]
+        }
 
         await entity.save()
     }
