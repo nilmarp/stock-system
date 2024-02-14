@@ -13,7 +13,7 @@ export class RentalService {
     public async getOnTime(req: Request, res: Response) : Promise<IPagination<Rental>> {
         const { page } = req.query
 
-        const rentals: PaginationAwareObject = await this.repository.findRentalsOnTime(page)
+        const rentals: PaginationAwareObject = await this.repository.findRentalsOnTime().paginate({ page })
 
         return res.render('withdrawn', {
             rentals,
@@ -24,7 +24,7 @@ export class RentalService {
     public async getAboutToExpire(req: Request, res: Response) : Promise<IPagination<Rental>> {
         const { page } = req.query
 
-        const rentals = await this.repository.findRentalsAboutToExpire(page)
+        const rentals = await this.repository.findRentalsAboutToExpire().paginate({ page })
     
         return res.render('withdrawn', {
             rentals,
@@ -35,7 +35,7 @@ export class RentalService {
     public async getInArrears(req: Request, res: Response) : Promise<IPagination<Rental>> {
         const { page } = req.query
 
-        const rentals = await this.repository.findRentalsInArrears(page)
+        const rentals = await this.repository.findRentalsInArrears().paginate({ page })
 
         return res.render('withdrawn', {
             rentals,

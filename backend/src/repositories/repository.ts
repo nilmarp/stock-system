@@ -25,6 +25,8 @@ export interface IRepository {
 
     delete(id: number)
 
+    search(query: {})
+
     paginate(options: PaginationOptions, builder?: any)
 }
 
@@ -89,5 +91,16 @@ export abstract class BaseRepository implements IRepository {
         await AppDataSource
             .getRepository(this._entity)
             .delete(id)
+    }
+
+    public search(query: {}) {
+        const builder = this._entity.createQueryBuilder('entity')
+        
+        for (const key in query) 
+            builder.orWhere(`entity.${key} like :${key}`, { [key]: `%${query[key]}%` })
+
+        this.setBuilder(builder)
+
+        return this
     }
 }

@@ -29,33 +29,39 @@ export class RentalRepository extends BaseRepository {
 
     private readonly DAYS_UNTIL_ABOUT_TO_EXPIRE = 2
 
-    public async findRentalsInArrears(page?: number, take?: number) {
-        const builder = (await this.createRentalSearchQuery())
+    public findRentalsInArrears(page?: number, take?: number) {
+        const builder = this.createRentalSearchQuery()
             .where('end_date < :date', { date: new Date })
             .andWhere('completed = false')
 
-        return await super.paginate({ page, take }, builder)
+        this.setBuilder(builder)
+
+        return this
     }
 
-    public async findRentalsOnTime(page?: number, take?: number) {
-        const builder = (await this.createRentalSearchQuery())
+    public findRentalsOnTime(page?: number, take?: number) {
+        const builder = this.createRentalSearchQuery()
             .where('end_date > :date', { date: new DateHelper(new Date).addDays(this.DAYS_UNTIL_ABOUT_TO_EXPIRE).get() })
             .andWhere('completed = false')
+
+        this.setBuilder(builder)
             
-        return await super.paginate({ page, take }, builder)
+        return this
     }
 
-    public async findRentalsAboutToExpire(page?: number, take?: number) {
-        const builder = (await this.createRentalSearchQuery())
+    public findRentalsAboutToExpire(page?: number, take?: number) {
+        const builder = this.createRentalSearchQuery()
             .where('end_date > :initial_date', { initial_date: new Date })
             .andWhere('end_date < :final_date', { final_date: new DateHelper(new Date).addDays(this.DAYS_UNTIL_ABOUT_TO_EXPIRE).get() })
             .andWhere('completed = false')
+
+        this.setBuilder(builder)
             
-        return await super.paginate({ page, take }, builder)
+        return this
     }
 
-    private async createRentalSearchQuery() {
-        return await this._entity.createQueryBuilder('rentals')
+    private createRentalSearchQuery() {
+        return this._entity.createQueryBuilder('rentals')
             .leftJoinAndSelect('rentals.products', 'products')
             .leftJoinAndSelect('rentals.client', 'client')
             .leftJoinAndSelect('products.product', 'product')
