@@ -1,4 +1,4 @@
-import { In, MoreThan } from 'typeorm'
+import { BaseEntity, In, MoreThan } from 'typeorm'
 import { Rental } from '../entity/Rental'
 import { BaseRepository } from './repository'
 import { Product } from '../entity/Product'
@@ -109,6 +109,17 @@ export class RentalRepository extends BaseRepository {
 
             await product.save()
         }
+    }
+
+    public async receive(id: number) {
+        const rental: Rental = await this.findOneBy({ id }) as Rental
+
+        if (!rental)
+            return
+
+        rental.completed = true
+
+        await rental.save()
     }
 
     public async create(data: RentalCreationData): Promise<Rental> {

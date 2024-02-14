@@ -21,16 +21,6 @@ interface ProductUpdateData {
 export class ProductRepository extends BaseRepository {
     _entity = Product
 
-    public async findOrderedById() {
-        const builder = await this._entity
-            .createQueryBuilder('product')
-            .orderBy('product.id')
-            
-        this.setBuilder(builder)
-
-        return this
-    }
-
     public create(data: ProductCreationData): Promise<BaseEntity> {
         data.quantity = data.quantity_owned
 

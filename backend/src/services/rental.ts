@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { RentalRepository } from '../repositories/rental'
-import { IPagination } from '../common/pagination'
+import { IPagination, PaginationAwareObject } from '../common/pagination'
 import { Rental } from '../entity/Rental'
 
 export class RentalService {
@@ -13,7 +13,7 @@ export class RentalService {
     public async getOnTime(req: Request, res: Response) : Promise<IPagination<Rental>> {
         const { page } = req.query
 
-        const rentals = await this.repository.findRentalsOnTime(page)
+        const rentals: PaginationAwareObject = await this.repository.findRentalsOnTime(page)
 
         return res.render('withdrawn', {
             rentals,
@@ -41,5 +41,16 @@ export class RentalService {
             rentals,
             type: 'in-arrears'
         })
+    }
+
+    public async receive(req: Request, res: Response) {
+        try {
+            await this.repository.receive(Number(req.params.id))
+        } catch (e) {
+            console.log(e.message)
+            // TODO: Error handling
+        }
+
+        res.redirect('back')
     }
 }

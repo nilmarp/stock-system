@@ -45,7 +45,7 @@ export abstract class BaseRepository implements IRepository {
 
     public async paginate(options: PaginationOptions, builder?: SelectQueryBuilder<BaseEntity>) {
         return await paginate(pagination)
-            .builder(this.getBuilder())
+            .builder(builder ?? this.getBuilder())
             .take(options?.take)
             .page(options?.page)
             .get()

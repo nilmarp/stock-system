@@ -27,7 +27,7 @@
             <% for (const rental of (rentals.data || rentals)) { %>
                 <tr>
                     <td><%= rental.client?.name %></td>
-                    <td><%= rental.products.length %></td>
+                    <td><%= rental.products?.length ?? 0 %></td>
                     <td><%= rental.client?.reference %></td>
                     <td><%= rental.end_date %></td>
                     <td><button type="button" class="btn btn-<%= button %>" style="padding: 2px;"><%= title %></button>
@@ -55,7 +55,7 @@
                 </div>
                 <div class="modal-body">
                     <div style="margin-bottom: 30px;">
-                        <% for (const rented of rental.products) { %>
+                        <% for (const rented of (rental.products ?? [])) { %>
                             <div class="row" style="margin-bottom: px;">
                                 <div class="col fs-5"><span id="prod-rent-td"><%= rented.product.description %></span><span
                                         id="prod-rent-cod"> #<%= rented.product.id %></span></div>
@@ -89,11 +89,11 @@
                         </div>
                     </div>
 
-                    <form action="post" action="/withdrawn/<%= rental.id %>/receive">
+                    <form method="post" action="/withdrawn/<%= rental.id %>/receive">
                         <button type="submit" class="btn btn-primary">RECEBER</button>
                     </form>
 
-                    <form action="post" action="/withdrawn/<%= rental.id %>/cancel">
+                    <form method="post" action="/withdrawn/<%= rental.id %>/cancel">
                         <button type="submit" class="btn btn-danger">CANCELAR LOCAÇÃO</button>
                     </form>
 

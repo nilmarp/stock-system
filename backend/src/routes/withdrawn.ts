@@ -22,4 +22,10 @@ router.get('/arrears', async (req: Request, res: Response) => {
     return await service.getInArrears(req, res)
 })
 
+router.post('/:id/receive', async (req: Request, res: Response) => {
+    const service = new RentalService(new RentalRepository)
+
+    return await service.receive(req, res)
+})
+
 export default router
