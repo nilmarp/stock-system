@@ -17,7 +17,7 @@
       "typeorm": "0.3.19"
    },
    "scripts": {
-      "start": "tsc",
+      "start": "tsc && node build/index.js",
       "typeorm": "typeorm-ts-node-commonjs"
    }
 }
