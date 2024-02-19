@@ -1,44 +1,45 @@
-import React, { useEffect, useState } from 'react';
-// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React, { useState } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+
+
+
+// pages
 import Home from './pages/home';
-import Routing from './routing';
-import { api } from './config/api';
 import NotFound from './pages/notFound';
 import Stock from './pages/stock';
 import AsideMenu from './components/AsideMenu';
+import Received from './pages/received';
+import Withdraw from './pages/withdraw';
 
 function App() {
 
-    const [data, setData] = useState()
-
     const [tab, setTab] = useState('home')
 
-    useEffect(async () => {
-        setData(await api.get('/'))
-    }, [])
-
-    console.log(data)
-
-    const routes = ['home', 'stock']
-
-    console.log(routes.find((e) => e.name == tab))
+    const routes = ['home', 'stock', 'received', 'withdraw']
 
     if (!(routes.includes(tab))) {
         return (
             <NotFound func={setTab} />
         )
     }
-
     return (
-        <>
-            <>
-                <AsideMenu func={setTab} />
-            </>
-            <>
-                {tab == 'home' && <Home />}
-                {tab == 'stock' && <Stock />}
-            </>
-        </>
+        <PrimeReactProvider>
+            <div style={{ display: 'flex' }}>
+                <>
+                    <AsideMenu func={setTab} />
+                </>
+                <>
+                    {tab == 'home' && <Home />}
+                    {tab == 'stock' && <Stock />}
+                    {tab == 'received' && <Received />}
+                    {tab == 'withdraw' && <Withdraw />}
+                </>
+                <ToastContainer />
+            </div>
+        </PrimeReactProvider>
     );
 }
 
