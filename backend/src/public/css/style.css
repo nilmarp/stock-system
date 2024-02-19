@@ -2,41 +2,34 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: helvetica;
+    list-style: none;
 }
 
+
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
 /*layout line 01*/
-#line-01 {
-    margin-top: 10px;
-}
-
-#line-01 .container {
-    width: 1300px;
-}
-
-#line-01 .container .row {
+#header-main {
+    /* margin-top: 10px; */
     width: 100%;
+    background-color: #183e69;
+    padding: 0 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
     height: 100px;
 }
 
-#line-01 .container .col {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(4, 34, 86, 255);
-}
-
-#line-01 .container .col-10 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #183e69;
-}
 
 /*===layout line 02===*/
 #line-02 {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    /* margin-top: 20px; */
 }
 
 #line-02 .container.c1 {
@@ -85,4 +78,104 @@ ul.pagination {
 /**/
 th {
     cursor: pointer;
+}
+
+.aside-menu {
+    font-weight: 600;
+    display: flex;
+    height: calc(100vh - 36px);
+    width: 200px;
+    display: flex;
+    padding: 20px 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #396fae;
+    /* position: fixed; */
+    margin: 10px 10px;
+    /* border-radius: 0px 8px 8px 0px; */
+    border-radius: 8px;
+    box-shadow: 1px 2px 13px -5px black;
+}
+
+.aside-menu>ul {
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.aside-menu>ul>li {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 4px;
+    width: 100%;
+    height: 5vh;
+    border-radius: 4px;
+}
+
+.aside-menu>ul>li:hover, .aside-menu>ul>li>a:hover{
+    width: 100%;
+    background-color: #fff;
+    color: #396fae;
+}
+
+.aside-menu>ul>li>a {
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: #fff;
+}
+
+.selected-main-aside-item {
+    background-color: #fff;
+    color: #396fae;
+}
+
+.rental-list-container{
+    overflow: hidden;
+    overflow-y: scroll;
+    height: 500px;
+}
+
+/* Estilização para navegadores Webkit (Chrome, Safari, etc.) */
+::-webkit-scrollbar {
+    width: 10px; /* Largura do scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Cor do track (fundo) */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888; /* Cor do thumb (barra) */
+    border-radius: 5px; /* Borda arredondada do thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Cor do thumb ao passar o mouse */
+}
+
+/* Estilização para navegadores da Mozilla (Firefox) */
+/* Nota: Para o Firefox, você precisa usar a extensão -moz- */
+/* e a propriedade scrollbar-width para definir a largura do scrollbar */
+
+/* Track */
+html {
+    scrollbar-width: thin; /* Largura do scrollbar */
+    scrollbar-color: #f1f1f1 #888; /* Cor do track (fundo) e thumb (barra) */
+}
+
+/* Thumb (barra) */
+html:hover {
+    scrollbar-color: #f1f1f1 #555; /* Cor do thumb ao passar o mouse */
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
 }
