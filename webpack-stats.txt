@@ -1,14 +1,14 @@
 PublicPath: [1m/[39m[22m
 assets by status 461 KiB [1m[32m[cached][39m[22m 2 assets
-asset [1m[33mbundle.js[39m[22m [1m[33m807 KiB[39m[22m {[1m[33m792[39m[22m} [1m[32m[emitted][39m[22m [1m[32m[minimized][39m[22m [1m[33m[big][39m[22m (name: main)
+asset [1m[33mbundle.js[39m[22m [1m[33m839 KiB[39m[22m {[1m[33m792[39m[22m} [1m[32m[emitted][39m[22m [1m[32m[minimized][39m[22m [1m[33m[big][39m[22m (name: main)
   license [1m[32mbundle.js.LICENSE.txt[39m[22m 871 bytes [1m[33m[compared for emit][39m[22m
-Entrypoint [1mmain[39m[22m [1m[33m[big][39m[22m 807 KiB (461 KiB) = [1m[32mbundle.js[39m[22m 2 auxiliary assets
-chunk {[1m[33m792[39m[22m} (runtime: main) [1m[32mbundle.js[39m[22m (main) 1.3 MiB (javascript) 461 KiB (asset) 1.39 KiB (runtime) [1m[33m[entry][39m[22m [1m[32m[rendered][39m[22m
+Entrypoint [1mmain[39m[22m [1m[33m[big][39m[22m 839 KiB (461 KiB) = [1m[32mbundle.js[39m[22m 2 auxiliary assets
+chunk {[1m[33m792[39m[22m} (runtime: main) [1m[32mbundle.js[39m[22m (main) 1.35 MiB (javascript) 461 KiB (asset) 1.39 KiB (runtime) [1m[33m[entry][39m[22m [1m[32m[rendered][39m[22m
   > ./src/index.js [1m[39m[22m main
-orphan modules 987 KiB [1m[33m[orphan][39m[22m 120 modules
-code generated modules 1.3 MiB (javascript) 461 KiB (asset) 1.39 KiB (runtime) [1m[33m[code generated][39m[22m
-  cacheable modules 1.3 MiB (javascript) 461 KiB (asset)
-    javascript modules 1.3 MiB
+orphan modules 1.02 MiB [1m[33m[orphan][39m[22m 120 modules
+code generated modules 1.35 MiB (javascript) 461 KiB (asset) 1.39 KiB (runtime) [1m[33m[code generated][39m[22m
+  cacheable modules 1.35 MiB (javascript) 461 KiB (asset)
+    javascript modules 1.35 MiB
       modules by path [1m./node_modules/style-loader/dist/runtime/*.js[39m[22m 5.84 KiB
         [1m./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js[39m[22m [72] 2.42 KiB {[1m[33m792[39m[22m} [depth 3] [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
           [1m[36m[used exports unknown][39m[22m
@@ -92,7 +92,7 @@ code generated modules 1.3 MiB (javascript) 461 KiB (asset) 1.39 KiB (runtime) 
           [1m[33mCommonJS bailout: exports.unstable_now(...) prevents optimization as exports is passed as call context at 18:56-76[39m[22m
           [1m[33mStatement (IfStatement) with side effects in source code at 11:71-284[39m[22m
           [1m[33mModuleConcatenation bailout: Module is not an ECMAScript module[39m[22m
-      [1m./src/index.js + 109 modules[39m[22m [163] 960 KiB {[1m[33m792[39m[22m} [depth 0] [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+      [1m./src/index.js + 109 modules[39m[22m [163] 1020 KiB {[1m[33m792[39m[22m} [depth 0] [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
         [1m[36m[no exports][39m[22m
         [1m[36m[no exports used][39m[22m
         [1m[33mModuleConcatenation bailout: Cannot concat with ./node_modules/css-loader/dist/cjs.js!./node_modules/primereact/resources/themes/lara-light-cyan/theme.css: Module uses module.id[39m[22m
@@ -200,11 +200,11 @@ code generated modules 1.3 MiB (javascript) 461 KiB (asset) 1.39 KiB (runtime) 
 [1m[33mWARNING[39m[22m in [1masset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
 This can impact web performance.
 Assets: 
-  bundle.js (807 KiB)[39m[22m
+  bundle.js (839 KiB)[39m[22m
 
 [1m[33mWARNING[39m[22m in [1mentrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
 Entrypoints:
-  main (807 KiB)
+  main (839 KiB)
       bundle.js
 [39m[22m
 
@@ -212,4 +212,4 @@ Entrypoints:
 You can limit the size of your bundles by using import() or require.ensure to lazy load some parts of your application.
 For more info visit https://webpack.js.org/guides/code-splitting/[39m[22m
 
-2024-02-19 [1m00:23:23[39m[22m: webpack 5.90.2 compiled with [1m[33m3 warnings[39m[22m in 12502 ms (a274cf0601382106d868)
+2024-02-19 [1m13:09:58[39m[22m: webpack 5.90.2 compiled with [1m[33m3 warnings[39m[22m in 4700 ms (81b0980f59d40f9e81ca)

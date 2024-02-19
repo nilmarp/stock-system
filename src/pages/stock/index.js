@@ -6,7 +6,7 @@ import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 
 export default function Stock() {
-    const [data, setData] = useState();
+    const [data, setData] = useState([]);
     const [registrated, setRegistrated] = useState(false);
     const [description, setDescription] = useState();
     const [quantityOwned, setQuantityOwned] = useState();
@@ -14,6 +14,7 @@ export default function Stock() {
     const [showModal, setShowModal] = useState(false);
     const [editMode, setEditMode] = useState(false)
     const [idSelected, setIdSelected] = useState(0)
+    const [search, setSearch] = useState('')
 
     useEffect(() => {
         fetchData();
@@ -140,14 +141,21 @@ export default function Stock() {
         }).format(item.daily_price)
     }
 
+    const getSearch = () => {
+        let ndata = data.filter(item=>(item.description.toLowerCase().includes(search.toLowerCase())))
+        return ndata
+    }
+
     const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
     const paginatorRight = <Button type="button" icon="pi pi-download" text />;
 
     return (
         <div style={{ display: "flex", flexDirection: "column", width: '100%', alignItems: 'center' }}>
-            <div style={{ width: "100%", display: "flex", marginTop: "20px" }}>
-                <div className="container-lg">
-                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div style={{ width: "100%", display: "flex", width: '100%', alignItems: "center", marginTop: "20px" }}>
+                <div className="container-lg" style={{display: 'flex', justifyContent: "space-between", width: '100%', alignItems: "center",'@media (max-width: 768px)': {
+                    width: '100vw'
+                }}}>
+                    <div style={{ display: "flex", justifyContent: "space-between", width: '100%', alignItems: "center" }}>
                         <p className="fs-3 text-left">Produtos em Estoque</p>
                         <button
                             type="button"
@@ -163,8 +171,13 @@ export default function Stock() {
 
             {data &&
 
-                <div className="card" style={{ height: 'calc(100vh - 90px)' }}>
-                    <DataTable value={data} scrollable scrollHeight="calc(100vh - 170px)" selectionMode="single" paginator rows={10} rowsPerPageOptions={[10, 25, 50]} tableStyle={{ minWidth: '60rem' }}
+                <div className="card" style={{ height: 'calc(100vh - 90px)', width: '100%', display: "flex", flexDirection: 'column', gap: '10px', padding: '10px' }}>
+                    <div className="d-flex flex-row justify-content-right" style={{ gap: '4px' }}>
+                        <div className="col-8">
+                            <input type="text" placeholder="Busque aqui . . ." className="form-control" id="modalName" value={description} onChange={(e) => setSearch(e.target.value)} />
+                        </div>
+                    </div>
+                    <DataTable value={search != '' ? getSearch() : data} scrollable scrollHeight="calc(100vh - 170px)" selectionMode="single" paginator rows={10} rowsPerPageOptions={[10, 25, 50]} tableStyle={{ minWidth: '60rem' }}
                         paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
                         currentPageReportTemplate="{first} to {last} of {totalRecords}" paginatorLeft={paginatorLeft} paginatorRight={paginatorRight}
                         onRowSelect={handleEdit}
