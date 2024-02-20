@@ -13,12 +13,13 @@ import Stock from './pages/stock';
 import AsideMenu from './components/AsideMenu';
 import Received from './pages/received';
 import Withdraw from './pages/withdraw';
+import Clients from './pages/clients';
 
 function App() {
 
     const [tab, setTab] = useState('home')
 
-    const routes = ['home', 'stock', 'received', 'withdraw']
+    const routes = ['home', 'stock', 'received', 'withdraw', 'clients']
 
     if (!(routes.includes(tab))) {
         return (
@@ -36,6 +37,7 @@ function App() {
                     {tab == 'stock' && <Stock />}
                     {tab == 'received' && <Received />}
                     {tab == 'withdraw' && <Withdraw />}
+                    {tab == 'clients' && <Clients />}
                 </>
                 <ToastContainer />
             </div>
