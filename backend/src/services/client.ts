@@ -15,13 +15,15 @@ export class ClientService {
         if (!client) {
             // TODO: error handling
         }
-        
-        res.redirect('back')
+
+        res.json(client)
     }
 
     public async update(req: Request, res: Response) {
         try {
-            await this.repository.update(req.params.id, req.body)
+            const client = await this.repository.update(req.params.id, req.body)
+
+            res.json(client)
         } catch (e) {
             // TODO: error handling
             console.log(e.message)

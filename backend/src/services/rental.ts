@@ -15,10 +15,11 @@ export class RentalService {
 
         const rentals: PaginationAwareObject = await this.repository.findRentalsOnTime().paginate({ page })
 
-        return res.render('withdrawn', {
-            rentals,
-            type: 'on-time'
-        })
+        try {
+            return res.json({rentals})            
+        } catch (error) {
+            console.log(error.message)
+        }
     }
 
     public async getAboutToExpire(req: Request, res: Response) : Promise<IPagination<Rental>> {
@@ -26,10 +27,7 @@ export class RentalService {
 
         const rentals = await this.repository.findRentalsAboutToExpire().paginate({ page })
     
-        return res.render('withdrawn', {
-            rentals,
-            type: 'about-to-expire'
-        })
+        return res.json({rentals})
     }
 
     public async getInArrears(req: Request, res: Response) : Promise<IPagination<Rental>> {
@@ -37,10 +35,7 @@ export class RentalService {
 
         const rentals = await this.repository.findRentalsInArrears().paginate({ page })
 
-        return res.render('withdrawn', {
-            rentals,
-            type: 'in-arrears'
-        })
+        return res.json({rentals})
     }
 
     public async receive(req: Request, res: Response) {
@@ -50,7 +45,5 @@ export class RentalService {
             console.log(e.message)
             // TODO: Error handling
         }
-
-        res.redirect('back')
     }
 }
