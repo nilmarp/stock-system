@@ -122,7 +122,7 @@ export default function Received() {
             });
 
             setShowModal(false);
-            setEditMode(true)
+            setEditMode(false)
             setRegistrated(!registrated);
             toast('Alteração concluída!', { type: 'success' });
 
@@ -161,7 +161,7 @@ export default function Received() {
                             type="button"
                             className="btn btn-primary"
                             style={{ height: "40px" }}
-                            onClick={() => setShowModal(true)}
+                            onClick={() => {setShowModal(true); setEditMode(false)}}
                         >
                             <i className="bi bi-folder-plus"></i> NOVO PRODUTO
                         </button>
@@ -196,7 +196,7 @@ export default function Received() {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title">{editMode ? 'ALTERANDO PRODUTO' : 'NOVO PRODUTO'}</h5>
-                            <button type="button" className="btn-close" aria-label="Close" onClick={() => setShowModal(false)}></button>
+                            <button type="button" className="btn-close" aria-label="Close" onClick={() => {setShowModal(false); resetFilds()}}></button>
                         </div>
                         <div className="modal-body">
                             <form>

@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
+import { IMaskInput } from "react-imask";
 
 export default function Clients() {
     const [data, setData] = useState([]);
@@ -14,21 +15,21 @@ export default function Clients() {
     const [search, setSearch] = useState('')
 
     // campos do modal
-    
-    const [name, setName]               = useState()
-    const [lastname, setLastname]       = useState()
-    const [phone, setPhone]             = useState()
-    const [email, setEmail]             = useState()
-    const [CEP, setCEP]                 = useState()
-    const [city, setCity]               = useState()
-    const [address, setAddress]         = useState()
-    const [number, setNumber]           = useState()
-    const [document, setDocument]       = useState()
-    const [reference, setReference]     = useState()
+
+    const [name, setName] = useState()
+    const [lastname, setLastname] = useState()
+    const [phone, setPhone] = useState()
+    const [email, setEmail] = useState()
+    const [CEP, setCEP] = useState()
+    const [city, setCity] = useState()
+    const [address, setAddress] = useState()
+    const [number, setNumber] = useState()
+    const [document, setDocument] = useState()
+    const [reference, setReference] = useState()
 
     useEffect(() => {
         fetchData();
-    }, [registrated, showModal]);
+    }, [registrated]);
 
     const fetchData = async () => {
         try {
@@ -73,7 +74,6 @@ export default function Clients() {
 
 
     const resetFilds = () => {
-        console.log('EITA');
         setIdSelected('');
         setName('');
         setLastname('');
@@ -94,7 +94,7 @@ export default function Clients() {
         }
 
         try {
-            await api.post('/stock', {
+            await api.post('/client', {
                 name,
                 surname: lastname,
                 identification_number: document, // CPF ou CNPJ
@@ -141,7 +141,7 @@ export default function Clients() {
         }
 
         try {
-            await api.post(`/stock/${idSelected}/edit`, {
+            await api.post(`/client/${idSelected}/edit`, {
                 name,
                 surname: lastname,
                 identification_number: document, // CPF ou CNPJ
@@ -155,7 +155,7 @@ export default function Clients() {
             });
 
             setShowModal(false);
-            setEditMode(true)
+            setEditMode(false)
             setRegistrated(!registrated);
             toast('Alteração concluída!', { type: 'success' });
 
@@ -196,7 +196,7 @@ export default function Clients() {
                             type="button"
                             className="btn btn-primary"
                             style={{ height: "40px" }}
-                            onClick={() => setShowModal(true)}
+                            onClick={() => { setShowModal(true); setEditMode(false) }}
                         >
                             <i className="bi bi-folder-plus"></i> NOVO PRODUTO
                         </button>
@@ -209,7 +209,7 @@ export default function Clients() {
                 <div className="card" style={{ height: 'calc(100vh - 90px)', width: '100%', display: "flex", flexDirection: 'column', gap: '10px', padding: '10px' }}>
                     <div className="d-flex flex-row justify-content-right" style={{ gap: '4px' }}>
                         <div className="col-8">
-                            <input type="text" placeholder="Busque aqui . . ." className="form-control" id="modalName" value={search} onChange={(e) => setSearch(e.target.value)} />
+                            <input type="text" placeholder="Busque aqui . . ." className="form-control" value={search} onChange={(e) => setSearch(e.target.value)} />
                         </div>
                     </div>
                     <DataTable value={search != '' ? getSearch() : data} scrollable scrollHeight="calc(100vh - 170px)" selectionMode="single" paginator rows={10} rowsPerPageOptions={[10, 25, 50]} tableStyle={{ minWidth: '60rem' }}
@@ -218,10 +218,10 @@ export default function Clients() {
                         onRowSelect={handleEdit}
                         sortField="id" sortOrder={1}>
                         <Column field="id" header="ID" style={{ width: '20%' }}></Column>
-                        <Column field="name" header="Descrição" style={{ width: '20%' }}></Column>
-                        <Column field="identification_number" header="Quantidade própria" style={{ width: '20%' }}></Column>
-                        <Column field="city" header="Quantidade" style={{ width: '20%' }}></Column>
-                        <Column field="phone" header="Diária" style={{ width: '20%' }}></Column>
+                        <Column field="name" header="Nome" style={{ width: '20%' }}></Column>
+                        <Column field="identification_number" header="CPF / CNPJ" style={{ width: '20%' }}></Column>
+                        <Column field="city" header="Cidade" style={{ width: '20%' }}></Column>
+                        <Column field="phone" header="Telefone/Celular" style={{ width: '20%' }}></Column>
                     </DataTable>
                 </div>
             }
@@ -231,58 +231,68 @@ export default function Clients() {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title">{editMode ? 'ALTERANDO CLIENTE' : 'NOVO CLIENTE'}</h5>
-                            <button type="button" className="btn-close" aria-label="Close" onClick={() => setShowModal(false)}></button>
+                            <button type="button" className="btn-close" aria-label="Close" onClick={() => { setShowModal(false); resetFilds() }}></button>
                         </div>
                         <div className="modal-body">
                             <form>
                                 <div className="row">
                                     <div className="col">
                                         <label htmlFor="modalName" className="form-label">Nome</label>
-                                        <input type="text" className="form-control" id="modalName" value={name} onChange={(e) => setName(e.target.value)} />
+                                        <IMaskInput type="text" className="form-control" value={name} onChange={(e) => setName(e.target.value)} autoFocus required />
                                     </div>
                                     <div className="col">
                                         <label htmlFor="modalName" className="form-label">Sobrenome</label>
-                                        <input type="number" className="form-control" name="quantity_owned" value={lastname} id="modalName" onChange={(e) => setLastname(e.target.value)} required />
+                                        <IMaskInput type="text" className="form-control" value={lastname} onChange={(e) => setLastname(e.target.value)} required />
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col">
                                         <label htmlFor="modalName" className="form-label">CPF / CNPJ</label>
-                                        <input type="text" className="form-control" id="modalName" value={document} onChange={(e) => setDocument(e.target.value)} />
+                                        <IMaskInput type="text" className="form-control" value={document} mask={
+                                            [
+                                                {
+                                                    mask: '000.000.000-00',
+                                                    maxLength: 11
+                                                },
+                                                {
+                                                    mask: '00.000.000/0000-00'
+                                                }
+                                            ]
+                                        } onAccept={(value)=>setDocument(value)} onChange={(e) => setDocument(e.target.value)} required />
                                     </div>
                                     <div className="col">
                                         <label htmlFor="modalName" className="form-label">Referência</label>
-                                        <input type="number" className="form-control" name="quantity_owned" value={reference} id="modalName" onChange={(e) => setReference(e.target.value)} required />
+                                        <IMaskInput type="text" className="form-control" value={reference} onChange={(e) => setReference(e.target.value)} required />
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col">
                                         <label htmlFor="modalName" className="form-label">Telefone</label>
-                                        <input type="text" className="form-control" id="modalName" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                                        <IMaskInput type="text" className="form-control" value={phone} mask={'(00) 00000-0000'} onChange={(e) => setPhone(e.target.value)} required />
                                     </div>
                                     <div className="col">
                                         <label htmlFor="modalName" className="form-label">Email</label>
-                                        <input type="number" className="form-control" name="quantity_owned" value={email} id="modalName" onChange={(e) => setEmail(e.target.value)} required />
+                                        <IMaskInput type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} required />
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col">
                                         <label htmlFor="modalName" className="form-label">CEP</label>
-                                        <input type="text" className="form-control" id="modalName" value={CEP} onChange={(e) => setCEP(e.target.value)} />
+                                        <IMaskInput type="text" className="form-control" value={CEP} mask={'000000-000'} onChange={(e) => setCEP(e.target.value)} required />
                                     </div>
                                     <div className="col">
                                         <label htmlFor="modalName" className="form-label">Cidade</label>
-                                        <input type="number" className="form-control" name="quantity_owned" value={city} id="modalName" onChange={(e) => setCity(e.target.value)} required />
+                                        <IMaskInput type="text" className="form-control" value={city} onChange={(e) => setCity(e.target.value)} required />
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col">
                                         <label htmlFor="modalName" className="form-label">Endereço</label>
-                                        <input type="text" className="form-control" id="modalName" value={address} onChange={(e) => setAddress(e.target.value)} />
+                                        <IMaskInput type="text" className="form-control" value={address} onChange={(e) => setAddress(e.target.value)} required />
                                     </div>
                                     <div className="col-3">
                                         <label htmlFor="modalName" className="form-label">Número</label>
-                                        <input type="number" className="form-control" name="quantity_owned" value={number} id="modalName" onChange={(e) => setNumber(e.target.value)} required />
+                                        <IMaskInput type="text" className="form-control" value={number} onChange={(e) => setNumber(e.target.value)} required />
                                     </div>
                                 </div>
                             </form>
