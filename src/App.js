@@ -19,7 +19,8 @@ function App() {
 
     const [tab, setTab] = useState('home')
 
-    const routes = ['home', 'stock', 'received', 'withdraw', 'clients']
+    // CONFIGURAÇÃO DE TELAS ACEITAS. O NOME DEVE SER ESTRITAMENTE IGUAL AO QUE SERÁ USADO NO TESTE ABAIXO (1)
+    const routes = ['home', 'stock', 'received', 'withdrawn', 'clients']
 
     if (!(routes.includes(tab))) {
         return (
@@ -30,13 +31,14 @@ function App() {
         <PrimeReactProvider>
             <div style={{ display: 'flex' }}>
                 <>
-                    <AsideMenu func={setTab} />
+                    <AsideMenu func={setTab} current={tab}/>
                 </>
                 <>
+                {/* (1) TESTE PARA RENDERIZAÇÃO DA TELA */}
                     {tab == 'home' && <Home />}
                     {tab == 'stock' && <Stock />}
                     {tab == 'received' && <Received />}
-                    {tab == 'withdraw' && <Withdraw />}
+                    {tab == 'withdrawn' && <Withdraw />}
                     {tab == 'clients' && <Clients />}
                 </>
                 <ToastContainer />
