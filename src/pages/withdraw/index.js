@@ -136,6 +136,8 @@ export default function Withdraw() {
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
 
+    const [userId, setUserId] = useState(0)
+
     // computeds
     const [totalDailyPrice, setTotalDailyPrice] = useState(0)
 
@@ -165,7 +167,7 @@ export default function Withdraw() {
         end_date: endDate,
         completed: false,
         products: cart,
-        client_id: 1
+        client_id: userId
     };
 
     const removeItem = (key) => {
@@ -226,17 +228,17 @@ export default function Withdraw() {
                                 <div className="row">
                                     <div className="col">
                                         <label htmlFor="modalName" className="form-label">Cliente</label>
-                                        <QuerySelector data={clients} labelKey={'name'} valueKey={'id'} onChange={(e) => console.log(e?.target?.value)} required={true} />
+                                        <QuerySelector data={clients} labelKey={'name'} valueKey={'id'} onChange={(e) => setUserId(e?.target?.value)} required={true} />
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col-6">
                                         <label htmlFor="modalName" className="form-label">De:</label>
-                                        <IMaskInput type={'date'} className="form-control" required />
+                                        <IMaskInput type={'date'} className="form-control" required value={startDate} onChange={(e)=>setStartDate('')}/>
                                     </div>
                                     <div className="col-6">
                                         <label htmlFor="modalName" className="form-label">Até:</label>
-                                        <IMaskInput type={'date'} className="form-control" required />
+                                        <IMaskInput type={'date'} className="form-control" required value={endDate} onChange={(e)=>setEndDate('')}/>
                                     </div>
                                 </div>
                                 <hr />
