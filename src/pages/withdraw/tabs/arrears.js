@@ -69,7 +69,7 @@ export default function Arrears() {
     }
 
     return (
-        <div className="card" style={{ height: 'calc(100vh - 90px)', width: '100%', display: "flex", flexDirection: 'column', gap: '10px', padding: '10px' }}>
+        <div className="card" style={{borderTopLeftRadius: 0, height: 'calc(100vh - 90px)', width: '100%', display: "flex", flexDirection: 'column', gap: '10px', padding: '10px' }}>
             <h3>Atrasados</h3>
             <div className="d-flex flex-row justify-content-right" style={{ gap: '4px' }}>
                 <div className="col-8">
