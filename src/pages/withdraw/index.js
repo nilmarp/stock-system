@@ -234,11 +234,11 @@ export default function Withdraw() {
                                 <div className="row">
                                     <div className="col-6">
                                         <label htmlFor="modalName" className="form-label">De:</label>
-                                        <IMaskInput type={'date'} className="form-control" required value={startDate} onChange={(e)=>setStartDate('')}/>
+                                        <IMaskInput type={'date'} className="form-control" required value={startDate} onChange={(e)=>setStartDate(e?.target?.value)}/>
                                     </div>
                                     <div className="col-6">
                                         <label htmlFor="modalName" className="form-label">Até:</label>
-                                        <IMaskInput type={'date'} className="form-control" required value={endDate} onChange={(e)=>setEndDate('')}/>
+                                        <IMaskInput type={'date'} className="form-control" required value={endDate} onChange={(e)=>setEndDate(e?.target?.value)}/>
                                     </div>
                                 </div>
                                 <hr />
