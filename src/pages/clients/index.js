@@ -111,7 +111,7 @@ export default function Clients() {
             setShowModal(false);
             setRegistrated(!registrated);
             resetFilds()
-            toast('Produto criado com sucesso', { type: 'success' });
+            toast('Cliente criado com sucesso', { type: 'success' });
         } catch (error) {
             console.log(error);
             toast('Algo deu errado', { type: 'error' });
