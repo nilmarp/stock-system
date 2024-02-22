@@ -217,26 +217,8 @@ export default function Stock() {
                                     </div>
                                     <div className="col-3">
                                         <label htmlFor="modalName" className="form-label">Diária</label>
-                                        <IMaskInput
-                                            type="text"
-                                            className="form-control"
-                                            name="daily_price"
-                                            id="modalName"
-                                            value={dailyPrice}
-                                            onChange={(e) => setDailyPrice(e.target.value)}
-                                            required
-                                            mask={{
-                                                mask: 'R$ num',
-                                                blocks: {
-                                                    num: {
-                                                        mask: Number,
-                                                        thousandsSeparator: '.',
-                                                        radix: ',',
-                                                        scale: 2
-                                                    }
-                                                }
-                                            }}
-                                        />
+                                        
+                                        <input type="number" className="form-control" name="daily_price" id="modalName" value={dailyPrice} onChange={(e) => setDailyPrice(e.target.value)} required />
                                     </div>
                                 </div>
                             </form>

@@ -1,6 +1,6 @@
 PublicPath: [1m/[39m[22m
 assets by status 461 KiB [1m[32m[cached][39m[22m 2 assets
-asset [1m[33mbundle.js[39m[22m [1m[33m968 KiB[39m[22m {[1m[33m792[39m[22m} [1m[33m[compared for emit][39m[22m [1m[32m[minimized][39m[22m [1m[33m[big][39m[22m (name: main)
+asset [1m[33mbundle.js[39m[22m [1m[33m968 KiB[39m[22m {[1m[33m792[39m[22m} [1m[32m[emitted][39m[22m [1m[32m[minimized][39m[22m [1m[33m[big][39m[22m (name: main)
   license [1m[32mbundle.js.LICENSE.txt[39m[22m 871 bytes [1m[33m[compared for emit][39m[22m
 Entrypoint [1mmain[39m[22m [1m[33m[big][39m[22m 968 KiB (461 KiB) = [1m[32mbundle.js[39m[22m 2 auxiliary assets
 chunk {[1m[33m792[39m[22m} (runtime: main) [1m[32mbundle.js[39m[22m (main) 1.61 MiB (javascript) 461 KiB (asset) 1.39 KiB (runtime) [1m[33m[entry][39m[22m [1m[32m[rendered][39m[22m
@@ -229,4 +229,4 @@ Entrypoints:
 You can limit the size of your bundles by using import() or require.ensure to lazy load some parts of your application.
 For more info visit https://webpack.js.org/guides/code-splitting/[39m[22m
 
-2024-02-22 [1m18:32:46[39m[22m: webpack 5.90.2 compiled with [1m[33m3 warnings[39m[22m in 18607 ms (3587554534eb946c2bc1)
+2024-02-22 [1m19:13:34[39m[22m: webpack 5.90.2 compiled with [1m[33m3 warnings[39m[22m in 17409 ms (eb886ce21729be44b845)
