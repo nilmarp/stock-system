@@ -10,32 +10,41 @@ export class RentalService {
         this.repository = repository
     }
 
-    public async getOnTime(req: Request, res: Response) : Promise<IPagination<Rental>> {
+    public async getAll(req: Request, res: Response) {
+        try {
+            const rentals = await this.repository.getAllRents();
+            return res.json({rentals})
+        } catch (error) {
+
+        }
+    }
+
+    public async getOnTime(req: Request, res: Response): Promise<IPagination<Rental>> {
         const { page } = req.query
 
         const rentals: PaginationAwareObject = await this.repository.findRentalsOnTime().paginate({ page })
 
         try {
-            return res.json({rentals})            
+            return res.json({ rentals })
         } catch (error) {
             console.log(error.message)
         }
     }
 
-    public async getAboutToExpire(req: Request, res: Response) : Promise<IPagination<Rental>> {
+    public async getAboutToExpire(req: Request, res: Response): Promise<IPagination<Rental>> {
         const { page } = req.query
 
         const rentals = await this.repository.findRentalsAboutToExpire().paginate({ page })
-    
-        return res.json({rentals})
+
+        return res.json({ rentals })
     }
 
-    public async getInArrears(req: Request, res: Response) : Promise<IPagination<Rental>> {
+    public async getInArrears(req: Request, res: Response): Promise<IPagination<Rental>> {
         const { page } = req.query
 
         const rentals = await this.repository.findRentalsInArrears().paginate({ page })
 
-        return res.json({rentals})
+        return res.json({ rentals })
     }
 
     public async receive(req: Request, res: Response) {

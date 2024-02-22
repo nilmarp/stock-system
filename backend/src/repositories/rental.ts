@@ -8,7 +8,7 @@ import { DateHelper } from '../common/DateHelper'
 
 interface ProductData {
     id: number,
-    quantity    
+    quantity
 }
 
 interface RentedProductData {
@@ -45,7 +45,7 @@ export class RentalRepository extends BaseRepository {
             .andWhere('completed = false')
 
         this.setBuilder(builder)
-            
+
         return this
     }
 
@@ -56,7 +56,7 @@ export class RentalRepository extends BaseRepository {
             .andWhere('completed = false')
 
         this.setBuilder(builder)
-            
+
         return this
     }
 
@@ -78,13 +78,13 @@ export class RentalRepository extends BaseRepository {
         return false
     }
 
-    private async getProducts(data: ProductData[]) : Promise<Product[]> {
+    private async getProducts(data: ProductData[]): Promise<Product[]> {
         return await Product.findBy({
             id: In(data.map(p => p.id))
         })
     }
 
-    private async getRentedProductsWithDailyPrice(data: ProductData[]) : Promise<RentedProductData[]> {
+    private async getRentedProductsWithDailyPrice(data: ProductData[]): Promise<RentedProductData[]> {
         const products = await this.getProducts(data)
 
         return data.map((p, index) => {
@@ -133,7 +133,7 @@ export class RentalRepository extends BaseRepository {
 
         rental.client = await Client.findOneBy({ id: data.client_id })
 
-        const rentedProductsWithDailyPrice : RentedProductData[] = await this.getRentedProductsWithDailyPrice(data.products)
+        const rentedProductsWithDailyPrice: RentedProductData[] = await this.getRentedProductsWithDailyPrice(data.products)
 
         if (this.productsUnavailable(rentedProductsWithDailyPrice))
             throw new Error('Products don\'t have enough quantity for this rental.')
@@ -143,10 +143,21 @@ export class RentalRepository extends BaseRepository {
         await rental.save()
 
         await this.decreaseProductsQuantity(rentedProductsWithDailyPrice)
-        
+
         await this.createRentedProductsEntities(rental, rentedProductsWithDailyPrice as RentedProduct[])
 
         return rental
+    }
+
+    public async getAllRents() {
+        try {
+
+            const rental = await Rental.find()
+
+            return rental;
+        } catch (error) {
+            return []
+        }
     }
 
 }
