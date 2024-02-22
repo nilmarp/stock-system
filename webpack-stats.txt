@@ -1,12 +1,12 @@
 PublicPath: [1m/[39m[22m
 assets by status 461 KiB [1m[32m[cached][39m[22m 2 assets
-asset [1m[33mbundle.js[39m[22m [1m[33m953 KiB[39m[22m {[1m[33m792[39m[22m} [1m[32m[emitted][39m[22m [1m[32m[minimized][39m[22m [1m[33m[big][39m[22m (name: main)
+asset [1m[33mbundle.js[39m[22m [1m[33m967 KiB[39m[22m {[1m[33m792[39m[22m} [1m[32m[emitted][39m[22m [1m[32m[minimized][39m[22m [1m[33m[big][39m[22m (name: main)
   license [1m[32mbundle.js.LICENSE.txt[39m[22m 871 bytes [1m[33m[compared for emit][39m[22m
-Entrypoint [1mmain[39m[22m [1m[33m[big][39m[22m 953 KiB (461 KiB) = [1m[32mbundle.js[39m[22m 2 auxiliary assets
-chunk {[1m[33m792[39m[22m} (runtime: main) [1m[32mbundle.js[39m[22m (main) 1.59 MiB (javascript) 461 KiB (asset) 1.39 KiB (runtime) [1m[33m[entry][39m[22m [1m[32m[rendered][39m[22m
+Entrypoint [1mmain[39m[22m [1m[33m[big][39m[22m 967 KiB (461 KiB) = [1m[32mbundle.js[39m[22m 2 auxiliary assets
+chunk {[1m[33m792[39m[22m} (runtime: main) [1m[32mbundle.js[39m[22m (main) 1.61 MiB (javascript) 461 KiB (asset) 1.39 KiB (runtime) [1m[33m[entry][39m[22m [1m[32m[rendered][39m[22m
   > ./src/index.js [1m[39m[22m main
-orphan modules 1.25 MiB [1m[33m[orphan][39m[22m 154 modules
-code generated modules 1.59 MiB (javascript) 461 KiB (asset) 1.39 KiB (runtime) [1m[33m[code generated][39m[22m
+orphan modules 1.27 MiB [1m[33m[orphan][39m[22m 155 modules
+code generated modules 1.61 MiB (javascript) 461 KiB (asset) 1.39 KiB (runtime) [1m[33m[code generated][39m[22m
   modules by path [1m./node_modules/[39m[22m 371 KiB (javascript) 461 KiB (asset)
     javascript modules 371 KiB
       modules by path [1m./node_modules/style-loader/dist/runtime/*.js[39m[22m 5.84 KiB
@@ -145,7 +145,7 @@ code generated modules 1.59 MiB (javascript) 461 KiB (asset) 1.39 KiB (runtime) 
     [1mwebpack/runtime/publicPath[39m[22m 28 bytes {[1m[33m792[39m[22m} [1m[33m[code generated][39m[22m
       [1m[36m[no exports][39m[22m
       [1m[36m[used exports unknown][39m[22m
-  [1m./src/index.js + 146 modules[39m[22m [917] 1.23 MiB {[1m[33m792[39m[22m} [depth 0] [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+  [1m./src/index.js + 147 modules[39m[22m [970] 1.25 MiB {[1m[33m792[39m[22m} [depth 0] [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
     [1m[36m[no exports][39m[22m
     [1m[36m[no exports used][39m[22m
     [1m[33mModuleConcatenation bailout: Cannot concat with ./node_modules/css-loader/dist/cjs.js!./node_modules/primereact/resources/themes/lara-light-cyan/theme.css: Module uses module.id[39m[22m
@@ -192,23 +192,23 @@ code generated modules 1.59 MiB (javascript) 461 KiB (asset) 1.39 KiB (runtime) 
 + 24 hidden lines
 
 [1mLOG from webpack.FlagDependencyExportsPlugin[39m[22m
-    [1m93% of exports of modules have been determined (12 no declared exports, 166 not cached, 0 flagged uncacheable, 0 from cache, 0 from mem cache, 10 additional calculations due to dependencies)[39m[22m
+    [1m93% of exports of modules have been determined (12 no declared exports, 167 not cached, 0 flagged uncacheable, 0 from cache, 0 from mem cache, 10 additional calculations due to dependencies)[39m[22m
 + 3 hidden lines
 
 [1mLOG from webpack.buildChunkGraph[39m[22m
-    [1m389 queue items processed (170 blocks)[39m[22m
+    [1m391 queue items processed (171 blocks)[39m[22m
     [1m0 chunk groups connected[39m[22m
     [1m0 chunk groups processed for merging (0 module sets, 0 forked, 0 + 0 modules forked, 0 + 0 modules merged into fork, 0 resulting modules)[39m[22m
     [1m0 chunk group info updated (0 already connected chunk groups reconnected)[39m[22m
 + 5 hidden lines
 
 [1mLOG from webpack.FileSystemInfo[39m[22m
-    [1m178 new snapshots created[39m[22m
+    [1m179 new snapshots created[39m[22m
     [1m0% root snapshot uncached (0 / 0)[39m[22m
     [1m0% children snapshot uncached (0 / 0)[39m[22m
     [1m0 entries tested[39m[22m
-    [1mFile info in cache: 14 timestamps 14 hashes 14 timestamp hash combinations[39m[22m
-    [1mFile timestamp hash combination snapshot optimization: 0% (0/26) entries shared via 0 shared snapshots (0 times referenced)[39m[22m
+    [1mFile info in cache: 15 timestamps 15 hashes 15 timestamp hash combinations[39m[22m
+    [1mFile timestamp hash combination snapshot optimization: 0% (0/28) entries shared via 0 shared snapshots (0 times referenced)[39m[22m
     [1mDirectory info in cache: 0 timestamps 0 hashes 0 timestamp hash combinations[39m[22m
     [1mManaged items info in cache: 15 items[39m[22m
     [1mManaged items snapshot optimization: 0% (0/163) entries shared via 0 shared snapshots (0 times referenced)[39m[22m
@@ -217,11 +217,11 @@ code generated modules 1.59 MiB (javascript) 461 KiB (asset) 1.39 KiB (runtime) 
 [1m[33mWARNING[39m[22m in [1masset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
 This can impact web performance.
 Assets: 
-  bundle.js (953 KiB)[39m[22m
+  bundle.js (967 KiB)[39m[22m
 
 [1m[33mWARNING[39m[22m in [1mentrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
 Entrypoints:
-  main (953 KiB)
+  main (967 KiB)
       bundle.js
 [39m[22m
 
@@ -229,4 +229,4 @@ Entrypoints:
 You can limit the size of your bundles by using import() or require.ensure to lazy load some parts of your application.
 For more info visit https://webpack.js.org/guides/code-splitting/[39m[22m
 
-2024-02-21 [1m05:42:44[39m[22m: webpack 5.90.2 compiled with [1m[33m3 warnings[39m[22m in 10269 ms (26f27cc7f125d94f24fe)
+2024-02-21 [1m23:32:55[39m[22m: webpack 5.90.2 compiled with [1m[33m3 warnings[39m[22m in 24822 ms (a191a56599146f8cb33f)

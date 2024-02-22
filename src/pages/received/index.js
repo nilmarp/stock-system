@@ -142,7 +142,7 @@ export default function Received() {
     }
 
     const getSearch = () => {
-        let ndata = data.filter(item=>(item.description.toLowerCase().includes(search.toLowerCase())))
+        let ndata = data.filter(item => (item.description.toLowerCase().includes(search.toLowerCase())))
         return ndata
     }
 
@@ -152,18 +152,23 @@ export default function Received() {
     return (
         <div style={{ display: "flex", flexDirection: "column", width: '100%', alignItems: 'center' }}>
             <div style={{ width: "100%", display: "flex", width: '100%', alignItems: "center", marginTop: "20px" }}>
-                <div className="container-lg" style={{display: 'flex', justifyContent: "space-between", width: '100%', alignItems: "center",'@media (max-width: 768px)': {
-                    width: '100vw'
-                }}}>
+                <div className="container-lg" style={{
+                    display: 'flex', justifyContent: "space-between", width: '100%', alignItems: "center", '@media (max-width: 768px)': {
+                        width: '100vw'
+                    }
+                }}>
                     <div style={{ display: "flex", justifyContent: "space-between", width: '100%', alignItems: "center" }}>
-                        <p className="fs-3 text-left">Recebidos</p>
+                        <p className="fs-3 text-left">
+                            <i class="bi bi-arrow-bar-down"></i>
+                            Recebidos
+                        </p>
                         <button
                             type="button"
                             className="btn btn-primary"
                             style={{ height: "40px" }}
-                            onClick={() => {setShowModal(true); setEditMode(false)}}
+                            onClick={() => { setShowModal(true); setEditMode(false) }}
                         >
-                            <i className="bi bi-folder-plus"></i> NOVO PRODUTO
+                            <i className="bi bi-box-arrow-down"></i> Novo recebimento
                         </button>
                     </div>
                 </div>
@@ -191,12 +196,12 @@ export default function Received() {
                 </div>
             }
 
-            <div className={`modal fade ${showModal ? 'show' : ''}`} style={{ display: showModal ? 'block' : 'none', boxShadow: '1px 2px 13px -5px #396fae' }} tabIndex="-1">
+            <div className={`modal fade ${showModal ? 'show' : ''}`} style={{ display: showModal ? 'block' : 'none', boxShadow: '1px 2px 13px -5px #396fae', backgroundColor: 'rgba(57, 111, 174, 0.2)' }} tabIndex="-1">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title">{editMode ? 'ALTERANDO PRODUTO' : 'NOVO PRODUTO'}</h5>
-                            <button type="button" className="btn-close" aria-label="Close" onClick={() => {setShowModal(false); resetFilds()}}></button>
+                            <button type="button" className="btn-close" aria-label="Close" onClick={() => { setShowModal(false); resetFilds() }}></button>
                         </div>
                         <div className="modal-body">
                             <form>

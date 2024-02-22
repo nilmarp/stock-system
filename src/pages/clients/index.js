@@ -5,6 +5,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import { IMaskInput } from "react-imask";
+import QuerySelector from "../../components/QuerySelector";
 
 export default function Clients() {
     const [data, setData] = useState([]);
@@ -198,7 +199,7 @@ export default function Clients() {
                             style={{ height: "40px" }}
                             onClick={() => { setShowModal(true); setEditMode(false) }}
                         >
-                            <i className="bi bi-folder-plus"></i> NOVO PRODUTO
+                            <i className="bi bi-person-plus"></i> Novo cliente
                         </button>
                     </div>
                 </div>
@@ -226,7 +227,7 @@ export default function Clients() {
                 </div>
             }
 
-            <div className={`modal fade ${showModal ? 'show' : ''}`} style={{ display: showModal ? 'block' : 'none', boxShadow: '1px 2px 13px -5px #396fae' }} tabIndex="-1">
+            <div className={`modal fade ${showModal ? 'show' : ''}`} style={{ display: showModal ? 'block' : 'none', boxShadow: '1px 2px 13px -5px #396fae', backgroundColor: 'rgba(57, 111, 174, 0.2)' }} tabIndex="-1">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
