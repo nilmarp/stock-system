@@ -21,10 +21,11 @@ export class RentalService {
 
     public async getOnTime(req: Request, res: Response): Promise<IPagination<Rental>> {
         const { page } = req.query
-
+    
         const rentals: PaginationAwareObject = await this.repository.findRentalsOnTime().paginate({ page })
-
+        
         try {
+            console.log(JSON.stringify(rentals))        
             return res.json({ rentals })
         } catch (error) {
             console.log(error.message)

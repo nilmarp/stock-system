@@ -54,7 +54,7 @@ export abstract class BaseRepository implements IRepository {
     }
 
     protected getBuilder() {
-        return this.builder ?? this._entity.createQueryBuilder()
+        return this.builder ?? this._entity.createQueryBuilder('entity')
     }
 
     protected setBuilder(builder: SelectQueryBuilder<BaseEntity>) {
@@ -94,7 +94,7 @@ export abstract class BaseRepository implements IRepository {
     }
 
     public search(query: {}) {
-        const builder = this._entity.createQueryBuilder('entity')
+        const builder = this.getBuilder()
         
         for (const key in query) 
             builder.orWhere(`entity.${key} like :${key}`, { [key]: `%${query[key]}%` })
