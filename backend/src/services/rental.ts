@@ -56,4 +56,14 @@ export class RentalService {
             // TODO: Error handling
         }
     }
+
+    public async store(req: Request, res: Response) {
+        try {
+            const rental = await this.repository.create(req.body)
+
+            return res.json(rental)
+        } catch (e) {
+            res.json({ error: e.message, bd: req.body })
+        }
+    }
 }

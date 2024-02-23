@@ -8,14 +8,14 @@ router.get('/', async (req: Request, res: Response) => {
     const repository = new RentalRepository
 
     const rental: Rental = await repository.create({
-        client_id: 1,
+        client_id: 2,
         products: [
             {
-                id: 1,
+                id: 4,
                 quantity: 2
             },
             {
-                id: 2,
+                id: 7,
                 quantity: 1
             }
         ],

@@ -125,8 +125,8 @@ export default function Withdraw() {
         setCart(
             [...cart,
             {
-                product_quantity: 0,
-                product_id: 0,
+                quantity: 0,
+                id: 0,
 
             }
             ]
@@ -144,9 +144,9 @@ export default function Withdraw() {
     const updateTotalPrice = () => {
         let totalPrice = 0;
         cart.forEach((item) => {
-            let prod = products.find((product) => product?.id == item?.product_id);
+            let prod = products.find((product) => product?.id == item?.id);
             if (prod) {
-                totalPrice += Number(prod?.daily_price) * Number(item.product_quantity);
+                totalPrice += Number(prod?.daily_price) * Number(item.quantity);
             }
         });
         setTotalDailyPrice(totalPrice);
@@ -271,7 +271,7 @@ export default function Withdraw() {
                                                             onChange={
                                                                 (e) => {
                                                                     console.log(cart)
-                                                                    cart[key].product_id = e?.target?.value
+                                                                    cart[key].id = e?.target?.value
                                                                 }
                                                             }
                                                             required={true} />
@@ -286,7 +286,7 @@ export default function Withdraw() {
                                                                 (e) => {
                                                                     updateTotalPrice()
                                                                     console.log(cart)
-                                                                    cart[key].product_quantity = e?.target?.value
+                                                                    cart[key].quantity = e?.target?.value
                                                                 }
                                                             }
                                                             required />

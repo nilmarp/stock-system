@@ -10,6 +10,12 @@ router.get('/', async (req: Request, res: Response) => {
     service.getAll(req, res)
 })
 
+router.post('/', async (req: Request, res: Response) => {
+    const service = new RentalService(new RentalRepository)
+
+    service.store(req, res)
+})
+
 router.get('/ontime', async (req: Request, res: Response) => {
     const service = new RentalService(new RentalRepository)
 

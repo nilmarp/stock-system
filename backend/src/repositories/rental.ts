@@ -117,6 +117,10 @@ export class RentalRepository extends BaseRepository {
         }
     }
 
+    private removeCircularLinksFromRental(rental: Rental) {
+        rental.products.forEach(product => delete product.rental)
+    }
+
     public async receive(id: number) {
         const rental: Rental = await this.findOneBy({ id }) as Rental
 
@@ -129,14 +133,17 @@ export class RentalRepository extends BaseRepository {
     }
 
     public async create(data: RentalCreationData): Promise<Rental> {
-        const rental = Rental.create(data)
-
-        rental.client = await Client.findOneBy({ id: data.client_id })
-
         const rentedProductsWithDailyPrice: RentedProductData[] = await this.getRentedProductsWithDailyPrice(data.products)
 
         if (this.productsUnavailable(rentedProductsWithDailyPrice))
-            throw new Error('Products don\'t have enough quantity for this rental.')
+            throw new Error(`Products don\'t have enough quantity for this rental.`)
+
+        const rental = await Rental.create({
+            start_date: data.start_date,
+            end_date: data.end_date
+        })
+
+        rental.client = await Client.findOneBy({ id: data.client_id })
 
         rental.total_daily_price = this.getTotalDailyPrice(rentedProductsWithDailyPrice)
 
@@ -145,6 +152,8 @@ export class RentalRepository extends BaseRepository {
         await this.decreaseProductsQuantity(rentedProductsWithDailyPrice)
 
         await this.createRentedProductsEntities(rental, rentedProductsWithDailyPrice as RentedProduct[])
+
+        this.removeCircularLinksFromRental(rental)
 
         return rental
     }

@@ -50,7 +50,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode production --stats detailed > webpack-stats.txt && tsc -p ./backend/tsconfig.json",
-    "start": "start /B node backend/build/index.js > nul 2>&1 && npm run build && electron .",
+    "start": "npm run build && start /B node backend/build/index.js > nul 2>&1 && electron .",
+    "dev": "npm run build && node backend/build/index.js && electron .",
     "typeorm": "typeorm-ts-node-commonjs"
   },
   "keywords": [],
