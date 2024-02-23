@@ -48,6 +48,14 @@ export class RentalService {
         return res.json({ rentals })
     }
 
+    public async getReceived(req: Request, res: Response): Promise<IPagination<Rental>> {
+        const { page } = req.query
+
+        const rentals = await this.repository.findCompletedRentals().paginate({ page })
+
+        return res.json({ rentals })
+    }
+
     public async receive(req: Request, res: Response) {
         try {
             await this.repository.receive(Number(req.params.id))

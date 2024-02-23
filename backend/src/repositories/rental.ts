@@ -29,7 +29,7 @@ export class RentalRepository extends BaseRepository {
 
     private readonly DAYS_UNTIL_ABOUT_TO_EXPIRE = 2
 
-    public findRentalsInArrears(page?: number, take?: number) {
+    public findRentalsInArrears() {
         const builder = this.createRentalSearchQuery()
             .where('end_date < :date', { date: new Date })
             .andWhere('completed = false')
@@ -39,7 +39,7 @@ export class RentalRepository extends BaseRepository {
         return this
     }
 
-    public findRentalsOnTime(page?: number, take?: number) {
+    public findRentalsOnTime() {
         const builder = this.createRentalSearchQuery()
             .where('end_date > :date', { date: new DateHelper(new Date).addDays(this.DAYS_UNTIL_ABOUT_TO_EXPIRE).get() })
             .andWhere('completed = false')
@@ -49,11 +49,20 @@ export class RentalRepository extends BaseRepository {
         return this
     }
 
-    public findRentalsAboutToExpire(page?: number, take?: number) {
+    public findRentalsAboutToExpire() {
         const builder = this.createRentalSearchQuery()
             .where('end_date > :initial_date', { initial_date: new Date })
             .andWhere('end_date < :final_date', { final_date: new DateHelper(new Date).addDays(this.DAYS_UNTIL_ABOUT_TO_EXPIRE).get() })
             .andWhere('completed = false')
+
+        this.setBuilder(builder)
+
+        return this
+    }
+
+    public findCompletedRentals() {
+        const builder = this.createRentalSearchQuery()
+            .where('completed = true')
 
         this.setBuilder(builder)
 
