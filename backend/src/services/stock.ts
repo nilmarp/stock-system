@@ -14,6 +14,8 @@ export class StockService {
 
         const products: PaginationAwareObject = await this.repository.paginate({ page })
 
+        console.log(JSON.stringify(products))
+
         return res.render('stock', {
             products
         })

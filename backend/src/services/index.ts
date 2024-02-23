@@ -14,6 +14,8 @@ export class IndexService {
 
         const clients: PaginationAwareObject = await this.clientRepository.paginate(page)
 
+        console.log(JSON.stringify(clients))
+
         res.render('index', {
             clients
         })
