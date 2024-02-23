@@ -3,9 +3,11 @@ const path = require('path');
 module.exports = {
   entry: './src/index.js', // Arquivo de entrada
   output: {
-    publicPath: '/',
+    publicPath: '/dist/',
     path: path.resolve(__dirname, 'dist'), // Diretório de saída
-    filename: 'bundle.js' // Nome do arquivo de saída
+    filename: "bundle.js",
+    chunkFilename: "[name].chunk.js"
+   // Nome do arquivo de saída
   },
   stats: 'verbose',
   module: {
