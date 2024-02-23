@@ -14,32 +14,38 @@ export class StockService {
 
         const products: PaginationAwareObject = await this.repository.paginate({ page })
 
-        console.log(JSON.stringify(products))
-
-        return res.render('stock', {
-            products
-        })
+        console.log(JSON.stringify(products))        
+        return res.json(products)
     }
 
     public async store(req: Request, res: Response) {
-        const product = await this.repository.create(req.body)
 
-        if (!product) {
-            // flash message
+        try {
+
+            const product = await this.repository.create(req.body)
+
+            console.log(req.body)
+
+            if (!product) {
+                // flash message
+            }
+
+            return res.json(product)
+        } catch (error) {
+            return res.json({error, bd: req.body})
         }
-
-        return res.redirect('back')
     }
 
     public async update(req: Request, res: Response) {
         try {
-            await this.repository.update(Number(req.params.id), req.body)
-        } catch (e) {
-            console.log(e.message)
+            const product = await this.repository.update(Number(req.params.id), req.body)
+            res.json(product)
+        } catch (error) {
+            console.log(error.message)
+            return res.json({error, bd: req.body})
             // TODO: Error handling
         }
 
-        res.redirect('back')
     }
 
 }

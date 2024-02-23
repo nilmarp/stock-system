@@ -4,28 +4,34 @@ import { RentalRepository } from '../repositories/rental'
 
 const router: Router = express.Router()
 
+router.get('/', async (req: Request, res: Response) => {
+    const service = new RentalService(new RentalRepository);
+
+    service.getAll(req, res)
+})
+
 router.get('/ontime', async (req: Request, res: Response) => {
     const service = new RentalService(new RentalRepository)
 
-    return await service.getOnTime(req, res)
+    service.getOnTime(req, res)
 })
 
 router.get('/expiring', async (req: Request, res: Response) => {
     const service = new RentalService(new RentalRepository)
 
-    return await service.getAboutToExpire(req, res)
+    service.getAboutToExpire(req, res)
 })
 
 router.get('/arrears', async (req: Request, res: Response) => {
     const service = new RentalService(new RentalRepository)
 
-    return await service.getInArrears(req, res)
+    service.getInArrears(req, res)
 })
 
 router.post('/:id/receive', async (req: Request, res: Response) => {
     const service = new RentalService(new RentalRepository)
 
-    return await service.receive(req, res)
+    service.receive(req, res)
 })
 
 export default router

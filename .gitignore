@@ -5,4 +5,5 @@ backend/node_modules/
 backend/build/
 tmp/
 temp/
-rotas.md
+dist
+webpack-stats.txt

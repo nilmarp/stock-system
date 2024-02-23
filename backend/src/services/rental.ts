@@ -10,39 +10,42 @@ export class RentalService {
         this.repository = repository
     }
 
-    public async getOnTime(req: Request, res: Response) : Promise<IPagination<Rental>> {
+    public async getAll(req: Request, res: Response) {
+        try {
+            const rentals = await this.repository.getAllRents();
+            return res.json({rentals})
+        } catch (error) {
+
+        }
+    }
+
+    public async getOnTime(req: Request, res: Response): Promise<IPagination<Rental>> {
         const { page } = req.query
     
         const rentals: PaginationAwareObject = await this.repository.findRentalsOnTime().paginate({ page })
-
-        console.log(JSON.stringify(rentals))
-
-        return res.render('withdrawn', {
-            rentals,
-            type: 'on-time'
-        })
+        
+        try {
+            console.log(JSON.stringify(rentals))        
+            return res.json({ rentals })
+        } catch (error) {
+            console.log(error.message)
+        }
     }
 
-    public async getAboutToExpire(req: Request, res: Response) : Promise<IPagination<Rental>> {
+    public async getAboutToExpire(req: Request, res: Response): Promise<IPagination<Rental>> {
         const { page } = req.query
 
         const rentals = await this.repository.findRentalsAboutToExpire().paginate({ page })
-    
-        return res.render('withdrawn', {
-            rentals,
-            type: 'about-to-expire'
-        })
+
+        return res.json({ rentals })
     }
 
-    public async getInArrears(req: Request, res: Response) : Promise<IPagination<Rental>> {
+    public async getInArrears(req: Request, res: Response): Promise<IPagination<Rental>> {
         const { page } = req.query
 
         const rentals = await this.repository.findRentalsInArrears().paginate({ page })
 
-        return res.render('withdrawn', {
-            rentals,
-            type: 'in-arrears'
-        })
+        return res.json({ rentals })
     }
 
     public async receive(req: Request, res: Response) {
@@ -52,7 +55,5 @@ export class RentalService {
             console.log(e.message)
             // TODO: Error handling
         }
-
-        res.redirect('back')
     }
 }

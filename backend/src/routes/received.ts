@@ -25,7 +25,7 @@ router.get('/', async (req: Request, res: Response) => {
 
     console.log(rental)
 
-    return res.render('received')
+    return res.json(rental)
 })
 
 export default router
