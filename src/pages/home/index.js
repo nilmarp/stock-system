@@ -1,88 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { api } from "../../config/api";
 import { toast } from "react-toastify";
-import { Button } from 'primereact/button';
 import { Chart } from "primereact/chart";
 
 export default function Home() {
     const [data, setData] = useState([]);
-
-    // Cards
-
-    const [onTimeValue, setOnTimeValue] = useState(0)
-    const [expiringValue, setExpiringValue] = useState(0)
-    const [arrearsValue, setArrearsValue] = useState(0)
-    const [received, setReceived] = useState(0)
-
-    const [chartData, setChartData] = useState([]);
-    const [chartOptions, setChartOptions] = useState([]);
+    const [onTimeValue, setOnTimeValue] = useState(0);
+    const [expiringValue, setExpiringValue] = useState(0);
+    const [arrearsValue, setArrearsValue] = useState(0);
+    const [received, setReceived] = useState(0);
+    const [chartData, setChartData] = useState({});
+    const [chartOptions, setChartOptions] = useState({});
 
     const wdApi = async (url = '', func) => {
         try {
             const response = await api.get(url);
-
-            if (url == '/withdrawn') {
-                return func(response.data?.rentals)
+            if (url === '/withdrawn') {
+                func(response.data?.rentals);
+            } else {
+                func(response.data?.rentals?.total);
             }
-
-            return func(response.data?.rentals?.total)
         } catch (error) {
-            console.log({ erro: error?.message, url })
+            console.log({ erro: error?.message, url });
         }
-    }
+    };
 
     useEffect(() => {
-        wdApi('/withdrawn', setData)
-        console.log(data)
-
-        try {
-            const dataReducing = data.reduce((acc, obj) => {
-                const key = obj.end_date;
-                if (!acc[key]) {
-                    acc[key] = { end_date: key, total: 0 };
-                }
-                acc[key].total += obj.total_daily_price;
-                return acc;
-            }, {});
-
-            const arrayData = {
-                labels: Object.keys(dataReducing),
-                // labels: ['a', 'b', 'c'],
-                datasets: [
-                    {
-                        label: 'First Dataset',
-                        data: Object.values(dataReducing).map((e) => Number(e.total.toFixed(2))),
-                        // data: [100, 500, 1200],
-                        fill: false,
-                        borderColor: '#129848',
-                        tension: 0.4
-                    }
-                ]
-            };
-
-            const options = {
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Projeção de valores',
-                        font: {
-                            size: 16
-                        }
-                    },
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
-            }
-
-
-            setChartData(arrayData)
-            setChartOptions(options)
-
-        } catch (error) {
-            console.log(error?.message)
-        }
-    }, [])
+        wdApi('/withdrawn', setData);
+    }, []);
 
     useEffect(() => {
         wdApi('/withdrawn/ontime', setOnTimeValue)
@@ -102,18 +47,71 @@ export default function Home() {
         wdApi('/received', setReceived)
     }, [])
 
+    useEffect(() => {
+        configChart();
+    }, [data]); // Update chart when data changes
+
+    const configChart = () => {
+        const dataReducing = data.reduce((acc, obj) => {
+            const key = obj.end_date;
+            if (!acc[key]) {
+                acc[key] = { end_date: key, total: 0 };
+            }
+            acc[key].total += obj.total_daily_price;
+            return acc;
+        }, {});
+        
+        var arrayData = {
+            labels: Object.keys(dataReducing),
+            datasets: [
+                {
+                    label: 'First Dataset',
+                    data: Object.values(dataReducing).map((e) => Number(e.total.toFixed(2))),
+                    fill: false,
+                    borderColor: '#129848',
+                    tension: 0.4
+                }
+            ]
+        };
+
+        var options = {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Projeção de valores',
+                    font: {
+                        size: 16
+                    }
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        };
+
+        setChartData(arrayData);
+        setChartOptions(options);
+    };
+
+    console.log(chartData);
+    console.log(chartOptions);
+
     const fetchData = () => {
         try {
-            wdApi('/withdrawn/ontime', setOnTimeValue)
-            wdApi('/withdrawn/expiring', setExpiringValue)
-            wdApi('/withdrawn/arrears', setArrearsValue)
-            wdApi('/received', setReceived)
+            wdApi('/withdrawn/ontime', setOnTimeValue);
+            wdApi('/withdrawn/expiring', setExpiringValue);
+            wdApi('/withdrawn/arrears', setArrearsValue);
+            wdApi('/withdrawn', setData);
+            wdApi('/received', setReceived);
+            toast('Tabela atualizada!', { type: 'info' });
         } catch (error) {
-            toast('Houve uma falha ao carregar os dados')
+            toast('Houve uma falha ao carregar os dados');
         }
-    }
+    };
 
-    useEffect(() => console.log({ arrearsValue, expiringValue, onTimeValue }), [])
+    useEffect(() => {
+        console.log({ arrearsValue, expiringValue, onTimeValue });
+    }, [arrearsValue, expiringValue, onTimeValue]);
 
     return (
         <div style={{ display: "flex", flexDirection: "column", width: '100%', alignItems: 'center' }}>
@@ -125,11 +123,8 @@ export default function Home() {
                 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", width: '100%', alignItems: "center" }}>
                         <p className="fs-3 text-left">Dashboard</p>
-                        <button className="btn btn-primary" onClick={() => {
-                            fetchData()
-                            toast('Tabela atualizada!', { type: 'info' })
-                        }}>
-                            <i class="bi bi-arrow-clockwise"></i>
+                        <button className="btn btn-primary" onClick={fetchData}>
+                            <i className="bi bi-arrow-clockwise"></i>
                             Atualizar
                         </button>
                     </div>
@@ -161,7 +156,7 @@ export default function Home() {
                 </div>
             </div>
             <div className="card" style={{ height: 'calc(100vh - 90px)', width: '100%', display: "flex", flexDirection: 'column', gap: '10px', padding: '10px' }}>
-                <Chart type="line" height="200px" width="300px" data={chartData} options={chartOptions} />
+                <Chart type="bar" height="400px" width="800px" data={chartData} options={chartOptions} />
             </div>
         </div>
     );
