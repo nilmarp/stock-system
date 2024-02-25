@@ -142,7 +142,7 @@ export default function Withdraw() {
     const [totalDailyPrice, setTotalDailyPrice] = useState(0)
 
     const resetFilds = () => {
-        setUserId(0)
+        setUserId()
         setTotalDailyPrice(0)
         setStartDate('')
         setEndDate('')
@@ -266,7 +266,7 @@ export default function Withdraw() {
                                 <div className="row">
                                     <div className="col">
                                         <label htmlFor="modalName" className="form-label">Cliente</label>
-                                        <QuerySelector data={clients} labelKey={'name'} valueKey={'id'} onChange={(e) => setUserId(e?.target?.value)} required={true} />
+                                        <QuerySelector data={clients} labelKey={'name'} valueKey={'id'} value={userId} onChange={(e) => setUserId(e?.target?.value)} required={true} />
                                     </div>
                                 </div>
                                 <div className="row">
