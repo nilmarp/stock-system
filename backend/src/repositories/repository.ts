@@ -80,14 +80,13 @@ export abstract class BaseRepository implements IRepository {
         if (!entity)
             throw Error(`Could not find entity`)
 
-        for (const key in data) {
+        for (const key in data)
             entity[key] = data[key]
-        }
 
         await entity.save()
     }
 
-    public async delete(id: number) {
+    public async delete(id: number|string) {
         await AppDataSource
             .getRepository(this._entity)
             .delete(id)
