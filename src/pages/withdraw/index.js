@@ -141,21 +141,8 @@ export default function Withdraw() {
     // computeds
     const [totalDailyPrice, setTotalDailyPrice] = useState(0)
 
-    const updateTotalPrice = () => {
-        let totalPrice = 0;
-        cart.forEach((item) => {
-            let prod = products.find((product) => product?.id == item?.id);
-            if (prod) {
-                totalPrice += Number(prod?.daily_price) * Number(item.quantity);
-            }
-        });
-        setTotalDailyPrice(totalPrice);
-    };
-
-    useEffect(() => updateTotalPrice(), [cart])
-
-
     const resetFilds = () => {
+        setUserId(0)
         setTotalDailyPrice(0)
         setStartDate('')
         setEndDate('')
@@ -182,6 +169,57 @@ export default function Withdraw() {
             currency: 'BRL',
         }).format(item)
     }
+
+    const submitWithdrawnHandler = async () => {
+
+        if (mainBody.client_id == 0) {
+            return toast('Adicione o cliente', { type: 'warning' })
+        }
+
+        if (mainBody.end_date == '' || mainBody.start_date == '') {
+            return toast('Complete as datas de início e fim', { type: 'warning' })
+        }
+
+        if (mainBody.products.length == 0) {
+            return toast('Adicione pelo menos 1 produto', { type: 'warning' })
+        }
+
+
+        for (let i = 0; i < cart.length; i++) {
+            if (cart[i]?.quantity == 0 || cart[i]?.quantity == '' || cart[i]?.id == 0 || cart[i]?.id == '') {
+                return toast('Preencha os produtos com todas as informações', { type: 'warning' })
+            }
+        }
+
+        try {
+
+            await api.post('/withdrawn', mainBody)
+
+            console.log(mainBody)
+
+            setShowModal(false)
+            resetFilds()
+
+            return toast('Aluguel registrado com sucesso!', { type: 'success' })
+        } catch (error) {
+            toast('Algo deu errado')
+        }
+    }
+
+    useEffect(() => {
+        updateTotalPrice()
+    }, [cart])
+
+    const updateTotalPrice = () => {
+        let totalPrice = 0;
+        cart.forEach((item) => {
+            let prod = products.find((product) => product?.id == item?.id);
+            if (prod) {
+                totalPrice += Number(prod?.daily_price) * Number(item.quantity);
+            }
+        });
+        setTotalDailyPrice(totalPrice);
+    };
 
     return (
         <div style={{ display: "flex", flexDirection: "column", width: '100%', alignItems: 'center' }}>
@@ -214,7 +252,7 @@ export default function Withdraw() {
             </div>
             {withdrawnTab == 'ontime' && <OnTime />}
             {withdrawnTab == 'expiring' && <Expiring />}
-            {withdrawnTab == 'arrears' && <Arrears />}background-color: rgba(57, 111, 174, 0.2);
+            {withdrawnTab == 'arrears' && <Arrears />}
 
             <div className={`modal fade ${showModal ? 'show' : ''}`} style={{ display: showModal ? 'block' : 'none', boxShadow: '1px 2px 13px -5px #396fae', backgroundColor: 'rgba(57, 111, 174, 0.2)' }} tabIndex="-1">
                 <div className="modal-dialog">
@@ -234,11 +272,11 @@ export default function Withdraw() {
                                 <div className="row">
                                     <div className="col-6">
                                         <label htmlFor="modalName" className="form-label">De:</label>
-                                        <IMaskInput type={'date'} className="form-control" required value={startDate} onChange={(e)=>setStartDate(e?.target?.value)}/>
+                                        <IMaskInput type={'date'} className="form-control" required value={startDate} onChange={(e) => setStartDate(e?.target?.value)} />
                                     </div>
                                     <div className="col-6">
                                         <label htmlFor="modalName" className="form-label">Até:</label>
-                                        <IMaskInput type={'date'} className="form-control" required value={endDate} onChange={(e)=>setEndDate(e?.target?.value)}/>
+                                        <IMaskInput type={'date'} className="form-control" required value={endDate} onChange={(e) => setEndDate(e?.target?.value)} />
                                     </div>
                                 </div>
                                 <hr />
@@ -281,6 +319,8 @@ export default function Withdraw() {
                                                         <IMaskInput
                                                             type={'number'}
                                                             className="form-control"
+                                                            min={0}
+                                                            max={products.length > 0 ? products[mainBody.products[key]?.id] : 0}
                                                             onMouseLeave={() => updateTotalPrice()}
                                                             onChange={
                                                                 (e) => {
@@ -310,8 +350,8 @@ export default function Withdraw() {
                         </div>
                         <div className="modal-footer" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                             <h6>{priceFormat(totalDailyPrice)}</h6>
-                            {!editMode && <button type="button" className="btn btn-primary" onClick={() => { console.log(mainBody) }}>Cadastrar aluguel</button>}
-                            {editMode && <button type="button" className="btn btn-primary" onClick={() => { }}>Salvar alteração</button>}
+                            {!editMode && <button type="button" className="btn btn-primary" onClick={() => submitWithdrawnHandler()}>Cadastrar aluguel</button>}
+                            {/* {editMode && <button type="button" className="btn btn-primary" onClick={() => { }}>Salvar alteração</button>} */}
                         </div>
                     </div>
                 </div>

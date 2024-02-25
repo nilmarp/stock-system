@@ -11,49 +11,51 @@ export default function Arrears() {
     const [search, setSearch] = useState('')
 
     useEffect(() => {
-        const fetchData = async () => {
-
-            try {
-                const response = await api.get('/withdrawn/arrears');
-
-                console.log(response?.data?.rentals?.pages)
-
-                if (response?.data?.rentals?.pages > 1) {
-                    let ndata = []
-
-                    console.log('entrou1')
-
-                    response.data?.rentals?.data.forEach(element => {
-
-                        console.log(element)
-                        ndata.push(element)
-                    });
-
-                    console.log(ndata)
-
-                    for (let i = 2; i <= response?.data?.rentals?.pages; i++) {
-                        let res = await api.get(`/withdrawn/arrears?page=${i}`)
-
-                        res.data?.rentals?.data.forEach(element => {
-                            console.log(element)
-                            ndata.push(element)
-                        })
-                    }
-                    console.log(ndata)
-
-                    return setOnTime(ndata)
-
-                }
-
-
-                return setOnTime(response?.data?.rentals?.data);
-            } catch (error) {
-                console.log(error);
-                toast('Algo deu errado', { type: 'error' });
-            }
-        }
         fetchData();
     }, []);
+
+
+    const fetchData = async () => {
+
+        try {
+            const response = await api.get('/withdrawn/arrears');
+
+            console.log(response?.data?.rentals?.pages)
+
+            if (response?.data?.rentals?.pages > 1) {
+                let ndata = []
+
+                console.log('entrou1')
+
+                response.data?.rentals?.data.forEach(element => {
+
+                    console.log(element)
+                    ndata.push(element)
+                });
+
+                console.log(ndata)
+
+                for (let i = 2; i <= response?.data?.rentals?.pages; i++) {
+                    let res = await api.get(`/withdrawn/arrears?page=${i}`)
+
+                    res.data?.rentals?.data.forEach(element => {
+                        console.log(element)
+                        ndata.push(element)
+                    })
+                }
+                console.log(ndata)
+
+                return setOnTime(ndata)
+
+            }
+
+
+            return setOnTime(response?.data?.rentals?.data);
+        } catch (error) {
+            console.log(error);
+            toast('Algo deu errado', { type: 'error' });
+        }
+    }
 
 
     const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
@@ -69,12 +71,19 @@ export default function Arrears() {
     }
 
     return (
-        <div className="card" style={{borderTopLeftRadius: 0, height: 'calc(100vh - 90px)', width: '100%', display: "flex", flexDirection: 'column', gap: '10px', padding: '10px' }}>
+        <div className="card" style={{ borderTopLeftRadius: 0, height: 'calc(100vh - 90px)', width: '100%', display: "flex", flexDirection: 'column', gap: '10px', padding: '10px' }}>
             <h3>Atrasados</h3>
-            <div className="d-flex flex-row justify-content-right" style={{ gap: '4px' }}>
+            <div className="d-flex flex-row justify-content-between" style={{ gap: '4px' }}>
                 <div className="col-8">
                     <input type="text" placeholder="Busque aqui . . ." className="form-control" id="modalName" value={search} onChange={(e) => setSearch(e.target.value)} />
                 </div>
+                <button className="btn btn-primary" onClick={() => {
+                    fetchData()
+                    toast('Tabela atualizada!', { type: 'info' })
+                }}>
+                    <i class="bi bi-arrow-clockwise"></i>
+                    Atualizar
+                </button>
             </div>
             <DataTable value={search != '' ? getSearch() : onTime} scrollable scrollHeight="calc(100vh - 270px)" selectionMode="single" paginator rows={10} rowsPerPageOptions={[10, 25, 50]} tableStyle={{ minWidth: '60rem' }}
                 paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"

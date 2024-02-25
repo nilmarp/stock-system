@@ -58,7 +58,9 @@ export class RentalService {
 
     public async receive(req: Request, res: Response) {
         try {
-            await this.repository.receive(Number(req.params.id))
+            const rental = await this.repository.receive(Number(req.params.id))
+
+            return res.json({rental})
         } catch (e) {
             console.log(e.message)
             // TODO: Error handling
