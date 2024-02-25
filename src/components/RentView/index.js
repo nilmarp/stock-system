@@ -3,6 +3,7 @@ import React from "react";
 import { toast } from "react-toastify";
 import { Column } from "typeorm";
 import { api } from "../../config/api";
+import { IMaskInput } from "react-imask";
 
 export default function RentView({ func, data }) {
 
@@ -37,12 +38,12 @@ export default function RentView({ func, data }) {
     return (
         <div className={"modal"} style={{ display: 'block', boxShadow: '1px 2px 13px -5px #396fae', backgroundColor: 'rgba(57, 111, 174, 0.2)' }}>
             <div className="modal-dialog" style={{ maxWidth: 'none', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <div className="modal-content" style={{ width: 'calc(90vw - 300px)' }}>
+                <div className="modal-content" style={{ width: 'calc(90vw - 200px)' }}>
                     <div className="modal-header">
                         <h5 className="modal-title">Visualizar Aluguel</h5>
                         <button type="button" className="btn-close" aria-label="Close" onClick={() => { func(false); }}></button>
                     </div>
-                    <div className="modal-body" style={{ height: 'calc(90vh - 150px)' }}>
+                    <div className="modal-body" style={{ height: 'calc(100vh - 150px)' }}>
                         <div className="row">
                             <div className="card">
                                 <div className="row">
@@ -79,25 +80,25 @@ export default function RentView({ func, data }) {
                                         <strong>
                                             <label htmlFor="modalName" className="form-label">Endereço</label>
                                         </strong>
-                                        <p>{data?.client?.address}</p>
+                                        <p>{data?.client?.address}, {data?.client?.building_number}</p>
                                     </div>
                                     <div className="col-3">
                                         <strong>
-                                            <label htmlFor="modalName" className="form-label">Número</label>
+                                            <label htmlFor="modalName" className="form-label">Início</label>
                                         </strong>
-                                        <p>{data?.client?.building_number}</p>
+                                        <IMaskInput type={'date'} className="form-control" value={data?.start_date} disabled/>
                                     </div>
                                     <div className="col-3">
                                         <strong>
-                                            <label htmlFor="modalName" className="form-label">Número</label>
+                                            <label htmlFor="modalName" className="form-label">Fim</label>
                                         </strong>
-                                        <p>{data?.client?.building_number}</p>
+                                        <IMaskInput type={'date'} className="form-control" value={data?.end_date} disabled/>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="row">
-                            <DataTable value={data?.products || []} scrollable scrollHeight="208px" selectionMode="single" paginator rows={5} rowsPerPageOptions={[5, 10]} tableStyle={{ minWidth: '300px' }}
+                            <DataTable value={data?.products || []} scrollable scrollHeight="200px" selectionMode="single" paginator rows={5} rowsPerPageOptions={[5, 10]} tableStyle={{ minWidth: '300px' }}
                                 paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
                                 currentPageReportTemplate="{first} to {last} of {totalRecords}"
                                 sortField="id" sortOrder={1}>
@@ -108,8 +109,9 @@ export default function RentView({ func, data }) {
                             </DataTable>
                         </div>
                     </div>
-                    <div className="modal-footer" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                    <div className="modal-footer" style={{ display: "flex", alignItems: "center", justifyContent: "space-evenly" }}>
                         <button type="button" className="btn btn-danger" onClick={()=>handleDeleteRent()}>Cancelar</button>
+                        <h5>{priceFormat(data?.total_daily_price)}</h5>
                         <button type="button" className="btn btn-success" onClick={()=>handleReceiveRent()} >Receber</button>
                     </div>
                 </div>
