@@ -27,8 +27,7 @@ export class ClientService {
         } catch (e) {
             // TODO: error handling
             console.log(e.message)
+            res.json({ error: e, bd: req.body })
         }
-
-        res.redirect('back')
     }
 }

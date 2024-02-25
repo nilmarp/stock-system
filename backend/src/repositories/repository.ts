@@ -87,7 +87,7 @@ export abstract class BaseRepository implements IRepository {
         await entity.save()
     }
 
-    public async delete(id: number) {
+    public async delete(id: number|string) {
         await AppDataSource
             .createQueryBuilder()
             .delete()
