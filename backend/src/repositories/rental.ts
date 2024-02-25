@@ -167,6 +167,24 @@ export class RentalRepository extends BaseRepository {
         return rental
     }
 
+    public async delete(id: number|string) {
+        const rental = await this._entity.findOne({
+            where: {
+                id: id as number
+            },
+            relations: {
+                products: true
+            }
+        })
+
+        if (!rental)
+            return
+
+        await RentedProduct.remove(rental.products)
+
+        await Rental.remove(rental)
+    }
+
     public async getAllRents() {
         try {
 

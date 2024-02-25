@@ -88,8 +88,11 @@ export abstract class BaseRepository implements IRepository {
 
     public async delete(id: number|string) {
         await AppDataSource
-            .getRepository(this._entity)
-            .delete(id)
+            .createQueryBuilder()
+            .delete()
+            .from(this._entity)
+            .where("id = :id", { id })
+            .execute()
     }
 
     public search(query: {}) {

@@ -16,6 +16,12 @@ router.post('/', async (req: Request, res: Response) => {
     service.store(req, res)
 })
 
+router.post('/:id/delete', async (req: Request, res: Response) => {
+    const service = new RentalService(new RentalRepository)
+
+    service.delete(req, res)
+})
+
 router.get('/ontime', async (req: Request, res: Response) => {
     const service = new RentalService(new RentalRepository)
 
