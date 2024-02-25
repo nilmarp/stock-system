@@ -398,7 +398,11 @@ Entrypoints:
 [39m[22m
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 2024-02-24 [1m16:32:12[39m[22m: webpack 5.90.2 compiled with [1m[33m3 warnings[39m[22m in 23502 ms (b7f9d116aa0106046e1e)
 =======
 2024-02-24 [1m21:34:53[39m[22m: webpack 5.90.2 compiled with [1m[33m2 warnings[39m[22m in 6517 ms (003faf0cc4bf8b78e849)
 >>>>>>> 8c9fa9a (fix: update client data)
+=======
+2024-02-24 [1m16:32:12[39m[22m: webpack 5.90.2 compiled with [1m[33m3 warnings[39m[22m in 23502 ms (b7f9d116aa0106046e1e)
+>>>>>>> 2360a28 (Revert "Merge branch 'main' of https://github.com/nilmarp/stock-system")
