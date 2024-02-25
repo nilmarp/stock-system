@@ -71,7 +71,6 @@ export default function OnTime() {
 
     const [viewRent, setViewRent] = useState(false)
 
-
     const [viewRentData, setViewRentData] = useState({})
 
     const handleEdit = (e) => {
