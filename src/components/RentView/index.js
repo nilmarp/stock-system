@@ -7,13 +7,15 @@ import { IMaskInput } from "react-imask";
 
 export default function RentView({ func, data }) {
 
-    console.log(data)
+    // console.log(data)
 
     const priceFormat = (item) => {
+        console.log(item)
+        // console.log(item?.total_daily_price)
         return new Intl.NumberFormat('pt-br', {
             style: 'currency',
             currency: 'BRL',
-        }).format(item.daily_price)
+        }).format(item)
     }
 
     const handleReceiveRent = async () => {
@@ -29,11 +31,13 @@ export default function RentView({ func, data }) {
         try {
             await api.post(`/withdrawn/${data.id}/delete`)
             func(false)
-            return toast(`Itens de aluguel recebidos com sucesso`, { type: "success" })
+            return toast(`Registro de aluguel deletado`, { type: "success" })
         } catch (error) {
             return toast(`Houve uma falha ao concluir a operação`)
         }
     }
+
+    // console.log(data?.total_daily_price)
 
     return (
         <div className={"modal"} style={{ display: 'block', boxShadow: '1px 2px 13px -5px #396fae', backgroundColor: 'rgba(57, 111, 174, 0.2)' }}>
@@ -111,7 +115,7 @@ export default function RentView({ func, data }) {
                     </div>
                     <div className="modal-footer" style={{ display: "flex", alignItems: "center", justifyContent: "space-evenly" }}>
                         <button type="button" className="btn btn-danger" onClick={()=>handleDeleteRent()}>Cancelar</button>
-                        <h5>{priceFormat(data?.total_daily_price)}</h5>
+                        <h5>{priceFormat(Number(data?.total_daily_price))}</h5>
                         <button type="button" className="btn btn-success" onClick={()=>handleReceiveRent()} >Receber</button>
                     </div>
                 </div>
