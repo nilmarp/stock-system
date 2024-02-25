@@ -76,4 +76,14 @@ export class RentalService {
             res.json({ error: e.message, bd: req.body })
         }
     }
+
+    public async delete(req: Request, res: Response) {
+        try {
+            await this.repository.delete(req.params.id)
+
+            res.status(204).json({})
+        } catch (e) {
+            res.json({ error: e.message, bd: req.body })
+        }
+    }
 }
