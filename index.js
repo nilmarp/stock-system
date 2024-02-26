@@ -1,11 +1,19 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, screen } = require('electron');
 const path = require('path');
 
 function createWindow() {
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
-    resizable: false,
+    width: width,
+    height: height,
+    minWidth: width,
+    minHeight: height,
+    maxWidth: width, 
+    maxHeight: height,
+    resizable: false,     // Não permitir redimensionar
+    minimizable: false,   // Não permitir minimizar
+    maximizable: false,   // Não permitir maximizar
     webPreferences: {
       nodeIntegration: true
     }

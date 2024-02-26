@@ -183,7 +183,7 @@ export default function Stock() {
                             <input type="text" placeholder="Busque aqui . . ." className="form-control" id="modalName" value={search} onChange={(e) => setSearch(e.target.value)} />
                         </div>
                     </div>
-                    <DataTable value={search != '' ? getSearch() : data} scrollable scrollHeight="calc(100vh - 170px)" selectionMode="single" paginator rows={10} rowsPerPageOptions={[10, 25, 50]} tableStyle={{ minWidth: '60rem' }}
+                    <DataTable value={search != '' ? getSearch() : data} scrollable scrollHeight="calc(100vh - 270px)" selectionMode="single" paginator rows={10} rowsPerPageOptions={[10, 25, 50]} tableStyle={{ minWidth: '60rem' }}
                         paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
                         currentPageReportTemplate="{first} to {last} of {totalRecords}" paginatorLeft={paginatorLeft} paginatorRight={paginatorRight}
                         onRowSelect={handleEdit}
@@ -197,7 +197,7 @@ export default function Stock() {
                 </div>
             }
 
-            <div className={`modal fade ${showModal ? 'show' : ''}`} style={{ display: showModal ? 'block' : 'none', boxShadow: '1px 2px 13px -5px #396fae' }} tabIndex="-1">
+            <div className={`modal fade ${showModal ? 'show' : ''}`} style={{ display: showModal ? 'block' : 'none', boxShadow: '1px 2px 13px -5px #396fae', backgroundColor: 'rgba(57, 111, 174, 0.2)' }} tabIndex="-1">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -217,7 +217,7 @@ export default function Stock() {
                                     </div>
                                     <div className="col-3">
                                         <label htmlFor="modalName" className="form-label">Diária</label>
-                                        
+
                                         <input type="number" className="form-control" name="daily_price" id="modalName" value={dailyPrice} onChange={(e) => setDailyPrice(e.target.value)} required />
                                     </div>
                                 </div>

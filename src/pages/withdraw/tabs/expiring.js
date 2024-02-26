@@ -4,6 +4,7 @@ import { Button } from "primereact/button";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { toast } from "react-toastify";
+import RentView from "../../../components/RentView";
 
 export default function Expiring() {
 
@@ -68,6 +69,16 @@ export default function Expiring() {
         let ndata = onTime.filter(item => (`${item.client.name.toLowerCase()}`.includes(search.toLowerCase())))
         return ndata
     }
+    
+    const [viewRent, setViewRent] = useState(false)
+
+    const [viewRentData, setViewRentData] = useState({})
+
+    const handleEdit = (e) => {
+        setViewRent(true)
+        setViewRentData(e.data)
+
+    }
 
     return (
         <div className="card" style={{ borderTopLeftRadius: 0, height: 'calc(100vh - 90px)', width: '100%', display: "flex", flexDirection: 'column', gap: '10px', padding: '10px' }}>
@@ -87,13 +98,14 @@ export default function Expiring() {
             <DataTable value={search != '' ? getSearch() : onTime} scrollable scrollHeight="calc(100vh - 270px)" selectionMode="single" paginator rows={10} rowsPerPageOptions={[10, 25, 50]} tableStyle={{ minWidth: '60rem' }}
                 paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
                 currentPageReportTemplate="{first} to {last} of {totalRecords}" paginatorLeft={paginatorLeft} paginatorRight={paginatorRight}
-                sortField="id" sortOrder={1}>
+                sortField="id" sortOrder={1} onRowSelect={handleEdit}>
                 <Column field="id" header="ID" style={{ width: '20%' }}></Column>
                 <Column field="client.name" header="Cliente" style={{ width: '20%' }}></Column>
                 <Column header="Itens" body={renderArraySize} style={{ width: '20%' }}></Column>
                 <Column field="client.reference" header="Referência" style={{ width: '20%' }}></Column>
                 <Column field="end_date" header="Prazo" style={{ width: '20%' }}></Column>
             </DataTable>
+            {viewRent && <RentView func={setViewRent} data={viewRentData} />}
         </div>
     );
 }
