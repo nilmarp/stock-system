@@ -116,7 +116,17 @@ export class RentalRepository extends BaseRepository {
         await RentedProduct.save(rental.products)
     }
 
-    private async decreaseProductsQuantity(rentedProducts: RentedProductData[]) {
+    private async increaseProductsQuantity(rentedProducts: RentedProductData[]|RentedProduct[]) {
+        for (const rentedProduct of rentedProducts) {
+            const product = rentedProduct.product
+
+            product.quantity += rentedProduct.product_quantity
+
+            await product.save()
+        }
+    }
+
+    private async decreaseProductsQuantity(rentedProducts: RentedProductData[]|RentedProduct[]) {
         for (const rentedProduct of rentedProducts) {
             const product = rentedProduct.product
 
@@ -131,12 +141,16 @@ export class RentalRepository extends BaseRepository {
     }
 
     public async receive(id: number) {
-        const rental: Rental = await this.findOneBy({ id }) as Rental
-
+        const rental: Rental = await this.createRentalSearchQuery()
+            .andWhere('entity.id = :id', { id })
+            .getOne() as Rental
+ 
         if (!rental)
             return
 
         rental.completed = true
+
+        await this.increaseProductsQuantity(rental.products)
 
         await rental.save()
     }
