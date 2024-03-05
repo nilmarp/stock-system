@@ -180,15 +180,35 @@ export default function Withdraw() {
             return toast('Complete as datas de início e fim', { type: 'warning' })
         }
 
+        if(new Date(mainBody.start_date) > new Date(mainBody.end_date)){
+            return toast('A data de ínicio deve ser menor que a de finalização', { type: 'warning' })
+        }
+
         if (mainBody.products.length == 0) {
             return toast('Adicione pelo menos 1 produto', { type: 'warning' })
         }
 
 
+        let errorControll = false
         for (let i = 0; i < cart.length; i++) {
+
+            if(cart[i]?.quantity < 0){
+                toast(`O produto [ ${products[i].description} ] não pode ter quantidade negativa`, { type: 'warning' })
+                errorControll = true
+            }
+
             if (cart[i]?.quantity == 0 || cart[i]?.quantity == '' || cart[i]?.id == 0 || cart[i]?.id == '') {
                 return toast('Preencha os produtos com todas as informações', { type: 'warning' })
             }
+
+            if(cart[i]?.quantity > products[i].quantity){
+                toast(`O produto [ ${products[i].description} ] ultrapassou a quantidade disponível de ${products[i].quantity} ${Number(products[i].quantity) > 1? 'itens' : 'item' }`, { type: 'warning' })
+                errorControll = true
+            }
+        }
+
+        if(errorControll){
+            return 0
         }
 
         try {
@@ -308,7 +328,7 @@ export default function Withdraw() {
                                                             valueKey={'id'}
                                                             onChange={
                                                                 (e) => {
-                                                                    console.log(cart)
+                                                                    // console.log(cart)
                                                                     cart[key].id = e?.target?.value
                                                                 }
                                                             }
@@ -319,16 +339,15 @@ export default function Withdraw() {
                                                         <IMaskInput
                                                             type={'number'}
                                                             className="form-control"
-                                                            min={0}
-                                                            max={products.length > 0 ? products[mainBody.products[key]?.id] : 0}
                                                             onMouseLeave={() => updateTotalPrice()}
                                                             onChange={
                                                                 (e) => {
                                                                     updateTotalPrice()
-                                                                    console.log(cart)
+                                                                    // console.log(cart)
                                                                     cart[key].quantity = e?.target?.value
                                                                 }
                                                             }
+
                                                             required />
                                                     </div>
                                                     <div className="col-1 d-flex-row">
