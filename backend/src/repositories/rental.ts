@@ -182,14 +182,11 @@ export class RentalRepository extends BaseRepository {
     }
 
     public async delete(id: number|string) {
-        const rental = await this._entity.findOne({
-            where: {
-                id: id as number
-            },
-            relations: {
-                products: true
-            }
-        })
+        const rental: Rental = await this.createRentalSearchQuery()
+            .andWhere('entity.id = :id', { id })
+            .getOne() as Rental
+
+        await this.increaseProductsQuantity(rental.products)
 
         if (!rental)
             return
