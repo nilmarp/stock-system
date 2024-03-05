@@ -279,7 +279,7 @@ export default function Clients() {
                                 <div className="row">
                                     <div className="col">
                                         <label htmlFor="modalName" className="form-label">CEP</label>
-                                        <IMaskInput type="text" className="form-control" value={CEP} mask={'000000-000'} onChange={(e) => setCEP(e.target.value)} required />
+                                        <IMaskInput type="text" className="form-control" value={CEP} mask={'00000-000'} onChange={(e) => setCEP(e.target.value)} required />
                                     </div>
                                     <div className="col">
                                         <label htmlFor="modalName" className="form-label">Cidade</label>
