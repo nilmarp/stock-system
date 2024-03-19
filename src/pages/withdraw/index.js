@@ -142,7 +142,7 @@ export default function Withdraw() {
     const [totalDailyPrice, setTotalDailyPrice] = useState(0)
 
     const resetFilds = () => {
-        setUserId()
+        setUserId(0)
         setTotalDailyPrice(0)
         setStartDate('')
         setEndDate('')
@@ -180,7 +180,7 @@ export default function Withdraw() {
             return toast('Complete as datas de início e fim', { type: 'warning' })
         }
 
-        if(new Date(mainBody.start_date) > new Date(mainBody.end_date)){
+        if (new Date(mainBody.start_date) > new Date(mainBody.end_date)) {
             return toast('A data de ínicio deve ser menor que a de finalização', { type: 'warning' })
         }
 
@@ -188,12 +188,14 @@ export default function Withdraw() {
             return toast('Adicione pelo menos 1 produto', { type: 'warning' })
         }
 
-
         let errorControll = false
+
         for (let i = 0; i < cart.length; i++) {
 
-            if(cart[i]?.quantity < 0){
-                toast(`O produto [ ${products[i].description} ] não pode ter quantidade negativa`, { type: 'warning' })
+            let product = products.find(e=>e?.id == cart[i].id)
+
+            if (cart[i]?.quantity < 0) {
+                toast(`O produto [ ${product.description} ] não pode ter quantidade negativa`, { type: 'warning' })
                 errorControll = true
             }
 
@@ -201,13 +203,18 @@ export default function Withdraw() {
                 return toast('Preencha os produtos com todas as informações', { type: 'warning' })
             }
 
-            if(cart[i]?.quantity > products[i].quantity){
-                toast(`O produto [ ${products[i].description} ] ultrapassou a quantidade disponível de ${products[i].quantity} ${Number(products[i].quantity) > 1? 'itens' : 'item' }`, { type: 'warning' })
+            console.log({
+                cart: cart[i],
+                products: product
+            })
+
+            if (cart[i]?.quantity > product.quantity) {
+                toast(`O produto [ ${product.description} ] ultrapassou a quantidade disponível de ${product.quantity} ${Number(product.quantity) > 1 ? 'itens' : 'item'}`, { type: 'warning' })
                 errorControll = true
             }
         }
 
-        if(errorControll){
+        if (errorControll) {
             return 0
         }
 
@@ -286,7 +293,7 @@ export default function Withdraw() {
                                 <div className="row">
                                     <div className="col">
                                         <label htmlFor="modalName" className="form-label">Cliente</label>
-                                        <QuerySelector data={clients} labelKey={'name'} valueKey={'id'} value={userId} onChange={(e) => setUserId(e?.target?.value)} required={true} />
+                                        <QuerySelector data={clients} labelKey={'name'} valueKey={'id'} value={userId} onChange={(e) => setUserId( userId == 0 ? e?.target?.value : 0)} required={true} />
                                     </div>
                                 </div>
                                 <div className="row">
