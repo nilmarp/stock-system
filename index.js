@@ -1,5 +1,18 @@
 const { app, BrowserWindow, screen } = require('electron');
 const path = require('path');
+const { exec } = require("child_process");
+
+exec('cd resources/app/backend && npm start', (error, stdout, stderr) => {
+  if (error) {
+    console.log(`error: ${error.message}`);
+    return;
+  }
+  if (stderr) {
+    console.log(`stderr: ${stderr}`);
+    return;
+  }
+  console.log(`stdout: ${stdout}`);
+});
 
 function createWindow() {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
@@ -9,7 +22,7 @@ function createWindow() {
     height: height,
     minWidth: width,
     minHeight: height,
-    maxWidth: width, 
+    maxWidth: width,
     maxHeight: height,
     resizable: false,     // Não permitir redimensionar
     minimizable: false,   // Não permitir minimizar
@@ -22,7 +35,7 @@ function createWindow() {
   mainWindow.once('ready-to-show', () => {
     mainWindow.maximize();
   })
-  
+
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 }
 
