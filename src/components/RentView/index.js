@@ -162,7 +162,7 @@ export default function RentView({ func, data }) {
                         </div>
                     </div>
                     <div className="modal-footer" style={{ display: "flex", alignItems: "center", justifyContent: "space-evenly" }}>
-                        <button type="button" className="btn btn-danger" onClick={() => handleDeleteRent()}>Cancelar</button>
+                        <button type="button" className="btn btn-danger" onClick={() => handleDeleteRent()}>Cancelar aluguel</button>
                         {/* <h1>{calcBetweenTwoDates(data?.start_date, data?.end_date)}</h1> */}
                         <h5>{priceFormatTotal(Number(data?.total_daily_price) * calcBetweenTwoDates(data?.start_date, data?.end_date))}</h5>
                         <button type="button" className="btn btn-success" onClick={() => handleReceiveRent()} >Receber</button>

@@ -1,17 +1,42 @@
 const { app, BrowserWindow, screen } = require('electron');
 const path = require('path');
-const { exec } = require("child_process");
+const { exec } = require('child_process');
+const terminate = require('terminate');
+let backend;
 
-exec('cd resources/app/backend && npm start', (error, stdout, stderr) => {
-  if (error) {
-    console.log(`error: ${error.message}`);
-    return;
+app.on('ready', () => {
+  backend = exec('cd resources/app/backend && npm start', (error, stdout, stderr) => {
+    if (error) {
+      console.log(`error: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.log(`stderr: ${stderr}`);
+      return;
+    }
+    console.log(`stdout: ${stdout}`);
+  });
+
+  backend.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+    if (data.includes('running')) {
+      createWindow();
+    }
+  });
+});
+
+let isQuitting = false;
+
+app.on('before-quit', (event) => {
+  if (!isQuitting) {
+    event.preventDefault();
+    console.log(backend.pid)
+    terminate(backend.pid, (err) => { 
+      console.log(err);
+      isQuitting = true;
+      app.quit();
+    });
   }
-  if (stderr) {
-    console.log(`stderr: ${stderr}`);
-    return;
-  }
-  console.log(`stdout: ${stdout}`);
 });
 
 function createWindow() {
@@ -38,5 +63,3 @@ function createWindow() {
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 }
-
-app.whenReady().then(createWindow);
