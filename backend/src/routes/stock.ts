@@ -22,4 +22,10 @@ router.post('/:id/edit', async (req: Request, res: Response) => {
     service.update(req, res)
 })
 
+router.post('/:id/delete', async (req: Request, res: Response) => {
+    const service = new StockService(new ProductRepository)
+
+    service.delete(req, res)
+})
+
 export default router

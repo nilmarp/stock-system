@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, JoinTable } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, JoinTable, DeleteDateColumn } from "typeorm"
 import { Rental } from "./Rental"
 
 @Entity('clients')
@@ -39,4 +39,7 @@ export class Client extends BaseEntity {
     @OneToMany(() => Rental, (rental) => rental.client)
     @JoinTable({ name: 'rentals' })
     rentals: Rental[]
+
+    @DeleteDateColumn()
+    public deletedAt?: Date
 }

@@ -10,7 +10,7 @@ import Arrears from "./tabs/arrears";
 import { IMaskInput } from "react-imask";
 import QuerySelector from "../../components/QuerySelector";
 
-export default function Withdraw() {
+export default function Withdraw({func}) {
 
     const [withdrawnTab, setWithdrawnTab] = useState('ontime')
 
@@ -227,7 +227,20 @@ export default function Withdraw() {
             setShowModal(false)
             resetFilds()
 
-            return toast('Aluguel registrado com sucesso!', { type: 'success' })
+            setUserId(null)
+
+            toast('Aluguel registrado com sucesso!', { type: 'success' })
+
+            setTimeout(()=>{
+                func('home')
+            }, 1000)
+
+            
+            setTimeout(()=>{
+                func('withdrawn')
+            }, 100)
+
+            return 0
         } catch (error) {
             toast('Algo deu errado')
         }

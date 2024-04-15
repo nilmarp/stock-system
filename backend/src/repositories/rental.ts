@@ -61,16 +61,31 @@ export class RentalRepository extends BaseRepository {
     }
 
     public findCompletedRentals() {
-        const builder = this.createRentalSearchQuery()
-            .where('completed = true')
+        const builder = this.createCompletedRentalSearchQuery()
 
         this.setBuilder(builder)
 
         return this
     }
 
+    public findCompletedRentalsWithinDates(startDate: Date, finalDate: Date) {
+        const builder = this.createCompletedRentalSearchQuery()
+            .where('end_date > :start_date', { start_date: startDate })
+            .andWhere('end_date < :final_date', { final_date: finalDate })
+            
+        this.setBuilder(builder)
+
+        return this
+    }
+
+    private createCompletedRentalSearchQuery() {
+        return this.createRentalSearchQuery()
+            .where('completed = true')
+    }
+
     private createRentalSearchQuery() {
         return this.getBuilder()
+            .withDeleted()
             .leftJoinAndSelect('entity.products', 'products')
             .leftJoinAndSelect('entity.client', 'client')
             .leftJoinAndSelect('products.product', 'product')

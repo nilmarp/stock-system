@@ -38,7 +38,7 @@ function App() {
                     {tab == 'home' && <Home />}
                     {tab == 'stock' && <Stock />}
                     {tab == 'received' && <Received />}
-                    {tab == 'withdrawn' && <Withdraw />}
+                    {tab == 'withdrawn' && <Withdraw func={setTab} />}
                     {tab == 'clients' && <Clients />}
                 </>
                 <ToastContainer />

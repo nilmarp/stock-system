@@ -91,6 +91,12 @@ export default function Stock() {
             return toast('Por favor, preencha todas as informações', { type: 'warning' });
         }
 
+        if (quantityOwned <= 0)
+            return toast('Quantidade do produto não pode ser negativa ou menor que zero', { type: 'warning' })
+
+        if (dailyPrice <= 0)
+            return toast('Preço diário do produto não pode ser negativo ou menor que zero', { type: 'warning' })
+
         try {
             await api.post('/stock', {
                 description,
@@ -124,6 +130,11 @@ export default function Stock() {
         if (!description || !quantityOwned || !dailyPrice) {
             return toast('Por favor, preencha todas as informações', { type: 'warning' });
         }
+
+        /*
+        if (quantityOwned < quantity)
+            return toast('Quantidade possuída tem que ser maior ou igual à quantidade alugada', { type: 'warning '})
+        */
 
         try {
             await api.post(`/stock/${idSelected}/edit`, {

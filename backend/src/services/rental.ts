@@ -19,6 +19,24 @@ export class RentalService {
         }
     }
 
+    public async getAllReceived(req: Request, res: Response) {
+        try {
+            const rentals = await this.repository.findCompletedRentals().all()
+            return res.json({ rentals })
+        } catch (error) {
+
+        }
+    }
+
+    public async getAllReceivedWithinDates(req: Request, res: Response) {
+        const startDate = new Date(req.query.startDate)
+        const finalDate = new Date(req.query.finalDate)
+        
+        const rentals = await this.repository.findCompletedRentalsWithinDates(startDate, finalDate).all()
+
+        return res.json({ rentals })
+    }
+
     public async getOnTime(req: Request, res: Response): Promise<IPagination<Rental>> {
         const { page } = req.query
     

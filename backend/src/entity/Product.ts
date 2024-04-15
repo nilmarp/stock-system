@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm"
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, DeleteDateColumn } from "typeorm"
 import { Rental } from "./Rental"
 import { RentedProduct } from "./RentedProduct"
 
@@ -26,4 +26,7 @@ export class Product extends BaseEntity {
         inverseJoinColumn: { name: 'rental_id' }
     })
     rentals: RentedProduct[]
+
+    @DeleteDateColumn()
+    public deletedAt?: Date
 }

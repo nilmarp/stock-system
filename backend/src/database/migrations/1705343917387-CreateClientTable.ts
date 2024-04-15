@@ -56,6 +56,11 @@ export class CreateClientTable1705343917387 implements MigrationInterface {
                     name: 'cep',
                     type: 'varchar',
                     isNullable: false
+                },
+                {
+                    name: 'deletedAt',
+                    type: 'date',
+                    isNullable: true
                 }
             ]
         }))

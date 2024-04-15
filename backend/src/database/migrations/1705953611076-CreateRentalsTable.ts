@@ -24,7 +24,7 @@ export class CreateRentalsTable1705953611076 implements MigrationInterface {
                 },
                 {
                     name: 'start_date',
-                    type: 'data',
+                    type: 'date',
                     isNullable: false
                 },
                 {

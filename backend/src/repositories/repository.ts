@@ -15,7 +15,7 @@ export interface IRepository {
 
     create(data: {})
 
-    findAll()
+    all()
 
     findBy(where)
 
@@ -53,16 +53,16 @@ export abstract class BaseRepository implements IRepository {
             .get()
     }
 
+    public async all() {
+        return await (this.getBuilder().getMany())
+    }
+
     protected getBuilder() {
         return this.builder ?? this._entity.createQueryBuilder('entity')
     }
 
     protected setBuilder(builder: SelectQueryBuilder<BaseEntity>) {
         this.builder = builder
-    }
-
-    public async findAll() {
-        return await this._entity.find()
     }
 
     public async findBy(where) {
@@ -91,6 +91,15 @@ export abstract class BaseRepository implements IRepository {
         await AppDataSource
             .createQueryBuilder()
             .delete()
+            .from(this._entity)
+            .where("id = :id", { id })
+            .execute()
+    }
+
+    public async softDelete(id: number|string) {
+        await AppDataSource
+            .createQueryBuilder()
+            .softDelete()
             .from(this._entity)
             .where("id = :id", { id })
             .execute()

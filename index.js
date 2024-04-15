@@ -2,27 +2,37 @@ const { app, BrowserWindow, screen } = require('electron');
 const path = require('path');
 const { exec } = require('child_process');
 const terminate = require('terminate');
+require('dotenv').config();
 let backend;
 
-app.on('ready', () => {
-  backend = exec('cd resources/app/backend && npm start', (error, stdout, stderr) => {
-    if (error) {
-      console.log(`error: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.log(`stderr: ${stderr}`);
-      return;
-    }
-    console.log(`stdout: ${stdout}`);
-  });
+const mode = process.env.MODE == 'production'
 
-  backend.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
-    if (data.includes('running')) {
-      createWindow();
-    }
-  });
+app.on('ready', () => {
+
+  if (mode) {
+
+    backend = exec('cd backend && npm start', (error, stdout, stderr) => {
+      if (error) {
+        console.log(`error: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        console.log(`stderr: ${stderr}`);
+        return;
+      }
+      console.log(`stdout: ${stdout}`);
+    });
+
+    backend.stdout.on('data', (data) => {
+      console.log(`stdout: ${data}`);
+      if (data.includes('running')) {
+        console.log('cheguei aqui');
+        createWindow();
+      }
+    });
+  }else{
+    createWindow();
+  }
 });
 
 let isQuitting = false;
@@ -30,12 +40,15 @@ let isQuitting = false;
 app.on('before-quit', (event) => {
   if (!isQuitting) {
     event.preventDefault();
-    console.log(backend.pid)
-    terminate(backend.pid, (err) => { 
-      console.log(err);
-      isQuitting = true;
-      app.quit();
-    });
+
+    if (mode) {
+      console.log(backend.pid)
+      terminate(backend.pid, (err) => {
+        console.log(err);
+        isQuitting = true;
+        app.quit();
+      });
+    }
   }
 });
 
