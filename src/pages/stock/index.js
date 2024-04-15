@@ -75,6 +75,16 @@ export default function Stock() {
         })
     }
 
+    const handleDeleteStock = async (id) => {
+        try {
+            await api.post(`/stock/${id}/delete`)
+            // func(false)
+            return toast(`Item deletado`, { type: "success" })
+        } catch (error) {
+            return toast(`Houve uma falha ao concluir deleção`, {type: 'error'})
+        }
+    }
+
 
     const handleSubmit = async () => {
         if (!description || !quantityOwned || !dailyPrice) {
@@ -193,6 +203,7 @@ export default function Stock() {
                         <Column field="quantity_owned" header="Quantidade própria" style={{ width: '20%' }}></Column>
                         <Column field="quantity" header="Quantidade" style={{ width: '20%' }}></Column>
                         <Column field="daily_price" header="Diária" body={priceFormat} style={{ width: '20%' }}></Column>
+                        {/* <Column field="daily_price" header="Diária" body={(e)=>{return(<button> Delete : {e?.description}</button>)}} style={{ width: '20%' }}></Column> */}
                     </DataTable>
                 </div>
             }
@@ -226,6 +237,7 @@ export default function Stock() {
                         <div className="modal-footer">
                             {!editMode && <button type="button" className="btn btn-primary" onClick={handleSubmit}>Cadastrar Produto</button>}
                             {editMode && <button type="button" className="btn btn-primary" onClick={handleEditSubmit}>Salvar alteração</button>}
+                            {editMode && <button type="button" className="btn btn-danger" onClick={()=>handleDeleteStock(idSelected)}>Excluir</button>}
                         </div>
                     </div>
                 </div>
