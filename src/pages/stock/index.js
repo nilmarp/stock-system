@@ -79,6 +79,7 @@ export default function Stock() {
         try {
             await api.post(`/stock/${id}/delete`)
             // func(false)
+            setShowModal(false)
             return toast(`Item deletado`, { type: "success" })
         } catch (error) {
             return toast(`Houve uma falha ao concluir deleção`, {type: 'error'})
