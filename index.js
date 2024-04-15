@@ -5,6 +5,7 @@ const terminate = require('terminate');
 let backend;
 
 app.on('ready', () => {
+  /*
   backend = exec('cd resources/app/backend && npm start', (error, stdout, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`);
@@ -23,6 +24,9 @@ app.on('ready', () => {
       createWindow();
     }
   });
+  */
+
+  createWindow()
 });
 
 let isQuitting = false;
@@ -38,6 +42,7 @@ app.on('before-quit', (event) => {
     });
   }
 });
+
 
 function createWindow() {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;

@@ -11,6 +11,7 @@ import { CreateRentalsTable1705953611076 } from "./migrations/1705953611076-Crea
 import { Rental } from "../entity/Rental"
 import { CreateRentedProducts1706045800274 } from "./migrations/1706045800274-CreateRentedProducts"
 import { RentedProduct } from "../entity/RentedProduct"
+import { CreateDiscountsTable1713129952724 } from "./migrations/1713129952724-CreateDiscountsTable"
 
 dotenv.config()
 
@@ -22,6 +23,6 @@ export const AppDataSource = new DataSource({
     synchronize: true,
     logging: false,
     entities: [Client, Product, Rental, RentedProduct],
-    migrations: [CreateClientTable1705343917387, CreateProductTable1705608953718, CreateRentalsTable1705953611076, CreateRentedProducts1706045800274],
+    migrations: [CreateClientTable1705343917387, CreateProductTable1705608953718, CreateRentalsTable1705953611076, CreateRentedProducts1706045800274, CreateDiscountsTable1713129952724],
     subscribers: [],
 })

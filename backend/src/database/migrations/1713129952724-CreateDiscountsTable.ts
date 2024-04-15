@@ -1,36 +1,39 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class CreateProductTable1705608953718 implements MigrationInterface {
+export class CreateDiscountsTable1713129952724 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.createTable(new Table({
-            name: 'products',
+        queryRunner.createTable(new Table({
+            name: 'discounts',
             columns: [
                 {
                     name: 'id',
                     type: 'int',
-                    isPrimary: true,
                     generationStrategy: 'increment'
                 },
                 {
-                    name: 'description',
+                    name: 'discountable_id',
+                    type: 'int',
+                },
+                {
+                    name: 'discountable_type',
                     type: 'string',
-                    isNullable: false
                 },
                 {
-                    name: 'quantity_owned',
+                    name: 'amount',
                     type: 'int',
-                    isNullable: false
+                    isNullable: false,
+                    comment: 'Amount in cents'
                 },
                 {
-                    name: 'quantity',
-                    type: 'int',
-                    isNullable: false
+                    name: 'redeemed_at',
+                    type: 'timestamp',
+                    isNullable: true
                 },
                 {
-                    name: 'daily_price',
-                    type: 'decimal',
-                    isNullable: false
+                    name: 'expires_at',
+                    type: 'timestamp',
+                    isNullable: true
                 },
                 {
                     name: 'deletedAt',
@@ -42,7 +45,7 @@ export class CreateProductTable1705608953718 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('products')
+        queryRunner.dropTable('discounts')
     }
 
 }

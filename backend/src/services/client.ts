@@ -30,4 +30,14 @@ export class ClientService {
             res.json({ error: e, bd: req.body })
         }
     }
+
+    public async delete(req: Request, res: Response) {
+        try {
+            await this.repository.softDelete(req.params.id)
+
+            res.status(204).json({})
+        } catch (e) {
+            res.json({ error: e.message, bd: req.body })
+        }
+    }
 }

@@ -85,6 +85,7 @@ export class RentalRepository extends BaseRepository {
 
     private createRentalSearchQuery() {
         return this.getBuilder()
+            .withDeleted()
             .leftJoinAndSelect('entity.products', 'products')
             .leftJoinAndSelect('entity.client', 'client')
             .leftJoinAndSelect('products.product', 'product')

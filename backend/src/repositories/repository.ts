@@ -96,6 +96,15 @@ export abstract class BaseRepository implements IRepository {
             .execute()
     }
 
+    public async softDelete(id: number|string) {
+        await AppDataSource
+            .createQueryBuilder()
+            .softDelete()
+            .from(this._entity)
+            .where("id = :id", { id })
+            .execute()
+    }
+
     public search(query: {}) {
         const builder = this.getBuilder()
         
