@@ -343,6 +343,7 @@ export class RentalRepository extends BaseRepository {
                 DISTINCT R.START_DATE           AS DATE_OF_RENT,
                 SUM(ROUND(R.TOTAL_PRICE, 2))    AS TOTAL_PRICE
             FROM RENTALS R
+            WHERE R.completed = TRUE
             GROUP BY R.START_DATE
             `, [])
 
