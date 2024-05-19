@@ -19,7 +19,7 @@ export function ResumedRents() {
             console.log(response?.data[0])
 
             
-            toast('Dados carregados', { type: 'success' });
+            toast('Resumo geral carregado', { type: 'success' });
 
             return setData(response?.data[0])
 

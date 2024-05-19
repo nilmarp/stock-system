@@ -20,7 +20,7 @@ export function RentsPerDay() {
 
             console.log(response?.data)
 
-            toast('Dados carregados', { type: 'success' });
+            toast('Tabela de recebidos atualizada!', { type: 'success' });
 
             return setData(response?.data)
 

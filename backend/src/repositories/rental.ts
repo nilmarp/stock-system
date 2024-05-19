@@ -361,6 +361,8 @@ export class RentalRepository extends BaseRepository {
                 DISTINCT R.END_DATE           AS DATE_OF_RENT,
                 SUM(ROUND(R.TOTAL_PRICE, 2))    AS TOTAL_PRICE
             FROM RENTALS R
+            WHERE R.completed = FALSE
+            AND R.end_date >= DATE('NOW')
             GROUP BY R.END_DATE
             `, [])
 

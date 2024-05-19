@@ -21,7 +21,7 @@ export function PaymentsPrev() {
             console.log(response?.data)
 
             
-            toast('Dados carregados', { type: 'success' });
+            toast('Tabela de previsões atualizada!', { type: 'success' });
 
             return setData(response?.data)
 
