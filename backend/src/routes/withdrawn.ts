@@ -40,10 +40,28 @@ router.get('/arrears', async (req: Request, res: Response) => {
     service.getInArrears(req, res)
 })
 
+router.post('/:id/receive/:discount', async (req: Request, res: Response) => {
+    const service = new RentalService(new RentalRepository)
+
+    service.receive(req, res)
+})
+
+router.post('/:id/edit/:discount', async (req: Request, res: Response) => {
+    const service = new RentalService(new RentalRepository)
+
+    service.edit(req, res)
+})
+
 router.post('/:id/receive', async (req: Request, res: Response) => {
     const service = new RentalService(new RentalRepository)
 
     service.receive(req, res)
+})
+
+router.post('/:id/add-discount', async (req: Request, res: Response) => {
+    const service = new RentalService(new RentalRepository)
+
+    service.addDiscount(req, res)
 })
 
 export default router

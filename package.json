@@ -52,6 +52,7 @@
     "build": "webpack --mode production --stats detailed > webpack-stats.txt && tsc -p ./backend/tsconfig.json",
     "start": "npm run build && start /B node backend/build/index.js > nul 2>&1 && electron .",
     "backend-teste": "npm run build && start node backend/build/index.js > nul 2>&1 && electron .",
+    "backend-cmd": "tsc -p ./backend/tsconfig.json && node backend/build/index.js",
     "dev": "npm run build && node backend/build/index.js && electron .",
     "typeorm": "typeorm-ts-node-commonjs",
     "pkg-exe": "npx electron-packager . \"Gestão de Estoque Guarita Andaimes\" --platform=win32 --arch=ia32,x64 --icon=icon.ico --overwrite",

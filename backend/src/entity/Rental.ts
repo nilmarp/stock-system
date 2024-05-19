@@ -25,6 +25,12 @@ export class Rental extends BaseEntity {
     @Column({ type: 'date' })
     end_date: Date
 
+    @Column({ nullable: true, type: 'decimal', precision: 6, scale: 2})
+    discount_value: number
+
+    @Column({ nullable: true, type: 'decimal', precision: 6, scale: 2})
+    total_price: number
+
     @Column('decimal', { precision: 6, scale: 2 })
     total_daily_price: number
 

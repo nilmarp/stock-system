@@ -1,7 +1,15 @@
-import { BaseEntity, SelectQueryBuilder } from "typeorm";
+import typeorm, { BaseEntity, SelectQueryBuilder, createConnection } from "typeorm";
 import { AppDataSource } from "../database/data-source";
 import { IPagination, paginate } from "../common/pagination";
 import { TypeORMPagination } from "../common/TypeORMPagination";
+
+import 'reflect-metadata';
+import path from 'path'
+
+import dotenv from 'dotenv'
+dotenv.config()
+
+const DATABASE_FILE_PATH: string = path.join(__dirname, '../../') + (process.env.DB_NAME || 'guarita_andaimes_db.sqlite')
 
 const pagination: IPagination<SelectQueryBuilder<any>> = new TypeORMPagination;
 
@@ -114,5 +122,13 @@ export abstract class BaseRepository implements IRepository {
         this.setBuilder(builder)
 
         return this
+    }
+
+    public nquery(content: string, params){
+
+        let response =  AppDataSource.query(content, params)
+
+        return response;
+
     }
 }

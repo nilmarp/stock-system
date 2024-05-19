@@ -23,6 +23,16 @@ export class CreateRentalsTable1705953611076 implements MigrationInterface {
                     isNullable: false
                 },
                 {
+                    name: 'discount_price',
+                    type: 'decimal',
+                    isNullable: true
+                },
+                {
+                    name: 'total_price',
+                    type: 'decimal',
+                    isNullable: true
+                },
+                {
                     name: 'start_date',
                     type: 'date',
                     isNullable: false

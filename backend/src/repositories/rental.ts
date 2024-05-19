@@ -21,7 +21,8 @@ interface RentalCreationData {
     client_id: number,
     products: ProductData[],
     start_date: Date,
-    end_date: Date
+    end_date: Date,
+    discount_value: number,
 }
 
 export class RentalRepository extends BaseRepository {
@@ -72,7 +73,7 @@ export class RentalRepository extends BaseRepository {
         const builder = this.createCompletedRentalSearchQuery()
             .where('end_date > :start_date', { start_date: startDate })
             .andWhere('end_date < :final_date', { final_date: finalDate })
-            
+
         this.setBuilder(builder)
 
         return this
@@ -131,7 +132,7 @@ export class RentalRepository extends BaseRepository {
         await RentedProduct.save(rental.products)
     }
 
-    private async increaseProductsQuantity(rentedProducts: RentedProductData[]|RentedProduct[]) {
+    private async increaseProductsQuantity(rentedProducts: RentedProductData[] | RentedProduct[]) {
         for (const rentedProduct of rentedProducts) {
             const product = rentedProduct.product
 
@@ -141,7 +142,7 @@ export class RentalRepository extends BaseRepository {
         }
     }
 
-    private async decreaseProductsQuantity(rentedProducts: RentedProductData[]|RentedProduct[]) {
+    private async decreaseProductsQuantity(rentedProducts: RentedProductData[] | RentedProduct[]) {
         for (const rentedProduct of rentedProducts) {
             const product = rentedProduct.product
 
@@ -155,15 +156,49 @@ export class RentalRepository extends BaseRepository {
         rental.products.forEach(product => delete product.rental)
     }
 
-    public async receive(id: number) {
+    public async receive(id: number, discount_price: number) {
         const rental: Rental = await this.createRentalSearchQuery()
             .andWhere('entity.id = :id', { id })
             .getOne() as Rental
- 
-        if (!rental)
+
+        if (!rental){
             return
+        }
 
         rental.completed = true
+
+        if (!isNaN(discount_price)) {
+            rental.discount_value = discount_price;
+        }
+
+        await this.increaseProductsQuantity(rental.products)
+
+        await rental.save()
+    }
+
+    public async edit(id: number, discount_price: number) {
+        const rental: Rental = await this.createRentalSearchQuery()
+            .andWhere('entity.id = :id', { id })
+            .getOne() as Rental
+
+        if (!rental){
+            return
+        }
+
+        if(rental.completed == true){
+            return 'You can not edit the discount value from a completed rent.'
+        }
+
+        if(rental.discount_value <= discount_price){
+            return 'This pricing will be 0 or negative. Please, type another value.'
+        }
+
+        if (isNaN(discount_price)) {
+            return 'To edit, you have send some value.'
+
+        }
+
+        rental.discount_value = discount_price;
 
         await this.increaseProductsQuantity(rental.products)
 
@@ -185,6 +220,40 @@ export class RentalRepository extends BaseRepository {
 
         rental.total_daily_price = this.getTotalDailyPrice(rentedProductsWithDailyPrice)
 
+        if ((data.discount_value) && (data.discount_value) > 0) {
+            rental.discount_value = data.discount_value
+        }
+
+        const calcBetweenTwoDates = (start: string, end: string): number => {
+            const format1 = (value: string): string => {
+                const dt = value.split('/');
+                return `${dt[2]}-${dt[0]}-${dt[1]}`;
+            };
+
+            const format2 = (value: string): string => {
+                const dt = value.split('/');
+                return `${dt[2]}-${dt[1]}-${dt[0]}`;
+            };
+
+            const startDate = new Date(format1(start));
+            const endDate = new Date(format1(end));
+
+            if (typeof (startDate) == 'number' && typeof (endDate) == 'number') {
+                const diffTime = new Date(endDate).getTime() - new Date(startDate).getTime();
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                return diffDays + 1;
+            } else {
+                console.log('Datas inválidas');
+                return -1; // ou outro valor que indique erro
+            }
+        };
+
+        // Exemplo de uso:
+        const start = '05/10/2024';
+        const end = '05/15/2024';
+        const daysDifference = calcBetweenTwoDates(start, end);
+        console.log(`Diferença em dias: ${daysDifference}`);
+
         await rental.save()
 
         await this.decreaseProductsQuantity(rentedProductsWithDailyPrice)
@@ -196,7 +265,7 @@ export class RentalRepository extends BaseRepository {
         return rental
     }
 
-    public async delete(id: number|string) {
+    public async delete(id: number | string) {
         const rental: Rental = await this.createRentalSearchQuery()
             .andWhere('entity.id = :id', { id })
             .getOne() as Rental
@@ -217,6 +286,109 @@ export class RentalRepository extends BaseRepository {
             const rental = await Rental.find()
 
             return rental;
+        } catch (error) {
+            return []
+        }
+    }
+
+    public async getResumedRents() {
+        try {
+
+            const rental = this.nquery(`
+            SELECT
+                ROUND(SUM(R.DISCOUNT_VALUE)                         , 2) AS DISCOUNT,
+                ROUND(SUM(R.TOTAL_PRICE) + SUM(R.DISCOUNT_VALUE)    , 2) AS BRUTE_TOTAL_RECEIPT,
+                ROUND(SUM(R.TOTAL_PRICE)                            , 2) AS LIQUID_RECEIPT,
+                ROUND(COUNT(R.ID)                                   , 2) AS RENTAL_QUANTITY,
+                ROUND((
+                    SELECT
+                        SUM(T.TOTAL_PRICE)
+                    FROM RENTALS T
+                    WHERE T.COMPLETED = TRUE
+                )                                                   , 2) AS RECEIVED,
+                ROUND((
+                    SELECT
+                        SUM(T.TOTAL_PRICE)
+                    FROM RENTALS T
+                    WHERE T.COMPLETED = FALSE
+                )                                                   , 2) AS NOT_RECEIVED,
+                ROUND((
+                    SELECT
+                        SUM(T.TOTAL_PRICE)
+                    FROM RENTALS T
+                    WHERE T.COMPLETED = FALSE
+                    AND T.END_DATE < DATE('TODAY')
+                )                                                   , 2) AS ARREAR_RECEIPT,
+                ROUND((
+                    SELECT
+                        SUM(T.TOTAL_PRICE)
+                    FROM RENTALS T
+                    WHERE T.COMPLETED = FALSE
+                    AND T.END_DATE = DATE('TODAY')
+                )                                                   , 2) AS TODAY_RECEIPT
+            FROM RENTALS R
+            `, [])
+
+            // return rental;
+            return rental
+        } catch (error) {
+            return []
+        }
+    }
+
+    public async getRentsPerDay() {
+        try {
+
+            const rental = this.nquery(`
+            SELECT
+                DISTINCT R.START_DATE           AS DATE_OF_RENT,
+                SUM(ROUND(R.TOTAL_PRICE, 2))    AS TOTAL_PRICE,
+                R.COMPLETED                     AS STATUS
+            FROM RENTALS R
+            GROUP BY R.START_DATE
+            `, [])
+
+            // return rental;
+            return rental
+        } catch (error) {
+            return []
+        }
+    }
+
+    public async getRentsPaymentPrev() {
+        try {
+
+            const rental = this.nquery(`
+            SELECT
+                DISTINCT R.END_DATE           AS DATE_OF_RENT,
+                SUM(ROUND(R.TOTAL_PRICE, 2))    AS TOTAL_PRICE,
+                R.COMPLETED                     AS STATUS
+            FROM RENTALS R
+            GROUP BY R.END_DATE
+            `, [])
+
+            // return rental;
+            return rental
+        } catch (error) {
+            return []
+        }
+    }
+
+    
+    public async addDiscount() {
+        try {
+
+            const rental = this.nquery(`
+            SELECT
+                DISTINCT R.END_DATE           AS DATE_OF_RENT,
+                SUM(ROUND(R.TOTAL_PRICE, 2))    AS TOTAL_PRICE,
+                R.COMPLETED                     AS STATUS
+            FROM RENTALS R
+            GROUP BY R.END_DATE
+            `, [])
+
+            // return rental;
+            return rental
         } catch (error) {
             return []
         }

@@ -76,7 +76,18 @@ export class RentalService {
 
     public async receive(req: Request, res: Response) {
         try {
-            const rental = await this.repository.receive(Number(req.params.id))
+            const rental = await this.repository.receive(Number(req.params.id), Number(req.params.discount))
+
+            return res.json({rental})
+        } catch (e) {
+            console.log(e.message)
+            // TODO: Error handling
+        }
+    }
+
+    public async edit(req: Request, res: Response) {
+        try {
+            const rental = await this.repository.edit(Number(req.params.id), Number(req.params.discount))
 
             return res.json({rental})
         } catch (e) {
@@ -101,6 +112,54 @@ export class RentalService {
 
             res.status(204).json({})
         } catch (e) {
+            res.json({ error: e.message, bd: req.body })
+        }
+    }
+
+    public async getResumedRents(req: Request, res: Response) {
+        try {
+            const content = await this.repository.getResumedRents()
+
+            return res.status(200).json(content)
+        } catch (e) {
+            console.log(e);
+            
+            res.json({ error: e.message, bd: req.body })
+        }
+    }
+
+    public async getRentsPerDay(req: Request, res: Response) {
+        try {
+            const content = await this.repository.getRentsPerDay()
+
+            return res.status(200).json(content)
+        } catch (e) {
+            console.log(e);
+            
+            res.json({ error: e.message, bd: req.body })
+        }
+    }
+
+    public async getRentsPaymentPrev(req: Request, res: Response) {
+        try {
+            const content = await this.repository.getRentsPaymentPrev()
+
+            return res.status(200).json(content)
+        } catch (e) {
+            console.log(e);
+            
+            res.json({ error: e.message, bd: req.body })
+        }
+    }
+
+    public async addDiscount(req: Request, res: Response) {
+        try {
+            const content = await this.repository.addDiscount()
+
+            return res.status(200).json(content)
+        } catch (e) {
+            console.log(e);
+            
             res.json({ error: e.message, bd: req.body })
         }
     }

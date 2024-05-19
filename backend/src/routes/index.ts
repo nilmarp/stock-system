@@ -14,10 +14,12 @@ import clientRouter from './clients'
 import stockRouter from './stock'
 import withdrawnRouter from './withdrawn'
 import receivedRouter from './received'
+import dashboard from './dashboard'
 
 router.use('/client', clientRouter)
 router.use('/stock', stockRouter)
 router.use('/withdrawn', withdrawnRouter)
 router.use('/received', receivedRouter)
+router.use('/dashboard', dashboard)
 
 export default router
