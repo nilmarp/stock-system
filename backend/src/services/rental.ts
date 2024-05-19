@@ -90,8 +90,12 @@ export class RentalService {
             const rental = await this.repository.edit(Number(req.params.id), Number(req.params.discount))
 
             return res.json({rental})
+
+
         } catch (e) {
-            console.log(e.message)
+            console.log(e);
+            
+            return res.status(403).json(e)
             // TODO: Error handling
         }
     }

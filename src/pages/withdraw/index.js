@@ -10,7 +10,7 @@ import Arrears from "./tabs/arrears";
 import { IMaskInput } from "react-imask";
 import QuerySelector from "../../components/QuerySelector";
 
-export default function Withdraw({func}) {
+export default function Withdraw({ func }) {
 
     const [withdrawnTab, setWithdrawnTab] = useState('ontime')
 
@@ -140,10 +140,12 @@ export default function Withdraw({func}) {
 
     // computeds
     const [totalDailyPrice, setTotalDailyPrice] = useState(0)
+    const [discount, setDiscount] = useState(0)
 
     const resetFilds = () => {
         setUserId(0)
         setTotalDailyPrice(0)
+        setDiscount(0)
         setStartDate('')
         setEndDate('')
         setCart([])
@@ -154,7 +156,8 @@ export default function Withdraw({func}) {
         end_date: endDate,
         completed: false,
         products: cart,
-        client_id: userId
+        client_id: userId,
+        discount_value: discount
     };
 
     const removeItem = (key) => {
@@ -192,7 +195,7 @@ export default function Withdraw({func}) {
 
         for (let i = 0; i < cart.length; i++) {
 
-            let product = products.find(e=>e?.id == cart[i].id)
+            let product = products.find(e => e?.id == cart[i].id)
 
             if (cart[i]?.quantity < 0) {
                 toast(`O produto [ ${product.description} ] não pode ter quantidade negativa`, { type: 'warning' })
@@ -231,12 +234,12 @@ export default function Withdraw({func}) {
 
             toast('Aluguel registrado com sucesso!', { type: 'success' })
 
-            setTimeout(()=>{
+            setTimeout(() => {
                 func('home')
             }, 1000)
 
-            
-            setTimeout(()=>{
+
+            setTimeout(() => {
                 func('withdrawn')
             }, 100)
 
@@ -306,7 +309,7 @@ export default function Withdraw({func}) {
                                 <div className="row">
                                     <div className="col">
                                         <label htmlFor="modalName" className="form-label">Cliente</label>
-                                        <QuerySelector data={clients} labelKey={'name'} valueKey={'id'} value={userId} onChange={(e) => setUserId( userId == 0 ? e?.target?.value : 0)} required={true} />
+                                        <QuerySelector data={clients} labelKey={'name'} valueKey={'id'} value={userId} onChange={(e) => setUserId(userId == 0 ? e?.target?.value : 0)} required={true} />
                                     </div>
                                 </div>
                                 <div className="row">
@@ -386,9 +389,21 @@ export default function Withdraw({func}) {
                                     }
                                 </div>
                             </form>
+                            <div className="col-3 d-flex-row">
+                                <label>Desconto</label>
+                                <IMaskInput
+                                    type={'number'}
+                                    className="form-control"
+                                    placeholder="Desconto"
+                                    onChange={
+                                        (e) => setDiscount(Number(e?.target?.value))
+                                    }
+
+                                    required />
+                            </div>
                         </div>
                         <div className="modal-footer" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                            <h6>{priceFormat(totalDailyPrice)}</h6>
+                            <h6>{discount > 0 ? priceFormat(totalDailyPrice - discount) : priceFormat(totalDailyPrice)}</h6>
                             {!editMode && <button type="button" className="btn btn-primary" onClick={() => submitWithdrawnHandler()}>Cadastrar aluguel</button>}
                             {/* {editMode && <button type="button" className="btn btn-primary" onClick={() => { }}>Salvar alteração</button>} */}
                         </div>

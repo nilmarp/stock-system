@@ -1,5 +1,5 @@
 import { DataTable } from "primereact/datatable";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Column } from "typeorm";
 import { api } from "../../config/api";
@@ -7,6 +7,14 @@ import { IMaskInput } from "react-imask";
 
 export default function RentView({ func, data }) {
 
+    const [discount, setDiscount] = useState(0);
+    const [editDiscount, seteditDiscount] = useState(false);
+
+    useEffect(() => {
+        if (data?.discount_value) {
+            setDiscount(data.discount_value);
+        }
+    }, [data]);
 
     const priceFormat = (item) => {
         return new Intl.NumberFormat('pt-br', {
@@ -80,8 +88,6 @@ export default function RentView({ func, data }) {
         return `${dt[2]}-${dt[0]}-${dt[1]}`
     }
 
-    console.log(data)
-
     console.log(data?.start_date)
     console.log(formatToCalcDate(data?.start_date))
     console.log(new Date(formatToCalcDate(data?.start_date)))
@@ -96,7 +102,7 @@ export default function RentView({ func, data }) {
                     </div>
                     <div className="modal-body" style={{ height: 'calc(100vh - 150px)' }}>
                         <div className="row">
-                            <div className="card" style={{ padding: 8}}>
+                            <div className="card" style={{ padding: 8 }}>
                                 <div className="row">
                                     <h6>Informações do cliente</h6>
                                 </div>
@@ -153,18 +159,70 @@ export default function RentView({ func, data }) {
                                 paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
                                 currentPageReportTemplate="Item {first} ao {last} de {totalRecords}"
                                 sortField="id" sortOrder={1}>
-                                <Column field="id"                  header="ID"                             style={{ width: '20%' }}></Column>
-                                <Column field="product.description" header="Produto"                        style={{ width: '20%' }}></Column>
-                                <Column field="product_quantity"    header="Qtd"                            style={{ width: '20%' }}></Column>
+                                <Column field="id" header="ID" style={{ width: '20%' }}></Column>
+                                <Column field="product.description" header="Produto" style={{ width: '20%' }}></Column>
+                                <Column field="product_quantity" header="Qtd" style={{ width: '20%' }}></Column>
                                 {/* <Column field="daily_value"         header="Diária"     body={priceFormat}  style={{ width: '20%' }}></Column> */}
-                                <Column field="daily_price"         header="Total"      body={priceFormat}  style={{ width: '20%' }}></Column>
+                                <Column field="daily_price" header="Total" body={priceFormat} style={{ width: '20%' }}></Column>
                             </DataTable>
+                        </div>
+                        <label>Desconto</label>
+                        <div className="col-3 d-flex-row" style={{ display: "flex", flexDirection: "row" }}>
+                            <IMaskInput
+                                type={'number'}
+                                className="form-control"
+                                placeholder="Desconto"
+                                value={discount}
+                                onChange={
+                                    (e) => setDiscount(Number(e?.target?.value))
+                                }
+                                min={0}
+
+                                disabled={!editDiscount}
+
+                                required />
+                            {
+                                editDiscount ?
+                                    <>
+                                        <button className="btn btn-primary" type="button" onClick={async () => {
+
+                                            try {
+
+                                                if (discount < 0) {
+                                                    return toast(`O valor deve ser mais do que zero`, { type: "warning" })
+                                                }
+
+                                                await api.post(`/withdrawn/${data?.id}/edit/${discount}`)
+
+                                                toast(`Desconto registrado! Retorne e clique em atualizar!`, { type: "success" })
+                                                seteditDiscount(false)
+                                            } catch (error) {
+                                                console.log(error);
+                                                toast(`Verifique o valor do desconto é menor que o valor total`, { type: "error" })
+                                            }
+                                        }}>
+                                            Salvar
+                                        </button>
+                                        <button className="btn btn-danger" type="button" onClick={() => {
+                                            return seteditDiscount(false)
+                                        }}>
+                                            Cancelar
+                                        </button>
+                                    </>
+                                    :
+                                    <button className="btn btn-primary" type="button" onClick={() => {
+                                        return seteditDiscount(true)
+                                    }}>
+                                        Atribuir desconto
+                                    </button>
+                            }
+
                         </div>
                     </div>
                     <div className="modal-footer" style={{ display: "flex", alignItems: "center", justifyContent: "space-evenly" }}>
                         <button type="button" className="btn btn-danger" onClick={() => handleDeleteRent()}>Cancelar aluguel</button>
                         {/* <h1>{calcBetweenTwoDates(data?.start_date, data?.end_date)}</h1> */}
-                        <h5>{priceFormatTotal(Number(data?.total_daily_price) * calcBetweenTwoDates(data?.start_date, data?.end_date))}</h5>
+                        <h5>{priceFormatTotal(Number(data?.total_price))}</h5>
                         <button type="button" className="btn btn-success" onClick={() => handleReceiveRent()} >Receber</button>
                     </div>
                 </div>

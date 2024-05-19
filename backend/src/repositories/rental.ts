@@ -186,16 +186,15 @@ export class RentalRepository extends BaseRepository {
         }
 
         if(rental.completed == true){
-            return 'You can not edit the discount value from a completed rent.'
+            throw new Error ('You can not edit the discount value from a completed rent.')
         }
 
-        if(rental.discount_value <= discount_price){
-            return 'This pricing will be 0 or negative. Please, type another value.'
+        if(rental.total_price <= discount_price){
+            throw new Error ('This pricing will be 0 or negative. Please, type another value.')
         }
 
         if (isNaN(discount_price)) {
-            return 'To edit, you have send some value.'
-
+           throw new Error ('To edit, you have send some value.')
         }
 
         rental.discount_value = discount_price;
