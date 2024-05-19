@@ -56,6 +56,11 @@ export default function AsideMenu({ func, current }) {
                             <i className="bi bi-box-seam-fill"></i>EM ESTOQUE
                         </button>
                     </li>
+                    <li style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0 4px', borderRadius: '4px', height: '5vh', width: '200px' }}>
+                        <button onClick={() => func('finances')} style={{ width: 'calc(100% - 50px)', height: '30px', border: 8, textDecoration: 'none', color: current == 'finances' ? '#396fae' : '#fff', backgroundColor: current == 'finances' ? '#fff': 'transparent', border: '1px solid #fff', borderRadius: '4px', padding: '0 10px', display: 'flex', justifyContent: "flex-start", alignItems: "center", gap: '4px' }}>
+                            <i className="bi bi-box-seam-fill"></i>FINANCEIRO
+                        </button>
+                    </li>
                 </ul>
             </aside>
         </div>

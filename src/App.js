@@ -14,13 +14,14 @@ import AsideMenu from './components/AsideMenu';
 import Received from './pages/received';
 import Withdraw from './pages/withdraw';
 import Clients from './pages/clients';
+import Finances from './pages/finances';
 
 function App() {
 
     const [tab, setTab] = useState('home')
 
     // CONFIGURAÇÃO DE TELAS ACEITAS. O NOME DEVE SER ESTRITAMENTE IGUAL AO QUE SERÁ USADO NO TESTE ABAIXO (1)
-    const routes = ['home', 'stock', 'received', 'withdrawn', 'clients']
+    const routes = ['home', 'stock', 'received', 'withdrawn', 'clients', 'finances']
 
     if (!(routes.includes(tab))) {
         return (
@@ -40,6 +41,7 @@ function App() {
                     {tab == 'received' && <Received />}
                     {tab == 'withdrawn' && <Withdraw func={setTab} />}
                     {tab == 'clients' && <Clients />}
+                    {tab == 'finances' && <Finances />}
                 </>
                 <ToastContainer />
             </div>

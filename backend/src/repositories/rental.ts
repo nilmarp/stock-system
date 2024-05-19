@@ -341,8 +341,7 @@ export class RentalRepository extends BaseRepository {
             const rental = this.nquery(`
             SELECT
                 DISTINCT R.START_DATE           AS DATE_OF_RENT,
-                SUM(ROUND(R.TOTAL_PRICE, 2))    AS TOTAL_PRICE,
-                R.COMPLETED                     AS STATUS
+                SUM(ROUND(R.TOTAL_PRICE, 2))    AS TOTAL_PRICE
             FROM RENTALS R
             GROUP BY R.START_DATE
             `, [])
@@ -360,8 +359,7 @@ export class RentalRepository extends BaseRepository {
             const rental = this.nquery(`
             SELECT
                 DISTINCT R.END_DATE           AS DATE_OF_RENT,
-                SUM(ROUND(R.TOTAL_PRICE, 2))    AS TOTAL_PRICE,
-                R.COMPLETED                     AS STATUS
+                SUM(ROUND(R.TOTAL_PRICE, 2))    AS TOTAL_PRICE
             FROM RENTALS R
             GROUP BY R.END_DATE
             `, [])
