@@ -133,6 +133,11 @@ export default function Withdraw({ func }) {
         )
     }
 
+    
+    useEffect(()=>{
+        updateTotalPrice()
+    }, [cart])
+
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
 
@@ -262,6 +267,48 @@ export default function Withdraw({ func }) {
             }
         });
         setTotalDailyPrice(totalPrice);
+    };
+
+    function calcularDiferencaDias(dataInicio, dataFim) {
+        // Converte as datas para objetos Date
+        var inicio = new Date(dataInicio);
+        var fim = new Date(dataFim);
+        
+        // Calcula a diferença em milissegundos
+        var diferencaMilissegundos = fim - inicio;
+        
+        // Converte a diferença de milissegundos para dias
+        var milissegundosPorDia = 1000 * 60 * 60 * 24;
+        var diferencaDias = diferencaMilissegundos / milissegundosPorDia;
+        
+        console.log('diferencaDias');
+        console.log(diferencaDias);
+
+        return diferencaDias + 1;
+    }
+
+    const calcBetweenTwoDates = (start, end) => {
+        const format1 = (value) => {
+            const dt = value.split('/');
+            return `${dt[2]}-${dt[0]}-${dt[1]}`;
+        };
+
+        const format2 = (value) => {
+            const dt = value.split('/');
+            return `${dt[2]}-${dt[1]}-${dt[0]}`;
+        };
+
+        const startDate = new Date(format1(start));
+        const endDate = new Date(format1(end));
+
+        if (typeof (startDate) == 'number' && typeof (endDate) == 'number') {
+            const diffTime = new Date(endDate).getTime() - new Date(startDate).getTime();
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays + 1;
+        } else {
+            console.log('Datas inválidas');
+            return -1; // ou outro valor que indique erro
+        }
     };
 
     return (
@@ -403,7 +450,7 @@ export default function Withdraw({ func }) {
                             </div>
                         </div>
                         <div className="modal-footer" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                            <h6>{discount > 0 ? priceFormat(totalDailyPrice - discount) : priceFormat(totalDailyPrice)}</h6>
+                            <h6>{discount > 0 ? priceFormat(((totalDailyPrice) * Number(calcularDiferencaDias(startDate, endDate))-discount)) : priceFormat(totalDailyPrice * Number(calcularDiferencaDias(startDate, endDate)))}</h6>
                             {!editMode && <button type="button" className="btn btn-primary" onClick={() => submitWithdrawnHandler()}>Cadastrar aluguel</button>}
                             {/* {editMode && <button type="button" className="btn btn-primary" onClick={() => { }}>Salvar alteração</button>} */}
                         </div>
